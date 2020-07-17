@@ -5,8 +5,8 @@ namespace Test
     class minMaxSum
     {
         //interchange sort
-        static void increasingSort(long[] arr)
-        {
+        //static void increasingSort(long[] arr)
+        //{
             //for (int i = 0; i < arr.Length - 1; i++)
             //{
             //    for (int j = i + 1; j < arr.Length; j++)
@@ -54,6 +54,7 @@ namespace Test
             //{
             //    max += arr[j];
             //}
+            
             //solution 2 with 2 loops
             /*long i = 0;
             long lenght = arr.Length;
@@ -70,7 +71,7 @@ namespace Test
                     lenght--;
                 }
             }*/
-            //cach 3 voi 1 vong lap for
+            //solution 3 with 1 loop
             long min = arr[0];
             long max = arr[0];
             long sum = arr[0];
