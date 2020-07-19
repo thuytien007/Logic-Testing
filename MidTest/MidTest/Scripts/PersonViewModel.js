@@ -27,22 +27,7 @@
     { firstName: 'Astoria', lastName: 'Weyant' },
 ];
 
-ko.bindingHandlers.clickAndStop = {
-    init: function (element, valueAccessor, allBindingsAccessor, viewModel, context) {
-        var handler = ko.utils.unwrapObservable(valueAccessor()),
-            newValueAccessor = function () {
-                return function (data, event) {
-                    handler.call(viewModel, data, event);
-                    event.cancelBubble = true;
-                    if (event.stopPropagation) event.stopPropagation();
-                };
-            };
-
-        ko.bindingHandlers.click.init(element, newValueAccessor, allBindingsAccessor, viewModel, context);
-    }
-};
-
-//create an Object with fname, lname, age
+//create an Object with firstName, lastName, age
 function PersonModel(firstName, lastName, age) {
     this.firstName = ko.observable(firstName);
     this.lastName = ko.observable(lastName);
@@ -71,11 +56,6 @@ function sumAgeWithSelectedUser(arrObject) {
     return sumAge;
 }
 
-//function changeDataArray(personList, removedList, currentRowObject) {
-//    personList.remove(currentRowObject);
-//    removedList.push(currentRowObject);
-//}
-
 //main ViewModel
 function PersonViewModel() {
     var self = this;
@@ -91,22 +71,45 @@ function PersonViewModel() {
         return sumAgeWithSelectedUser(self.selectedPerson());
     });
 
-    //initial object person empty
-    self.objectSelectedRow = ko.observable(new PersonModel("","",0));
+    //initiala an object selected person empty
+    self.objectSelectedRow = ko.observable(new PersonModel("", "", ""));
     //select row click by user
     self.selectedUser = function (item) {
         self.objectSelectedRow(item);
+        self.selectedPerson.remove(item);
+        self.removedPersonList.push(item);
+        self.sumAge - self.objectSelectedRow().age();
     }
 
-    //get age range
+    //initial removed person list empty
+    self.removedPersonList = ko.observableArray(null);
+
+    //sum age of removed person list
+    self.sumAgeRemovedPersonList = ko.computed(function () {
+        return sumAgeWithSelectedUser(self.removedPersonList());
+    });  
+
+    //initial an object removed person empty
+    self.objectUndoRow = ko.observable(new PersonModel("", "", ""));
+    //select undo row click by user
+    self.selectedUndoUser = function (item) {
+        self.objectUndoRow(item);
+        self.selectedPerson.push(item);
+        self.removedPersonList.remove(item);      
+        self.sumAgeRemovedPersonList - self.objectUndoRow().age();      
+    }
+
+    //get age range (write direct function in ViewModel)
     self.agePeriod = ko.computed(function () {
-        var status = " ";
+        var status = "";
         if (self.objectSelectedRow().age() < 15)
             status = "Teenager";
-        if (self.objectSelectedRow().age() > 62)
-            status = "Retired";
-        else
-            status = "undefine age range";
+        else {
+            if (self.objectSelectedRow().age() > 62)
+                status = "Retired";
+            else
+                status = "Adult";
+        }       
         return status;
     })
 
@@ -114,22 +117,6 @@ function PersonViewModel() {
     self.fullName = ko.computed(function(){
         return self.objectSelectedRow().firstName() + " " + self.objectSelectedRow().lastName();
     });
-
-    self.removedPersonList = ko.observableArray();
-    self.sumAgeRemovedPersonList = ko.computed(function () {
-        return sumAgeWithSelectedUser(self.removedPersonList());
-    });
-
-    self.removePerson = function () {
-        self.selectedPerson.remove(self.objectSelectedRow());
-        self.removedPersonList.push(self.objectSelectedRow());
-        self.sumAge - self.objectSelectedRow().age();
-    };
-
-    self.undoPerson = function () {
-        self.removedPersonList.remove(self.objectSelectedRow());
-        self.selectedPerson.push(self.objectSelectedRow());    
-    }
 }
 
 ko.applyBindings(new PersonViewModel());

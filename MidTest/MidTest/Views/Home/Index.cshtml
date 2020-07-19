@@ -2,8 +2,8 @@
     ViewBag.Title = "Home Page";
 }
 
-<h2><strong>Person List</strong></h2>
-<h3>Person Detail: </h3>
+<h2><strong>Person Selected List</strong></h2>
+<h3 style="color:orangered">Person Info: </h3>
 <h4>Fullname: <strong data-bind="text: fullName"></strong></h4>
 <h4>Age Range: <strong data-bind="text: agePeriod()"></strong></h4>
 <div>
@@ -23,12 +23,12 @@
             </tr>
         </thead>
         <tbody data-bind="foreach: selectedPerson">
-            <tr style="cursor:pointer" data-bind="click: $root.selectedUser">
+            <tr style="cursor:pointer" data-bind="click: $root.objectSelectedRow">
                 <td data-bind="text: firstName"></td>
                 <td data-bind="text: lastName"></td>
                 <td data-bind="text: age"></td>
                 <td>
-                    <button class="btn btn-danger" data-bind="click: $root.removePerson">Remove</button>
+                    <button class="btn btn-danger" data-bind="click: $parent.selectedUser">Remove</button>
                 </td>
             </tr>
         </tbody>
@@ -65,7 +65,7 @@
                 <td data-bind="text: lastName"></td>
                 <td data-bind="text: age"></td>
                 <td>
-                    <button class="btn btn-info" data-bind="click: $root.undoPerson">Undo</button>
+                    <button class="btn btn-info" data-bind="click: $parent.selectedUndoUser">Undo</button>
                 </td>
             </tr>
         </tbody>
