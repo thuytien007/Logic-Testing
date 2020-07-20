@@ -7,39 +7,39 @@
 <h4>Fullname: <strong data-bind="text: fullName"></strong></h4>
 <h4>Age Range: <strong data-bind="text: agePeriod()"></strong></h4>
 <div>
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>
+    <div>
+        <div>
+            <div class="row">
+                <div class="col-lg-3">
                     @Html.DisplayName("First Name: ")
-                </th>
-                <th>
+                </div>
+                <div class="col-lg-3">
                     @Html.DisplayName("Last Name: ")
-                </th>
-                <th>
+                </div>
+                <div class="col-lg-3">
                     @Html.DisplayName("Age: ")
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody data-bind="foreach: selectedPerson">
-            <tr style="cursor:pointer" data-bind="click: $root.objectSelectedRow">
-                <td><input type="text" name="firstname" data-bind="value: firstName"/></td>
-                <td><input type="text" name="lastname" data-bind="value: lastName"/></td>
-                <td><input type="number" name="age" data-bind="value: age" /></td>
-                <td>
+                </div>
+                <div class="col-lg-3"></div>
+            </div>
+        </div>
+        <div data-bind="foreach: selectedPerson">
+            <div class="row" style="cursor:pointer" data-bind="click: $root.objectSelectedRow">
+                <div class="col-lg-3"><input type="text" name="firstname" data-bind="value: firstName"/></div>
+                <div class="col-lg-3"><input type="text" name="lastname" data-bind="value: lastName"/></div>
+                <div class="col-lg-3"><input type="text" name="age" data-bind="value: age" /></div>
+                <div class="col-lg-3">
                     <button class="btn btn-danger" data-bind="click: $parent.selectedUser">Remove</button>
-                </td>
-            </tr>
-        </tbody>
-        <tfoot>
+                </div>
+            </div>
+        </div>
+        <footer>
             <tr>
                 <td colspan="4" align="center">
                     <strong>Sum Ages:</strong> <strong class="text-danger font-weigh-bold" data-bind="text: sumAge"></strong>
                 </td>
             </tr>
-        </tfoot>
-    </table>
+        </footer>
+    </div>
 </div>
 <hr />
 <div>

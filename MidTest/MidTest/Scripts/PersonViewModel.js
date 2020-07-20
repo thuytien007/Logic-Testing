@@ -57,6 +57,13 @@ function sumAgeWithSelectedUser(arrObject) {
     } 
 }
 
+//create an Object with firstName, lastName, age
+function PersonModel(firstName, lastName, age) {
+    this.firstName = ko.observable(firstName);
+    this.lastName = ko.observable(lastName);
+    this.age = ko.observable(age);
+};
+
 //main ViewModel
 function PersonViewModel() {
     var self = this;
@@ -67,20 +74,13 @@ function PersonViewModel() {
     //list of selected person with condition
     self.selectedPerson = ko.observableArray(selectedUserList(userSample));
 
-    //create an Object with firstName, lastName, age
-    var PersonModel = function(firstName, lastName, age) {
-        self.firstName = ko.observable(firstName);
-        self.lastName = ko.observable(lastName);
-        self.age = ko.observable(age);
-    };
-
     //sum all age of selected person
     self.sumAge = ko.computed(function () {
         return sumAgeWithSelectedUser(self.selectedPerson());
     });
 
     //initiala an object selected person empty
-    self.objectSelectedRow = ko.observable(new PersonModel(self.firstName, self.lastName, self.age));
+    self.objectSelectedRow = ko.observable(new PersonModel("", "", 0));
 
     //show object Person to input
     self.firstName = ko.computed(function () {
