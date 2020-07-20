@@ -27,33 +27,34 @@
     { firstName: 'Astoria', lastName: 'Weyant' },
 ];
 
-//create an Object with firstName, lastName, age
-function PersonModel(firstName, lastName, age) {
-    this.firstName = ko.observable(firstName);
-    this.lastName = ko.observable(lastName);
-    this.age = ko.observable(age);
-};
-
 //loop array object, if pass condition then add to tempList
 function selectedUserList(oriArray) {
-    this.tempList = [];
-    oriArray.forEach(function (item) { 
-        if (item.firstName.length + item.lastName.length > 12 && item.firstName.charAt(0) == "M") {
-            var age = Math.floor(Math.random() * 99) + 1;
-            var user = new PersonModel(item.firstName, item.lastName, age);
-            this.tempList.push(user);
-        }
-    })
-    return tempList;
+    try {
+        this.tempList = [];
+        oriArray.forEach(function (item) {
+            if (item.firstName.length + item.lastName.length > 12 && item.firstName.charAt(0) == "M") {
+                var age = Math.floor(Math.random() * 99) + 1;
+                var user = new PersonModel(item.firstName, item.lastName, age);
+                this.tempList.push(user);
+            }
+        })
+        return tempList;
+    } catch (err) {
+        console.log(err.message);
+    } 
 }
 
 //sum age with selected user
 function sumAgeWithSelectedUser(arrObject) {
-    var sumAge = 0;
-    arrObject.forEach(function (item) {
-        sumAge += item.age();
-    })
-    return sumAge;
+    try {
+        var sumAge = 0;
+        arrObject.forEach(function (item) {
+            sumAge += item.age();
+        })
+        return sumAge;
+    } catch (err) {
+        console.log(err.message);
+    } 
 }
 
 //main ViewModel
@@ -66,13 +67,32 @@ function PersonViewModel() {
     //list of selected person with condition
     self.selectedPerson = ko.observableArray(selectedUserList(userSample));
 
+    //create an Object with firstName, lastName, age
+    var PersonModel = function(firstName, lastName, age) {
+        self.firstName = ko.observable(firstName);
+        self.lastName = ko.observable(lastName);
+        self.age = ko.observable(age);
+    };
+
     //sum all age of selected person
     self.sumAge = ko.computed(function () {
         return sumAgeWithSelectedUser(self.selectedPerson());
     });
 
     //initiala an object selected person empty
-    self.objectSelectedRow = ko.observable(new PersonModel("", "", ""));
+    self.objectSelectedRow = ko.observable(new PersonModel(self.firstName, self.lastName, self.age));
+
+    //show object Person to input
+    self.firstName = ko.computed(function () {
+        return self.objectSelectedRow().firstName();
+    });
+    self.lastName = ko.computed(function () {
+        return self.objectSelectedRow().lastName();
+    });
+    self.age = ko.computed(function () {
+        return self.objectSelectedRow().age();
+    });
+
     //select row click by user
     self.selectedUser = function (item) {
         self.objectSelectedRow(item);
@@ -81,6 +101,20 @@ function PersonViewModel() {
         self.sumAge - self.objectSelectedRow().age();
     }
 
+    //self.updatePersonInfo = function () {
+    //    var validate = "";
+    //    if (self.firstName().length < 5 || self.firstName().length > 10)
+    //        validate = "first name must have lengh more than 5 character and less than 10";
+    //    if (self.lastName().length < 5 || self.lastName().length > 10)
+    //        validate = "last name must have lengh more than 5 character and less than 10";
+    //    else {
+    //        validate = "update success!";
+    //        self.objectSelectedRow().firstName() = self.firstName();
+    //        self.objectSelectedRow().lastName() = self.lastName();
+    //        self.objectSelectedRow().age() = self.age();
+    //        self.selectedPerson.
+    //    }
+    //}
     //initial removed person list empty
     self.removedPersonList = ko.observableArray(null);
 
@@ -90,7 +124,7 @@ function PersonViewModel() {
     });  
 
     //initial an object removed person empty
-    self.objectUndoRow = ko.observable(new PersonModel("", "", ""));
+    self.objectUndoRow = ko.observable(new PersonModel("", "", 0));
     //select undo row click by user
     self.selectedUndoUser = function (item) {
         self.objectUndoRow(item);
@@ -102,14 +136,18 @@ function PersonViewModel() {
     //get age range (write direct function in ViewModel)
     self.agePeriod = ko.computed(function () {
         var status = "";
-        if (self.objectSelectedRow().age() < 15)
-            status = "Teenager";
+        if (self.objectSelectedRow().age() <= 0)
+            status = "";
         else {
-            if (self.objectSelectedRow().age() > 62)
-                status = "Retired";
-            else
-                status = "Adult";
-        }       
+            if (self.objectSelectedRow().age() < 15)
+                status = "Teenager";
+            else {
+                if (self.objectSelectedRow().age() > 62)
+                    status = "Retired";
+                else
+                    status = "Adult";
+            }    
+        }      
         return status;
     })
 

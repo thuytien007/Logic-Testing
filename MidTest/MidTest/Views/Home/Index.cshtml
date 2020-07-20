@@ -24,9 +24,9 @@
         </thead>
         <tbody data-bind="foreach: selectedPerson">
             <tr style="cursor:pointer" data-bind="click: $root.objectSelectedRow">
-                <td data-bind="text: firstName"></td>
-                <td data-bind="text: lastName"></td>
-                <td data-bind="text: age"></td>
+                <td><input type="text" name="firstname" data-bind="value: firstName"/></td>
+                <td><input type="text" name="lastname" data-bind="value: lastName"/></td>
+                <td><input type="number" name="age" data-bind="value: age" /></td>
                 <td>
                     <button class="btn btn-danger" data-bind="click: $parent.selectedUser">Remove</button>
                 </td>
