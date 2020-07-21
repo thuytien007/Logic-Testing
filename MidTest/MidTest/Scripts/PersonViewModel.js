@@ -65,29 +65,29 @@ function PersonModel(firstName, lastName, age) {
     this.age = ko.observable(age);
 };
 
-//ko.extenders.required = function (target, overrideMessage) {
-//    //add some sub-observables to our observable
-//    target.hasError = ko.observable();
-//    target.validationMessage = ko.observable();
+ko.extenders.required = function (target, overrideMessage) {
+    //add some sub-observables to our observable
+    target.hasError = ko.observable();
+    target.validationMessage = ko.observable();
 
-//    //define a function to do validation
-//    function validate(newValue) {
-//        var check = false;
-//        if (newValue.length < 5 || newValue.length > 10 || newValue.charAt(0) != "M")
-//            check = true;
-//        target.hasError(check == false ? false : true);
-//        target.validationMessage(check ? true : overrideMessage || "lenght must lower than 5 and larger than 10 and start with M");
-//    }
+    //define a function to do validation
+    function validate(newValue) {
+        var check = false;
+        if (newValue.length < 5 || newValue.length > 10 || newValue.charAt(0) != "M")
+            check = true;
+        target.hasError(check == false ? false : true);
+        target.validationMessage(check ? true : overrideMessage || "lenght must lower than 5 and larger than 10 and start with M");
+    }
 
-//    //initial validation
-//    validate(target());
+    //initial validation
+    validate(target());
 
-//    //validate whenever the value changes
-//    target.subscribe(validate);
+    //validate whenever the value changes
+    target.subscribe(validate);
 
-//    //return the original observable
-//    return target;
-//};
+    //return the original observable
+    return target;
+};
 
 //main ViewModel
 function PersonViewModel() {
@@ -107,17 +107,21 @@ function PersonViewModel() {
     //initiala an object selected person empty
     self.objectSelectedRow = ko.observable(new PersonModel("", "", 0));
 
-    self.firstName = ko.computed(function () {
-        return self.objectSelectedRow().firstName();
-    });
+    //self.firstName = ko.computed(function () {
+    //    return self.objectSelectedRow().firstName();
+    //});
 
-    self.lastName = ko.computed(function () {
-        return self.objectSelectedRow().lastName();
-    });
+    //self.lastName = ko.computed(function () {
+    //    return self.objectSelectedRow().lastName();
+    //});
 
-    self.age = ko.computed(function () {
-        return self.objectSelectedRow().age();
-    });
+    //self.age = ko.computed(function () {
+    //    return self.objectSelectedRow().age();
+    //});
+
+    self.firstName = ko.observable(self.objectSelectedRow().firstName()).extend({ required: "lenght must lower than 5 and larger than 10 and start with M" });
+    self.lastName = ko.observable(self.objectSelectedRow().lastName()).extend({ required: "lenght must lower than 5 and larger than 10" });
+    self.age = ko.observable(self.objectSelectedRow().lastName());
 
     //self.firstName = ko.observable(self.objectSelectedRow().firstName());  
     //self.lastName = ko.observable(self.objectSelectedRow().lastName());  
