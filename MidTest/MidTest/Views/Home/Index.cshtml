@@ -4,11 +4,12 @@
 
 <h2><strong>Person Selected List</strong></h2>
 <label>First Name:</label>
-<input type="text" name="firstname" data-bind="value: firstName" />
+<input type="text" name="firstname" data-bind="value: objectSelectedRow().firstName" />
+<span data-bind='visible: objectSelectedRow().firstName.hasError, text: objectSelectedRow().firstName.validationMessage'></span>
 <label>Last Name: </label>
-<input type="text" name="lastname" data-bind="value: lastName" />
+<input type="text" name="lastname" data-bind="value: objectSelectedRow().lastName"/>
 <label>Age:</label>
-<input type="text" name="age" data-bind="value: age" />
+<input type="text" name="age" data-bind="value: objectSelectedRow().age"/>
 <h3 style="color:orangered">Person Info: </h3>
 <h4>Fullname: <strong data-bind="text: fullName"></strong></h4>
 <h4>Age Range: <strong data-bind="text: agePeriod()"></strong></h4>
@@ -30,7 +31,7 @@
         </div>
         <div data-bind="foreach: selectedPerson">
             <div class="row" style="cursor:pointer; margin-top:10px;" data-bind="click: $root.objectSelectedRow">
-                <div class="col-lg-3" style="background-color: rgba(255,0,0,.1);height:35px" data-bind="text: firstName"></div>              
+                <div class="col-lg-3" style="background-color: rgba(255,0,0,.1);height:35px" data-bind="text: firstName"></div>
                 <div class="col-lg-3" style="background-color:lightgray;height:35px" data-bind="text: lastName"></div>
                 <div class="col-lg-3" style="background-color: rgba(255,0,0,.1);height:35px" data-bind="text: age"></div>
                 <div class="col-lg-3">

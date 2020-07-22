@@ -58,13 +58,6 @@ function sumAgeWithSelectedUser(arrObject) {
     } 
 }
 
-//create an Object with firstName, lastName, age
-function PersonModel(firstName, lastName, age) {
-    this.firstName = ko.observable(firstName);
-    this.lastName = ko.observable(lastName);
-    this.age = ko.observable(age);
-};
-
 ko.extenders.required = function (target, overrideMessage) {
     //add some sub-observables to our observable
     target.hasError = ko.observable();
@@ -72,11 +65,8 @@ ko.extenders.required = function (target, overrideMessage) {
 
     //define a function to do validation
     function validate(newValue) {
-        var check = false;
-        if (newValue.length < 5 || newValue.length > 10 || newValue.charAt(0) != "M")
-            check = true;
-        target.hasError(check == false ? false : true);
-        target.validationMessage(check ? true : overrideMessage || "lenght must lower than 5 and larger than 10 and start with M");
+        target.hasError(newValue ? false : true);
+        target.validationMessage(newValue ? "" : overrideMessage || "This field is required");
     }
 
     //initial validation
@@ -89,6 +79,23 @@ ko.extenders.required = function (target, overrideMessage) {
     return target;
 };
 
+//create an Object with firstName, lastName, age
+function PersonModel(firstName, lastName, age) {
+    var self = this;
+    self.firstName = ko.observable(firstName).extend({ required: "lenght must lower than 5 and larger than 10 and start with M" });
+    self.lastName = ko.observable(lastName).extend({ required: "lenght must lower than 5 and larger than 10" });
+    self.age = ko.observable(age);
+};
+
+//ko.validation.rules.pattern.message = 'Invalid.';
+
+//ko.validation.configure({
+//    registerExtenders: true,
+//    messagesOnModified: true,
+//    insertMessages: true,
+//    parseInputAttributes: true,
+//    messageTemplate: null
+//});
 //main ViewModel
 function PersonViewModel() {
     var self = this;
@@ -106,26 +113,6 @@ function PersonViewModel() {
    
     //initiala an object selected person empty
     self.objectSelectedRow = ko.observable(new PersonModel("", "", 0));
-
-    //self.firstName = ko.computed(function () {
-    //    return self.objectSelectedRow().firstName();
-    //});
-
-    //self.lastName = ko.computed(function () {
-    //    return self.objectSelectedRow().lastName();
-    //});
-
-    //self.age = ko.computed(function () {
-    //    return self.objectSelectedRow().age();
-    //});
-
-    self.firstName = ko.observable(self.objectSelectedRow().firstName()).extend({ required: "lenght must lower than 5 and larger than 10 and start with M" });
-    self.lastName = ko.observable(self.objectSelectedRow().lastName()).extend({ required: "lenght must lower than 5 and larger than 10" });
-    self.age = ko.observable(self.objectSelectedRow().lastName());
-
-    //self.firstName = ko.observable(self.objectSelectedRow().firstName());  
-    //self.lastName = ko.observable(self.objectSelectedRow().lastName());  
-    //self.age = ko.observable(self.objectSelectedRow().age());   
 
     //select row click by user
     self.selectedUser = function (item) {
