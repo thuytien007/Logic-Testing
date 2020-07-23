@@ -1,4 +1,5 @@
-﻿var userSample = [
+﻿//list object sample for front-end testing, not call from API yet
+var userSample = [
     { firstName: 'Lynnia', lastName: 'Eady' },
     { firstName: 'Melaina', lastName: 'Beamon' },
     { firstName: 'Anya', lastName: 'Weldon' },
@@ -27,7 +28,7 @@
     { firstName: 'Astoria', lastName: 'Weyant' },
 ];
 
-//loop array object, if pass condition then add to tempList
+//loop array object, if pass the condition then add to tempList
 function selectedUserList(oriArray) {
     try {
         this.tempList = [];
@@ -58,15 +59,44 @@ function sumAgeWithSelectedUser(arrObject) {
     } 
 }
 
-ko.extenders.required = function (target, overrideMessage) {
+//this function to validate input with first name
+ko.extenders.requiredFirstName = function (target, overrideMessage) {
     //add some sub-observables to our observable
     target.hasError = ko.observable();
     target.validationMessage = ko.observable();
 
     //define a function to do validation
     function validate(newValue) {
-        target.hasError(newValue ? false : true);
-        target.validationMessage(newValue ? "" : overrideMessage || "This field is required");
+        var check = false;
+        if (newValue.length < 5 || newValue.length > 10 || newValue.charAt(0) != "M")
+            check = true;
+        target.hasError(check == false ? false : true);
+        target.validationMessage(check == false ? "" : overrideMessage || "This field is required");
+    }
+
+    //initial validation
+    validate(target());
+
+    //validate whenever the value changes
+    target.subscribe(validate);
+
+    //return the original observable
+    return target;
+};
+
+//this function to validate input with last name
+ko.extenders.requiredLastName = function (target, overrideMessage) {
+    //add some sub-observables to our observable
+    target.hasError = ko.observable();
+    target.validationMessage = ko.observable();
+
+    //define a function to do validation
+    function validate(newValue) {
+        var check = "";
+        if (newValue.length < 5 || newValue.length > 10)
+            check = true;
+        target.hasError(check == false ? false : true);
+        target.validationMessage(check == false ? "" : overrideMessage || "This field is required");
     }
 
     //initial validation
@@ -82,20 +112,11 @@ ko.extenders.required = function (target, overrideMessage) {
 //create an Object with firstName, lastName, age
 function PersonModel(firstName, lastName, age) {
     var self = this;
-    self.firstName = ko.observable(firstName).extend({ required: "lenght must lower than 5 and larger than 10 and start with M" });
-    self.lastName = ko.observable(lastName).extend({ required: "lenght must lower than 5 and larger than 10" });
+    self.firstName = ko.observable(firstName).extend({ requiredFirstName: "first name must larger than 5, lower than 10 and start with M" });
+    self.lastName = ko.observable(lastName).extend({ requiredLastName: "last name must larger than 5 and lower than 10" });
     self.age = ko.observable(age);
 };
 
-//ko.validation.rules.pattern.message = 'Invalid.';
-
-//ko.validation.configure({
-//    registerExtenders: true,
-//    messagesOnModified: true,
-//    insertMessages: true,
-//    parseInputAttributes: true,
-//    messageTemplate: null
-//});
 //main ViewModel
 function PersonViewModel() {
     var self = this;
@@ -111,7 +132,7 @@ function PersonViewModel() {
         return sumAgeWithSelectedUser(self.selectedPerson());
     });
    
-    //initiala an object selected person empty
+    //initial an object selected person empty
     self.objectSelectedRow = ko.observable(new PersonModel("", "", 0));
 
     //select row click by user
@@ -142,6 +163,7 @@ function PersonViewModel() {
 
     //get age range (write direct function in ViewModel)
     self.agePeriod = ko.computed(function () {
+        console.log("abc");
         var status = "";
         if (self.objectSelectedRow().age() <= 0)
             status = "";
@@ -153,15 +175,19 @@ function PersonViewModel() {
                     status = "Retired";
                 else
                     status = "Adult";
-            }    
-        }      
+            }
+        }
         return status;
-    })
+    });
 
     //get fullname
-    self.fullName = ko.computed(function(){
+    self.fullName = ko.computed(function () {
         return self.objectSelectedRow().firstName() + " " + self.objectSelectedRow().lastName();
     });
 }
 
-ko.applyBindings(new PersonViewModel());
+//use jQuery to make sure the html is finished, then js will run with no matter where js is put in the html
+$(function () {
+    ko.applyBindings(new PersonViewModel(), document.body);
+})
+
