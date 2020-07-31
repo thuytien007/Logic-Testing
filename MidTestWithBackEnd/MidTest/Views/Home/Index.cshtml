@@ -1,0 +1,136 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<script src="~/Scripts/PersonViewModel.js"></script>
+
+<h2><strong>Person Selected List</strong></h2>
+<form>
+    <label>First Name:</label>
+    <div>
+        <input type="text" name="firstname" data-bind="value: objectSelectedRow().firstName" />
+        <span data-bind='visible: objectSelectedRow().firstName.hasError, text: objectSelectedRow().firstName.validationMessage'></span>
+    </div>
+    <label>Last Name: </label>
+    <div>
+        <input type="text" name="lastname" data-bind="value: objectSelectedRow().lastName" />
+        <span data-bind='visible: objectSelectedRow().lastName.hasError, text: objectSelectedRow().lastName.validationMessage'></span>
+    </div>
+    <label>Age:</label>
+    <div>
+        <input type="text" name="age" data-bind="value: objectSelectedRow().age" />
+    </div>
+    <div style="margin-top:10px">
+        <button class="btn btn-success" data-bind="click: updatePerson">Save</button>
+        <button class="btn btn-info" style="margin-left:20px" data-bind="click: addPerson">Add</button>
+    </div>
+    <div class="alert alert-success" role="alert" style="display:none; margin-top: 10px;"> <span class="glyphicon  glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Form has submitted with successful </div>
+    <div class="alert alert-danger" role="alert" style="display:none; margin-top: 10px;"> <span class="glyphicon  glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Please check your submission </div>
+</form>
+<h3 style="color:orangered; font-weight:bold">Person Info: </h3>
+<h4>Fullname: <strong data-bind="text: fullName"></strong></h4>
+<h4>Age Range: <strong data-bind="text: agePeriod"></strong></h4>
+<div style="float:right">
+    <input type="text" name="search" placeholder="find someone..." data-bind="value: nameSearching" />
+    <button class="btn btn-success" data-bind="click: getResultPersonSearch">Search</button>
+    <button class="btn btn-secondary">Cancel</button>
+</div>
+<div>
+    <div>
+        <div style="margin-top:40px">
+            <div class="row">
+                <div style="font-weight:bold" class="col-lg-3">
+                    @Html.DisplayName("First Name: ")
+                </div>
+                <div style="font-weight:bold" class="col-lg-3">
+                    @Html.DisplayName("Last Name: ")
+                </div>
+                <div style="font-weight:bold" class="col-lg-3">
+                    @Html.DisplayName("Age: ")
+                </div>
+                <div class="col-lg-3"></div>
+            </div>
+        </div>
+        <div data-bind="foreach: selectedPerson">
+            <!--$root or $parent is ok because it belongs to foreach above-->
+            <div class="row" style="cursor:pointer; margin-top:10px;" data-bind="click: $root.objectSelectedRow">
+                <div class="col-lg-3 table-first-col" data-bind="text: firstName"></div>
+                <div class="col-lg-3 table-second-col" data-bind="text: lastName"></div>
+                <div class="col-lg-3 table-first-col" data-bind="text: age"></div>
+                <div class="col-lg-3">
+                    <button class="btn btn-warning" data-bind="click: $root.selectedUser">Move</button>
+                    <button class="btn btn-danger" data-toggle="modal" data-target="#dialog-confirm">Delete</button>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div>
+                <div class="col-lg-12" align="center">
+                    <strong>Sum Ages:</strong> <strong class="text-danger font-weigh-bold" data-bind="text: sumAge"></strong>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+<hr />
+<div>
+    <h2><strong>Removed Person List</strong></h2>
+    <div>
+        <div>
+            <div class="row">
+                <div style="font-weight:bold" class="col-lg-3">
+                    @Html.DisplayName("First Name: ")
+                </div>
+                <div style="font-weight:bold" class="col-lg-3">
+                    @Html.DisplayName("Last Name: ")
+                </div>
+                <div style="font-weight:bold" class="col-lg-3">
+                    @Html.DisplayName("Age: ")
+                </div>
+                <div lass="col-lg-3"></div>
+            </div>
+        </div>
+        <div data-bind="foreach: removedPersonList">
+            <div class="row" style="margin-top:10px;">
+                <div class="col-lg-3 table-first-col" data-bind="text: firstName"></div>
+                <div class="col-lg-3 table-second-col" data-bind="text: lastName"></div>
+                <div class="col-lg-3 table-first-col" data-bind="text: age"></div>
+                <div class="col-lg-3">
+                    <button class="btn btn-info" data-bind="click: $root.selectedUndoUser">Undo</button>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div>
+                <div class="col-lg-12" align="center">
+                    <strong>Sum Ages:</strong> <strong class="text-danger font-weigh-bold" data-bind="text: sumAgeRemovedPersonList"></strong>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+@*this use for dialog jquery
+      <div id="dialog-confirm" title="Delete this item?">
+          <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>This item will be permanently deleted and cannot be recovered. Are you sure?</p>
+    </div>*@
+
+@*this use for bootstrap dialog*@
+<div class="modal fade" id="dialog-confirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Delete Dialog</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure about delete it???
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bind="click: $root.deletePerson">Delete</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
