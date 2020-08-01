@@ -2,8 +2,11 @@
     ViewBag.Title = "Home Page";
 }
 
+<script src="~/Scripts/PersonViewModel.js"></script>
+
 <h2><strong>Person Selected List</strong></h2>
 <label>First Name:</label>
+<<<<<<< HEAD
 <input type="text" name="firstname" data-bind="value: objectSelectedRow().firstName" />
 <label>Last Name: </label>
 <input type="text" name="lastname" data-bind="value: objectSelectedRow().lastName" />
@@ -12,8 +15,24 @@
 <span data-bind='visible: objectSelectedRow().firstName.hasError, text: objectSelectedRow().firstName.validationMessage'></span><br />
 <span data-bind='visible: objectSelectedRow().lastName.hasError, text: objectSelectedRow().lastName.validationMessage'></span>
 <h3 style="color:orangered">Person Info: </h3>
+=======
+<div>
+    <input type="text" name="firstname" data-bind="value: objectSelectedRow().firstName" />
+    <span data-bind='visible: objectSelectedRow().firstName.hasError, text: objectSelectedRow().firstName.validationMessage'></span>
+</div>
+<label>Last Name: </label>
+<div>
+    <input type="text" name="lastname" data-bind="value: objectSelectedRow().lastName" />
+    <span data-bind='visible: objectSelectedRow().lastName.hasError, text: objectSelectedRow().lastName.validationMessage'></span>
+</div>
+<label>Age:</label>
+<div>
+    <input type="text" name="age" data-bind="value: objectSelectedRow().age" />
+</div>
+<h3 style="color:orangered; font-weight:bold">Person Info: </h3>
+>>>>>>> 40185996891eb0b2c62d78df0fb0c79250c4ad09
 <h4>Fullname: <strong data-bind="text: fullName"></strong></h4>
-<h4>Age Range: <strong data-bind="text: agePeriod()"></strong></h4>
+<h4>Age Range: <strong data-bind="text: agePeriod"></strong></h4>
 <div>
     <div>
         <div>
@@ -31,12 +50,13 @@
             </div>
         </div>
         <div data-bind="foreach: selectedPerson">
+            <!--$root or $parent is ok because it belongs to foreach above-->
             <div class="row" style="cursor:pointer; margin-top:10px;" data-bind="click: $root.objectSelectedRow">
-                <div class="col-lg-3" style="background-color: rgba(255,0,0,.1);height:35px" data-bind="text: firstName"></div>
-                <div class="col-lg-3" style="background-color:lightgray;height:35px" data-bind="text: lastName"></div>
-                <div class="col-lg-3" style="background-color: rgba(255,0,0,.1);height:35px" data-bind="text: age"></div>
+                <div class="col-lg-3 table-first-col" data-bind="text: firstName"></div>
+                <div class="col-lg-3 table-second-col" data-bind="text: lastName"></div>
+                <div class="col-lg-3 table-first-col" data-bind="text: age"></div>
                 <div class="col-lg-3">
-                    <button class="btn btn-danger" data-bind="click: $parent.selectedUser">Remove</button>
+                    <button class="btn btn-danger" data-bind="click: $root.selectedUser">Remove</button>
                 </div>
             </div>
         </div>
@@ -69,11 +89,11 @@
         </div>
         <div data-bind="foreach: removedPersonList">
             <div class="row" style="margin-top:10px;">
-                <div class="col-lg-3" style="height:35px;background-color: rgba(255,0,0,.1);" data-bind="text: firstName"></div>
-                <div class="col-lg-3" style="height:35px;background-color:lightgray;" data-bind="text: lastName"></div>
-                <div class="col-lg-3" style="height:35px;background-color: rgba(255,0,0,.1);" data-bind="text: age"></div>
+                <div class="col-lg-3 table-first-col" data-bind="text: firstName"></div>
+                <div class="col-lg-3 table-second-col" data-bind="text: lastName"></div>
+                <div class="col-lg-3 table-first-col" data-bind="text: age"></div>
                 <div class="col-lg-3">
-                    <button class="btn btn-info" data-bind="click: $parent.selectedUndoUser">Undo</button>
+                    <button class="btn btn-info" data-bind="click: $root.selectedUndoUser">Undo</button>
                 </div>
             </div>
         </div>
@@ -87,4 +107,3 @@
     </div>
 </div>
 
-<script src="~/Scripts/PersonViewModel.js"></script>
