@@ -5,11 +5,12 @@
 <h2><strong>Person Selected List</strong></h2>
 <label>First Name:</label>
 <input type="text" name="firstname" data-bind="value: objectSelectedRow().firstName" />
-<span data-bind='visible: objectSelectedRow().firstName.hasError, text: objectSelectedRow().firstName.validationMessage'></span>
 <label>Last Name: </label>
-<input type="text" name="lastname" data-bind="value: objectSelectedRow().lastName"/>
+<input type="text" name="lastname" data-bind="value: objectSelectedRow().lastName" />
 <label>Age:</label>
-<input type="text" name="age" data-bind="value: objectSelectedRow().age"/>
+<input type="text" name="age" data-bind="value: objectSelectedRow().age" /><br />
+<span data-bind='visible: objectSelectedRow().firstName.hasError, text: objectSelectedRow().firstName.validationMessage'></span><br />
+<span data-bind='visible: objectSelectedRow().lastName.hasError, text: objectSelectedRow().lastName.validationMessage'></span>
 <h3 style="color:orangered">Person Info: </h3>
 <h4>Fullname: <strong data-bind="text: fullName"></strong></h4>
 <h4>Age Range: <strong data-bind="text: agePeriod()"></strong></h4>

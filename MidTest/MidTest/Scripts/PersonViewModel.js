@@ -65,8 +65,34 @@ ko.extenders.required = function (target, overrideMessage) {
 
     //define a function to do validation
     function validate(newValue) {
-        target.hasError(newValue ? false : true);
-        target.validationMessage(newValue ? "" : overrideMessage || "This field is required");
+        var check = false;
+        if (newValue.length < 5 || newValue.length > 10 || newValue.charAt(0) != "M")
+            check = true;
+        target.hasError(check == false ? false : true);
+        target.validationMessage(check == false ? "" : overrideMessage || "This field is required");
+    }
+
+    //initial validation
+    validate(target());
+
+    //validate whenever the value changes
+    target.subscribe(validate);
+
+    //return the original observable
+    return target;
+};
+ko.extenders.requiredLN = function (target, overrideMessage) {
+    //add some sub-observables to our observable
+    target.hasError = ko.observable();
+    target.validationMessage = ko.observable();
+
+    //define a function to do validation
+    function validate(newValue) {
+        var check = false;
+        if (newValue.length < 5 || newValue.length > 10 && newValue != "")
+            check = true;
+        target.hasError(check == false ? false : true);
+        target.validationMessage(check == false ? "" : overrideMessage || "This field is required");
     }
 
     //initial validation
@@ -82,8 +108,8 @@ ko.extenders.required = function (target, overrideMessage) {
 //create an Object with firstName, lastName, age
 function PersonModel(firstName, lastName, age) {
     var self = this;
-    self.firstName = ko.observable(firstName).extend({ required: "lenght must lower than 5 and larger than 10 and start with M" });
-    self.lastName = ko.observable(lastName).extend({ required: "lenght must lower than 5 and larger than 10" });
+    self.firstName = ko.observable(firstName).extend({ required: "first name must larger than 5 and lower than 10 and start with M" });
+    self.lastName = ko.observable(lastName).extend({ requiredLN: "last name must larger than 5 and lower than 10" });
     self.age = ko.observable(age);
 };
 
