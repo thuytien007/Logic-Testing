@@ -83,7 +83,7 @@ function PersonModel(Id, firstName, lastName, age) {
     //ko.validation() support some extend patterns (rules) like min-max lengh, so not need an extend function for validate
     //except your validation need more condition to validate.
     self.lastName = ko.observable(lastName).extend({ required: true, minLength: 5, maxLength: 10 });
-    self.age = ko.observable(age);
+    self.age = ko.observable(age).extend({ required: true, min: 1, max: 100 });
 };
 
 //main ViewModel
@@ -109,7 +109,7 @@ function PersonViewModel() {
         self.objectSelectedRow(item);
         self.selectedPerson.remove(item);
         self.removedPersonList.push(item);
-        self.sumAge - self.objectSelectedRow().age();
+        self.sumAge - self.objectSelectedRow().age;
     }
 
     //initial removed person list empty
@@ -127,7 +127,7 @@ function PersonViewModel() {
         self.objectUndoRow(item);
         self.selectedPerson.push(item);
         self.removedPersonList.remove(item);
-        self.sumAgeRemovedPersonList - self.objectUndoRow().age();
+        self.sumAgeRemovedPersonList - self.objectUndoRow().age;
     }
 
     //get age range (write direct function in ViewModel)
@@ -154,7 +154,6 @@ function PersonViewModel() {
     });
 
     self.updatePerson = function () {
-        debugger
         var error = ko.validation.group(self.objectSelectedRow);
         var updateUser = ko.toJSON(self.objectSelectedRow);
         if (error().length === 0) {
@@ -219,12 +218,16 @@ function PersonViewModel() {
 
     //serve for name searching
     self.nameSearching = ko.observable("");
-    self.resultPersonListSearch = ko.observableArray([]);
+    
     self.getResultPersonSearch = function () {
+        //comment below use when you wanna a Cancel button to reload ori list after result from searching
+        //if (self.nameSearching() == "")
+        //    alert("Please fill name to search!!");
+        //else { }
         $.ajax({
             url: '/Home/PersonListSearch',
             contentType: 'application/json',
-            data: { name: self.nameSearching()},
+            data: { name: self.nameSearching() },
             type: "GET",
             async: false,
             success: function (data) {
@@ -235,7 +238,7 @@ function PersonViewModel() {
                 alert("Not Found");
             }
         });
-        return self.selectedPerson;
+        return self.selectedPerson; 
     }
 
     //$.noConflict();//not need noConflict() in here because in _Layout we render Bundle first

@@ -33,7 +33,8 @@
 <div style="float:right">
     <input type="text" name="search" placeholder="find someone..." data-bind="value: nameSearching" />
     <button class="btn btn-success" data-bind="click: getResultPersonSearch">Search</button>
-    <button class="btn btn-secondary">Cancel</button>
+    @*button cancel in here use in case if you want to return original list after result from searching*@
+    @*<button class="btn btn-secondary">Cancel</button>*@
 </div>
 <div>
     <div>
@@ -51,7 +52,7 @@
                 <div class="col-lg-3"></div>
             </div>
         </div>
-        <div data-bind="foreach: selectedPerson">
+        <div id="show-data" data-bind="foreach: selectedPerson">
             <!--$root or $parent is ok because it belongs to foreach above-->
             <div class="row" style="cursor:pointer; margin-top:10px;" data-bind="click: $root.objectSelectedRow">
                 <div class="col-lg-3 table-first-col" data-bind="text: firstName"></div>
