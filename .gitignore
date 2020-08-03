@@ -1,0 +1,11 @@
+bin
+obj
+.vs
+.DS_Store
+appsetting.json
+*.db
+.suo
+.dll
+.pdb
+.cs
+.csprojAssemblyReference.cache

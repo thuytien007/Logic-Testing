@@ -234,3 +234,4 @@ C:\Users\Tien.Nguyen\Desktop\Logic-Testing\MidTest\MidTest\obj\Debug\MidTest.csp
 C:\Users\Tien.Nguyen\Desktop\Logic-Testing\MidTest\MidTest\obj\Debug\MidTest.csproj.CopyComplete
 C:\Users\Tien.Nguyen\Desktop\Logic-Testing\MidTest\MidTest\obj\Debug\MidTest.dll
 C:\Users\Tien.Nguyen\Desktop\Logic-Testing\MidTest\MidTest\obj\Debug\MidTest.pdb
+C:\Users\camas\Desktop\Logic-Testing\MidTest\MidTest\obj\Debug\MidTest.csproj.CoreCompileInputs.cache

@@ -83,17 +83,26 @@ ko.extenders.requiredFirstName = function (target, overrideMessage) {
     //return the original observable
     return target;
 };
+<<<<<<< HEAD
+ko.extenders.requiredLN = function (target, overrideMessage) {
+=======
 
 //this function to validate input with last name
 ko.extenders.requiredLastName = function (target, overrideMessage) {
+>>>>>>> 40185996891eb0b2c62d78df0fb0c79250c4ad09
     //add some sub-observables to our observable
     target.hasError = ko.observable();
     target.validationMessage = ko.observable();
 
     //define a function to do validation
     function validate(newValue) {
+<<<<<<< HEAD
+        var check = false;
+        if (newValue.length < 5 || newValue.length > 10 && newValue != "")
+=======
         var check = "";
         if (newValue.length < 5 || newValue.length > 10)
+>>>>>>> 40185996891eb0b2c62d78df0fb0c79250c4ad09
             check = true;
         target.hasError(check == false ? false : true);
         target.validationMessage(check == false ? "" : overrideMessage || "This field is required");
@@ -112,8 +121,13 @@ ko.extenders.requiredLastName = function (target, overrideMessage) {
 //create an Object with firstName, lastName, age
 function PersonModel(firstName, lastName, age) {
     var self = this;
+<<<<<<< HEAD
+    self.firstName = ko.observable(firstName).extend({ required: "first name must larger than 5 and lower than 10 and start with M" });
+    self.lastName = ko.observable(lastName).extend({ requiredLN: "last name must larger than 5 and lower than 10" });
+=======
     self.firstName = ko.observable(firstName).extend({ requiredFirstName: "first name must larger than 5, lower than 10 and start with M" });
     self.lastName = ko.observable(lastName).extend({ requiredLastName: "last name must larger than 5 and lower than 10" });
+>>>>>>> 40185996891eb0b2c62d78df0fb0c79250c4ad09
     self.age = ko.observable(age);
 };
 
