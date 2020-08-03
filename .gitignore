@@ -1,10 +1,10 @@
-bin
-obj
-.vs
+*.bin
+*.obj
+.vs/
 .DS_Store
 appsetting.json
 *.db
-.suo
+*.suo
 .dll
 .pdb
 .cs
