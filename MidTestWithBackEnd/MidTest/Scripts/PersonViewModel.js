@@ -10,7 +10,7 @@ function getPerson() {
         async: false,
         success: function (data) {
             userSample = data;
-            console.log("success");
+            console.log("get data success");
         },
         error: function () {
             console.log("error");
@@ -18,23 +18,6 @@ function getPerson() {
     });
     return userSample;
 }
-
-//loop array object, if pass the condition then add to tempList
-//function selectedUserList(oriArray) {
-//    try {
-//        this.tempList = [];
-//        oriArray.forEach(function (item) {
-//            if (item.firstName.length + item.lastName.length > 12 && item.firstName.charAt(0) == "M") {
-//                var age = Math.floor(Math.random() * 99) + 1;
-//                var user = new PersonModel(item.Id, item.firstName, item.lastName, age);
-//                this.tempList.push(user);
-//            }
-//        })
-//        return tempList;
-//    } catch (err) {
-//        console.log(err.message);
-//    }
-//}
 
 //sum age with selected user list
 function sumAgeWithSelectedUser(arrObject) {
@@ -50,36 +33,11 @@ function sumAgeWithSelectedUser(arrObject) {
     }
 }
 
-//this function to validate input with first name
-ko.extenders.requiredFirstName = function (target, overrideMessage) {
-    //add some sub-observables to our observable
-    target.hasError = ko.observable();
-    target.validationMessage = ko.observable();
-
-    //define a function to do validation
-    function validate(newValue) {
-        var check = false;
-        if (newValue.length < 5 || newValue.length > 10 || newValue.charAt(0) != "M")
-            check = true;
-        target.hasError(check == false ? false : true);
-        target.validationMessage(check == false ? "" : overrideMessage || null);
-    }
-
-    //initial validation
-    validate(target());
-
-    //validate whenever the value changes
-    target.subscribe(validate);
-
-    //return the original observable
-    return target;
-};
-
 //create an Object with firstName, lastName, age
 function PersonModel(Id, firstName, lastName, age) {
     var self = this;
     self.Id = ko.observable(Id);
-    self.firstName = ko.observable(firstName).extend({ requiredFirstName: "first name must larger than 5, lower than 10 and start with M" });
+    self.firstName = ko.observable(firstName).extend({ requiredFirstName: true });
     //ko.validation() support some extend patterns (rules) like min-max lengh, so not need an extend function for validate
     //except your validation need more condition to validate.
     self.lastName = ko.observable(lastName).extend({ required: true, minLength: 5, maxLength: 10 });
@@ -154,7 +112,13 @@ function PersonViewModel() {
     });
 
     self.updatePerson = function () {
-        var error = ko.validation.group(self.objectSelectedRow);
+        var rsId = self.objectSelectedRow().Id;
+        var rsFirsName = self.objectSelectedRow().firstName;
+        var rsLastName = self.objectSelectedRow().lastName;
+        var rsAge = self.objectSelectedRow().age;
+        var error = ko.validation.group(new PersonModel(rsId, rsFirsName, rsLastName, rsAge));
+        //var error = ko.validation.group(new PersonModel(12, "Maaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "asdasdasdasdasdas", 10));
+
         var updateUser = ko.toJSON(self.objectSelectedRow);
         if (error().length === 0) {
             $('div.alert-success').show();
@@ -183,7 +147,7 @@ function PersonViewModel() {
     }
 
     self.addPerson = function () {
-        var error = ko.validation.group(self.objectSelectedRow);
+        var error = ko.validation.group(self.objectSelectedRow());
         var addUser = ko.toJSON(self.objectSelectedRow);
 
         if (error().length === 0) {
@@ -274,6 +238,34 @@ function PersonViewModel() {
 
 //use jQuery to make sure the html is finished, then js will run with no matter where js is put in the html
 $(function () { 
+    
+    //this function to validate input with first name (customer validation), but we use rules
+    //because when we use rules and extenders, it happends some conflicts
+    //if using this, in the front-end must add span tag -> move to index to see
+    //ko.extenders.requiredFirstName = function (target, overrideMessage) {
+    //    //add some sub-observables to our observable
+    //    target.hasError = ko.observable();
+    //    target.validationMessage = ko.observable();
+
+    //    //define a function to do validation
+    //    function validate(newValue) {
+    //        var check = false;
+    //        if (newValue.length < 5 || newValue.length > 10 || newValue.charAt(0) != "M")
+    //            check = true;
+    //        target.hasError(check == false ? false : true);
+    //        target.validationMessage(check == false ? "" : overrideMessage || null);
+    //    }
+
+    //    //initial validation
+    //    validate(target());
+
+    //    //validate whenever the value changes
+    //    target.subscribe(validate);
+
+    //    //return the original observable
+    //    return target;
+    //};
+
     ko.validation.init({
         registerExtenders: true,
         messagesOnModified: true,
@@ -284,7 +276,15 @@ $(function () {
         grouping: { deep: true, observable: true },
         messageTemplate: null
     }, true);
- 
+
+    ko.validation.rules['requiredFirstName'] = {
+        validator: function (val) {
+            return val.length >= 5 && val.length <= 10 && val.charAt(0) == "M";
+        },
+        message: 'first name must larger than 5, lower than 10 and start with M'
+    };
+    ko.validation.registerExtenders();
+
     ko.applyBindings(new PersonViewModel(), document.body);
 })
 

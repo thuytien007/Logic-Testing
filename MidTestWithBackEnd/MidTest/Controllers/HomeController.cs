@@ -10,7 +10,7 @@ namespace MidTest.Controllers
         PersonInfoEntities _db;
         public PersonService(PersonInfoEntities db)
         {
-            _db = new PersonInfoEntities();
+            _db = db;
         }
 
         public List<Person> GetPersonListWithCondition()
@@ -60,7 +60,7 @@ namespace MidTest.Controllers
         public string UpdatePerson(Person person)
         {
             var updatePerson = db.Persons.Find(person.Id);
-            updatePerson.lastName = person.firstName;
+            updatePerson.firstName = person.firstName;
             updatePerson.lastName = person.lastName;
             updatePerson.age = person.age;
             db.SaveChanges();

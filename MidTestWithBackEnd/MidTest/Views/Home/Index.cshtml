@@ -9,16 +9,17 @@
     <label>First Name:</label>
     <div>
         <input type="text" name="firstname" data-bind="value: objectSelectedRow().firstName" />
-        <span data-bind='visible: objectSelectedRow().firstName.hasError, text: objectSelectedRow().firstName.validationMessage'></span>
+        @*<span data-bind='visible: objectSelectedRow().firstName.hasError, text: objectSelectedRow().firstName.validationMessage'></span>*@
     </div>
     <label>Last Name: </label>
     <div>
         <input type="text" name="lastname" data-bind="value: objectSelectedRow().lastName" />
-        <span data-bind='visible: objectSelectedRow().lastName.hasError, text: objectSelectedRow().lastName.validationMessage'></span>
+        @*<span data-bind='visible: objectSelectedRow().lastName.hasError, text: objectSelectedRow().lastName.validationMessage'></span>*@
     </div>
     <label>Age:</label>
     <div>
         <input type="text" name="age" data-bind="value: objectSelectedRow().age" />
+        <span class="validationMessage" style=""></span>
     </div>
     <div style="margin-top:10px">
         <button class="btn btn-success" data-bind="click: updatePerson">Save</button>
@@ -28,7 +29,7 @@
     <div class="alert alert-danger" role="alert" style="display:none; margin-top: 10px;"> <span class="glyphicon  glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Please check your submission </div>
 </form>
 <h3 style="color:orangered; font-weight:bold">Person Info: </h3>
-<h4>Fullname: <strong data-bind="text: fullName"></strong></h4>
+<h4>Fullname: <strong data-bind="text: fullName()"></strong></h4>
 <h4>Age Range: <strong data-bind="text: agePeriod"></strong></h4>
 <div style="float:right">
     <input type="text" name="search" placeholder="find someone..." data-bind="value: nameSearching" />

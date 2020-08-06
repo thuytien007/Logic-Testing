@@ -8,13 +8,12 @@
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @*remove bootstrap.min.js because it cause dialog loading 2 times, it appear and disappear immidiately after*@
+    @*remove bootstrap.min.js + validation.min.js because it cause dialog loading 2 times, it appear and disappear immidiately after*@
     <link href="~/Content/style.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-ui-1.12.0.js"></script>
     <script src="~/Scripts/jquery-ui-1.12.0.min.js"></script>
     <script src="~/Scripts/knockout-3.5.1.js"></script>
     <script src="~/Scripts/knockout.validation.js"></script>
-    <script src="~/Scripts/knockout.validation.min.js"></script>
 </head>
 <body>
     <div style="border:none" class="navbar navbar-inverse navbar-fixed-top">
