@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @*remove bootstrap.min.js + validation.min.js because it cause dialog loading 2 times, it appear and disappear immidiately after*@
+    <link href="~/Content/style.css" rel="stylesheet" />
+    @*<script src="~/Scripts/jquery-ui-1.12.0.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.0.min.js"></script>*@
+    <script src="~/Scripts/knockout-3.5.1.js"></script>
+    <script src="~/Scripts/knockout.validation.js"></script>
+</head>
+<body>
+    <div style="border:none" class="navbar navbar-inverse navbar-fixed-top">
+        <div id="header" class="navbar-collapse collapse">
+            <h1 style="color:white; text-align:center">Tien's SCC Final Examination</h1>
+        </div>
+    </div>
+    <div style="margin-top:10px" class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer style="text-align:center">
+            <p>&copy; @DateTime.Now.Year - Tien Nguyen</p>
+        </footer>
+    </div>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,413 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="FinalExamPOListModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Manufacturer">
+          <Key>
+            <PropertyRef Name="ManufactureNo" />
+          </Key>
+          <Property Name="ManufactureNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ManufacturName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Part">
+          <Key>
+            <PropertyRef Name="PartNo" />
+          </Key>
+          <Property Name="PartNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PartDescription" Type="varchar(max)" />
+          <Property Name="BuyPrice" Type="float" />
+          <Property Name="ManufactureNo" Type="int" />
+          <Property Name="Partcode" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="PurchaseOrder">
+          <Key>
+            <PropertyRef Name="OrderNo" />
+          </Key>
+          <Property Name="OrderNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderDate" Type="date" />
+          <Property Name="ETADate" Type="date" />
+          <Property Name="LastUpdate" Type="date" />
+          <Property Name="QtyOpen" Type="int" />
+          <Property Name="SentEmail" Type="bit" />
+          <Property Name="SupplierNo" Type="int" />
+          <Property Name="StockSiteNo" Type="int" />
+          <Property Name="Note" Type="varchar(max)" />
+          <Property Name="Address" Type="varchar(max)" />
+          <Property Name="Country" Type="varchar" MaxLength="50" />
+          <Property Name="PostCode" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="PurchaseOrderLine">
+          <Key>
+            <PropertyRef Name="OrderNo" />
+            <PropertyRef Name="PartNo" />
+          </Key>
+          <Property Name="OrderNo" Type="int" Nullable="false" />
+          <Property Name="PartNo" Type="int" Nullable="false" />
+          <Property Name="Amount" Type="int" />
+          <Property Name="Memo" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="StockSite">
+          <Key>
+            <PropertyRef Name="StockSiteNo" />
+          </Key>
+          <Property Name="StockSiteNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StockSiteCode" Type="varchar" MaxLength="50" />
+          <Property Name="StockSiteName" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Supplier">
+          <Key>
+            <PropertyRef Name="SupplierNo" />
+          </Key>
+          <Property Name="SupplierNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SupplierCode" Type="varchar" MaxLength="50" />
+          <Property Name="SupplierName" Type="varchar(max)" />
+        </EntityType>
+        <Association Name="FK_Part_Manufacturer">
+          <End Role="Manufacturer" Type="Self.Manufacturer" Multiplicity="0..1" />
+          <End Role="Part" Type="Self.Part" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufacturer">
+              <PropertyRef Name="ManufactureNo" />
+            </Principal>
+            <Dependent Role="Part">
+              <PropertyRef Name="ManufactureNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseOrder_StockSite">
+          <End Role="StockSite" Type="Self.StockSite" Multiplicity="0..1" />
+          <End Role="PurchaseOrder" Type="Self.PurchaseOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockSite">
+              <PropertyRef Name="StockSiteNo" />
+            </Principal>
+            <Dependent Role="PurchaseOrder">
+              <PropertyRef Name="StockSiteNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseOrder_Supplier">
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="0..1" />
+          <End Role="PurchaseOrder" Type="Self.PurchaseOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="SupplierNo" />
+            </Principal>
+            <Dependent Role="PurchaseOrder">
+              <PropertyRef Name="SupplierNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseOrderLine_Part">
+          <End Role="Part" Type="Self.Part" Multiplicity="1" />
+          <End Role="PurchaseOrderLine" Type="Self.PurchaseOrderLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Part">
+              <PropertyRef Name="PartNo" />
+            </Principal>
+            <Dependent Role="PurchaseOrderLine">
+              <PropertyRef Name="PartNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseOrderLine_PurchaseOrder">
+          <End Role="PurchaseOrder" Type="Self.PurchaseOrder" Multiplicity="1" />
+          <End Role="PurchaseOrderLine" Type="Self.PurchaseOrderLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PurchaseOrder">
+              <PropertyRef Name="OrderNo" />
+            </Principal>
+            <Dependent Role="PurchaseOrderLine">
+              <PropertyRef Name="OrderNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FinalExamPOListModelStoreContainer">
+          <EntitySet Name="Manufacturer" EntityType="Self.Manufacturer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Part" EntityType="Self.Part" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PurchaseOrder" EntityType="Self.PurchaseOrder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PurchaseOrderLine" EntityType="Self.PurchaseOrderLine" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StockSite" EntityType="Self.StockSite" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Part_Manufacturer" Association="Self.FK_Part_Manufacturer">
+            <End Role="Manufacturer" EntitySet="Manufacturer" />
+            <End Role="Part" EntitySet="Part" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseOrder_StockSite" Association="Self.FK_PurchaseOrder_StockSite">
+            <End Role="StockSite" EntitySet="StockSite" />
+            <End Role="PurchaseOrder" EntitySet="PurchaseOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseOrder_Supplier" Association="Self.FK_PurchaseOrder_Supplier">
+            <End Role="Supplier" EntitySet="Supplier" />
+            <End Role="PurchaseOrder" EntitySet="PurchaseOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseOrderLine_Part" Association="Self.FK_PurchaseOrderLine_Part">
+            <End Role="Part" EntitySet="Part" />
+            <End Role="PurchaseOrderLine" EntitySet="PurchaseOrderLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseOrderLine_PurchaseOrder" Association="Self.FK_PurchaseOrderLine_PurchaseOrder">
+            <End Role="PurchaseOrder" EntitySet="PurchaseOrder" />
+            <End Role="PurchaseOrderLine" EntitySet="PurchaseOrderLine" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FinalExamPOListModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Manufacturer">
+          <Key>
+            <PropertyRef Name="ManufactureNo" />
+          </Key>
+          <Property Name="ManufactureNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ManufacturName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Parts" Relationship="Self.FK_Part_Manufacturer" FromRole="Manufacturer" ToRole="Part" />
+        </EntityType>
+        <EntityType Name="Part">
+          <Key>
+            <PropertyRef Name="PartNo" />
+          </Key>
+          <Property Name="PartNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PartDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="BuyPrice" Type="Double" />
+          <Property Name="ManufactureNo" Type="Int32" />
+          <Property Name="Partcode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Manufacturer" Relationship="Self.FK_Part_Manufacturer" FromRole="Part" ToRole="Manufacturer" />
+          <NavigationProperty Name="PurchaseOrderLines" Relationship="Self.FK_PurchaseOrderLine_Part" FromRole="Part" ToRole="PurchaseOrderLine" />
+        </EntityType>
+        <EntityType Name="PurchaseOrder">
+          <Key>
+            <PropertyRef Name="OrderNo" />
+          </Key>
+          <Property Name="OrderNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderDate" Type="DateTime" Precision="0" />
+          <Property Name="ETADate" Type="DateTime" Precision="0" />
+          <Property Name="LastUpdate" Type="DateTime" Precision="0" />
+          <Property Name="QtyOpen" Type="Int32" />
+          <Property Name="SentEmail" Type="Boolean" />
+          <Property Name="SupplierNo" Type="Int32" />
+          <Property Name="StockSiteNo" Type="Int32" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PostCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="StockSite" Relationship="Self.FK_PurchaseOrder_StockSite" FromRole="PurchaseOrder" ToRole="StockSite" />
+          <NavigationProperty Name="Supplier" Relationship="Self.FK_PurchaseOrder_Supplier" FromRole="PurchaseOrder" ToRole="Supplier" />
+          <NavigationProperty Name="PurchaseOrderLines" Relationship="Self.FK_PurchaseOrderLine_PurchaseOrder" FromRole="PurchaseOrder" ToRole="PurchaseOrderLine" />
+        </EntityType>
+        <EntityType Name="PurchaseOrderLine">
+          <Key>
+            <PropertyRef Name="OrderNo" />
+            <PropertyRef Name="PartNo" />
+          </Key>
+          <Property Name="OrderNo" Type="Int32" Nullable="false" />
+          <Property Name="PartNo" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Int32" />
+          <Property Name="Memo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Part" Relationship="Self.FK_PurchaseOrderLine_Part" FromRole="PurchaseOrderLine" ToRole="Part" />
+          <NavigationProperty Name="PurchaseOrder" Relationship="Self.FK_PurchaseOrderLine_PurchaseOrder" FromRole="PurchaseOrderLine" ToRole="PurchaseOrder" />
+        </EntityType>
+        <EntityType Name="StockSite">
+          <Key>
+            <PropertyRef Name="StockSiteNo" />
+          </Key>
+          <Property Name="StockSiteNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StockSiteCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="StockSiteName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PurchaseOrders" Relationship="Self.FK_PurchaseOrder_StockSite" FromRole="StockSite" ToRole="PurchaseOrder" />
+        </EntityType>
+        <EntityType Name="Supplier">
+          <Key>
+            <PropertyRef Name="SupplierNo" />
+          </Key>
+          <Property Name="SupplierNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SupplierCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SupplierName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PurchaseOrders" Relationship="Self.FK_PurchaseOrder_Supplier" FromRole="Supplier" ToRole="PurchaseOrder" />
+        </EntityType>
+        <Association Name="FK_Part_Manufacturer">
+          <End Role="Manufacturer" Type="Self.Manufacturer" Multiplicity="0..1" />
+          <End Role="Part" Type="Self.Part" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufacturer">
+              <PropertyRef Name="ManufactureNo" />
+            </Principal>
+            <Dependent Role="Part">
+              <PropertyRef Name="ManufactureNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseOrderLine_Part">
+          <End Role="Part" Type="Self.Part" Multiplicity="1" />
+          <End Role="PurchaseOrderLine" Type="Self.PurchaseOrderLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Part">
+              <PropertyRef Name="PartNo" />
+            </Principal>
+            <Dependent Role="PurchaseOrderLine">
+              <PropertyRef Name="PartNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseOrder_StockSite">
+          <End Role="StockSite" Type="Self.StockSite" Multiplicity="0..1" />
+          <End Role="PurchaseOrder" Type="Self.PurchaseOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockSite">
+              <PropertyRef Name="StockSiteNo" />
+            </Principal>
+            <Dependent Role="PurchaseOrder">
+              <PropertyRef Name="StockSiteNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseOrder_Supplier">
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="0..1" />
+          <End Role="PurchaseOrder" Type="Self.PurchaseOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="SupplierNo" />
+            </Principal>
+            <Dependent Role="PurchaseOrder">
+              <PropertyRef Name="SupplierNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseOrderLine_PurchaseOrder">
+          <End Role="PurchaseOrder" Type="Self.PurchaseOrder" Multiplicity="1" />
+          <End Role="PurchaseOrderLine" Type="Self.PurchaseOrderLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PurchaseOrder">
+              <PropertyRef Name="OrderNo" />
+            </Principal>
+            <Dependent Role="PurchaseOrderLine">
+              <PropertyRef Name="OrderNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FinalExamPOListEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Manufacturers" EntityType="Self.Manufacturer" />
+          <EntitySet Name="Parts" EntityType="Self.Part" />
+          <EntitySet Name="PurchaseOrders" EntityType="Self.PurchaseOrder" />
+          <EntitySet Name="PurchaseOrderLines" EntityType="Self.PurchaseOrderLine" />
+          <EntitySet Name="StockSites" EntityType="Self.StockSite" />
+          <EntitySet Name="Suppliers" EntityType="Self.Supplier" />
+          <AssociationSet Name="FK_Part_Manufacturer" Association="Self.FK_Part_Manufacturer">
+            <End Role="Manufacturer" EntitySet="Manufacturers" />
+            <End Role="Part" EntitySet="Parts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseOrderLine_Part" Association="Self.FK_PurchaseOrderLine_Part">
+            <End Role="Part" EntitySet="Parts" />
+            <End Role="PurchaseOrderLine" EntitySet="PurchaseOrderLines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseOrder_StockSite" Association="Self.FK_PurchaseOrder_StockSite">
+            <End Role="StockSite" EntitySet="StockSites" />
+            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseOrder_Supplier" Association="Self.FK_PurchaseOrder_Supplier">
+            <End Role="Supplier" EntitySet="Suppliers" />
+            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseOrderLine_PurchaseOrder" Association="Self.FK_PurchaseOrderLine_PurchaseOrder">
+            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
+            <End Role="PurchaseOrderLine" EntitySet="PurchaseOrderLines" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FinalExamPOListModelStoreContainer" CdmEntityContainer="FinalExamPOListEntities">
+          <EntitySetMapping Name="Manufacturers">
+            <EntityTypeMapping TypeName="FinalExamPOListModel.Manufacturer">
+              <MappingFragment StoreEntitySet="Manufacturer">
+                <ScalarProperty Name="ManufactureNo" ColumnName="ManufactureNo" />
+                <ScalarProperty Name="ManufacturName" ColumnName="ManufacturName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Parts">
+            <EntityTypeMapping TypeName="FinalExamPOListModel.Part">
+              <MappingFragment StoreEntitySet="Part">
+                <ScalarProperty Name="PartNo" ColumnName="PartNo" />
+                <ScalarProperty Name="PartDescription" ColumnName="PartDescription" />
+                <ScalarProperty Name="BuyPrice" ColumnName="BuyPrice" />
+                <ScalarProperty Name="ManufactureNo" ColumnName="ManufactureNo" />
+                <ScalarProperty Name="Partcode" ColumnName="Partcode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PurchaseOrders">
+            <EntityTypeMapping TypeName="FinalExamPOListModel.PurchaseOrder">
+              <MappingFragment StoreEntitySet="PurchaseOrder">
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="ETADate" ColumnName="ETADate" />
+                <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+                <ScalarProperty Name="QtyOpen" ColumnName="QtyOpen" />
+                <ScalarProperty Name="SentEmail" ColumnName="SentEmail" />
+                <ScalarProperty Name="SupplierNo" ColumnName="SupplierNo" />
+                <ScalarProperty Name="StockSiteNo" ColumnName="StockSiteNo" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PurchaseOrderLines">
+            <EntityTypeMapping TypeName="FinalExamPOListModel.PurchaseOrderLine">
+              <MappingFragment StoreEntitySet="PurchaseOrderLine">
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+                <ScalarProperty Name="PartNo" ColumnName="PartNo" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Memo" ColumnName="Memo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockSites">
+            <EntityTypeMapping TypeName="FinalExamPOListModel.StockSite">
+              <MappingFragment StoreEntitySet="StockSite">
+                <ScalarProperty Name="StockSiteNo" ColumnName="StockSiteNo" />
+                <ScalarProperty Name="StockSiteCode" ColumnName="StockSiteCode" />
+                <ScalarProperty Name="StockSiteName" ColumnName="StockSiteName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Suppliers">
+            <EntityTypeMapping TypeName="FinalExamPOListModel.Supplier">
+              <MappingFragment StoreEntitySet="Supplier">
+                <ScalarProperty Name="SupplierNo" ColumnName="SupplierNo" />
+                <ScalarProperty Name="SupplierCode" ColumnName="SupplierCode" />
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

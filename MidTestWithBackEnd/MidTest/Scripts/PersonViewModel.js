@@ -1,5 +1,4 @@
-﻿
-var userSample = [];
+﻿var userSample = [];
 
 //get list person from db through controller
 function getPerson() {
@@ -91,8 +90,11 @@ function PersonViewModel() {
     //get age range (write direct function in ViewModel)
     self.agePeriod = ko.computed(function () {
         var status = "";
-        if (self.objectSelectedRow().age <= 0)
-            status = "";
+        var _age = typeof self.objectSelectedRow().lastName === 'function' ?
+            self.objectSelectedRow().lastName() : self.objectSelectedRow().lastName;
+        if (self.objectSelectedRow().age <= 0) {
+            return status;
+        }
         else {
             if (self.objectSelectedRow().age < 15)
                 status = "Teenager";
@@ -108,7 +110,11 @@ function PersonViewModel() {
 
     //get fullname
     self.fullName = ko.computed(function () {
-        return self.objectSelectedRow().firstName + " " + self.objectSelectedRow().lastName;
+        var _firstName = typeof self.objectSelectedRow().firstName === 'function' ?
+            self.objectSelectedRow().firstName() : self.objectSelectedRow().firstName;
+        var _lastName = typeof self.objectSelectedRow().lastName === 'function' ?
+            self.objectSelectedRow().lastName() : self.objectSelectedRow().lastName;
+        return _firstName + " " + _lastName;
     });
 
     self.updatePerson = function () {
@@ -117,7 +123,6 @@ function PersonViewModel() {
         var rsLastName = self.objectSelectedRow().lastName;
         var rsAge = self.objectSelectedRow().age;
         var error = ko.validation.group(new PersonModel(rsId, rsFirsName, rsLastName, rsAge));
-        //var error = ko.validation.group(new PersonModel(12, "Maaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "asdasdasdasdasdas", 10));
 
         var updateUser = ko.toJSON(self.objectSelectedRow);
         if (error().length === 0) {
