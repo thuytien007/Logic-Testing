@@ -26,7 +26,6 @@ function POViewModel() {
     }
     //get PO list for the main screen
     self.getPOList = function () {
-        debugger
         var orderDate;
         var lastUpdate;
         $.ajax({
@@ -42,6 +41,7 @@ function POViewModel() {
                 console.log("error with get data");
             }
         });
+        //after had PO list from db, loop through and change format date to show on View
         poSampleList.forEach(function (item) {
             orderDate = self.formatDate(item.OrderDate);
             item.OrderDate = orderDate;

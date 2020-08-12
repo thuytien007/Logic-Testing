@@ -23,11 +23,11 @@
     </div>
     <div style="margin-top:10px" class="container body-content">
         @RenderBody()
-        <hr />
-        <footer style="text-align:center">
-            <p>&copy; @DateTime.Now.Year - Tien Nguyen</p>
-        </footer>
     </div>
+    <hr />
+    <footer style="text-align:center">
+        <p>&copy; @DateTime.Now.Year - Tien Nguyen</p>
+    </footer>
 
     @RenderSection("scripts", required: false)
 </body>

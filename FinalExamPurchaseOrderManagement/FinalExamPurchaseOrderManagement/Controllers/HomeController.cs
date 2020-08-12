@@ -51,6 +51,7 @@ namespace FinalExamPurchaseOrderManagement.Controllers
             }
             return View(poDetails);
         }
+
         //get PO list for main screen 
         public JsonResult GetPOList()
         {

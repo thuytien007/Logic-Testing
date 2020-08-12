@@ -41,7 +41,7 @@
         </div>
         <div id="show-data" data-bind="foreach: resultFromGetPOList">
             <!--$root or $parent is ok because it belongs to foreach above-->
-            <div class="row" style="cursor:pointer; margin-top:10px;">
+            <div class="row" style="margin-top:10px;">
                 <div class="col-lg-1 table-first-col">
                     <a data-bind="attr: { href: '../Home/Details/' + OrderNo}" ><span data-bind="text:OrderNo"></span></a>
                 </div>
@@ -51,7 +51,7 @@
                 <div class="col-lg-2 table-first-col" data-bind="text: OrderDate"></div>
                 <div class="col-lg-2 table-second-col" data-bind="text: LastUpdate"></div>
                 <div class="col-lg-1 table-first-col">
-                    <input type="checkbox" name="sent-mail" data-bind="checked: SentEmail" />
+                    <input type="checkbox" name="sent-mail" data-bind="checked: SentEmail" disabled/>
                 </div>
             </div>
         </div>
