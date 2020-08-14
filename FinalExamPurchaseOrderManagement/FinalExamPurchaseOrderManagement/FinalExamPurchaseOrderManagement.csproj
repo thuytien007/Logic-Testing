@@ -211,6 +211,7 @@
     <Content Include="Scripts\knockout.validation.js" />
     <Content Include="Scripts\knockout.validation.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\ViewModel\PODetailViewModel.js" />
     <Content Include="Scripts\ViewModel\POViewModel.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

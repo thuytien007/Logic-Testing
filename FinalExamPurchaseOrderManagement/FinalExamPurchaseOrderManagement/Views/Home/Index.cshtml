@@ -9,33 +9,31 @@
 <div style="float:right">
     <input type="text" name="search" placeholder="find someone..." />
     <button class="btn btn-success">Search</button>
-    @*button cancel in here use in case if you want to return original list after result from searching*@
-    @*<button class="btn btn-secondary">Cancel</button>*@
 </div>
 <div>
     <div class="container">
         <div style="margin-top: 60px">
             <div class="row" style="background-color:lightblue;height:30px; text-align:center">
                 <div style="font-weight:bold" class="col-lg-1">
-                    @Html.DisplayName("Order No: ")
+                    Order No:
                 </div>
                 <div style="font-weight:bold" class="col-lg-1">
-                    @Html.DisplayName("Supplier: ")
+                    Supplier:
                 </div>
                 <div style="font-weight:bold" class="col-lg-2">
-                    @Html.DisplayName("Stock Site: ")
+                    Stock Site:
                 </div>
                 <div style="font-weight:bold" class="col-lg-3">
-                    @Html.DisplayName("Stock Name: ")
+                    Stock Name:
                 </div>
                 <div style="font-weight:bold" class="col-lg-2">
-                    @Html.DisplayName("Order Date: ")
+                    Order Date:
                 </div>
                 <div style="font-weight:bold" class="col-lg-2">
-                    @Html.DisplayName("Last Update: ")
+                    Last Update:
                 </div>
                 <div style="font-weight:bold" class="col-lg-1">
-                    @Html.DisplayName("Sent Mail: ")
+                    Sent Mail:
                 </div>
             </div>
         </div>
@@ -43,7 +41,7 @@
             <!--$root or $parent is ok because it belongs to foreach above-->
             <div class="row" style="margin-top:10px;">
                 <div class="col-lg-1 table-first-col">
-                    <a data-bind="attr: { href: '../Home/Details/' + OrderNo}" ><span data-bind="text:OrderNo"></span></a>
+                    <a data-bind="attr: { href: '../Home/Details/' + OrderNo}"><span data-bind="text:OrderNo"></span></a>
                 </div>
                 <div class="col-lg-1 table-second-col" data-bind="text: SupplierCode"></div>
                 <div class="col-lg-2 table-first-col" data-bind="text: StockSiteCode"></div>
@@ -51,7 +49,7 @@
                 <div class="col-lg-2 table-first-col" data-bind="text: OrderDate"></div>
                 <div class="col-lg-2 table-second-col" data-bind="text: LastUpdate"></div>
                 <div class="col-lg-1 table-first-col">
-                    <input type="checkbox" name="sent-mail" data-bind="checked: SentEmail" disabled/>
+                    <input type="checkbox" name="sent-mail" data-bind="checked: SentEmail" disabled />
                 </div>
             </div>
         </div>
