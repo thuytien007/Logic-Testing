@@ -28,6 +28,10 @@ namespace FinalExamPurchaseOrderManagement.Controllers
         {
             return View();
         }
+        public ActionResult SentMail()
+        {
+            return View();
+        }
         //public PurchaseOrder getById(int id)
         //{
         //    return db.PurchaseOrders.Where(x => x.OrderNo == id).FirstOrDefault();

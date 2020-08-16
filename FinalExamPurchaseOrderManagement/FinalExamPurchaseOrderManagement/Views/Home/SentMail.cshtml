@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "SentMail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Sent Mail Page</h2>
+
+<h3 style="text-align:center;color:cornflowerblue;font-weight:bold">Email Purchase Order(s) to Supplier(s) for deal ref:<span>@TempData["OrderNo"]</span></h3>
+<form style="border:2px solid cornflowerblue">
+    <div style="background-color:cornflowerblue; height:30px">
+        <p>Purchase Order <span>@TempData["OrderNo"]</span></p>
+    </div>
+    <div style="margin:5px 5px 5px 5px">
+        <div class="form-group row">
+            <label class="col-sm-1 col-form-label">From:</label>
+            <div>
+                <input type="email" class="form-control" placeholder="From Email..." style="max-width:800px; width:800px">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-1 col-form-label">To:</label>
+            <div>
+                <input type="email" class="form-control" placeholder="To Email..."  style="max-width:800px; width:800px">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-1 col-form-label">Cc:</label>
+            <div>
+                <input type="email" class="form-control" placeholder="Cc..." style="max-width:800px; width:800px">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-1 col-form-label">Subject:</label>
+            <div>
+                <input type="email" class="form-control" placeholder="Subject..." style="max-width:800px; width:800px">
+            </div>
+        </div>
+        <div>
+            <textarea rows="10" class="form-control" style="max-width: 800px; width: 800px;margin-left:78px" placeholder="Content..."></textarea>
+        </div>
+    </div> 
+</form>
+<div style="margin-top:20px">
+    <button class="btn btn-success glyphicon glyphicon-envelope">Sent Email</button>
+    <button class="btn btn-secondary glyphicon glyphicon-ban-circle">Sent Email Later, go to PO tab</button>
+</div>

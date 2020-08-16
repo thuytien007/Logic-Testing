@@ -165,9 +165,38 @@
     <Compile Include="Models\Supplier.cs">
       <DependentUpon>PurchasingOrderEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="obj\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\Antlr3.Runtime.dll" />
+    <Content Include="bin\Antlr3.Runtime.pdb" />
+    <Content Include="bin\EntityFramework.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.xml" />
+    <Content Include="bin\EntityFramework.xml" />
+    <Content Include="bin\FinalExamPurchaseOrderManagement.dll" />
+    <Content Include="bin\FinalExamPurchaseOrderManagement.pdb" />
+    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
+    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml" />
+    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="bin\Newtonsoft.Json.dll" />
+    <Content Include="bin\Newtonsoft.Json.xml" />
+    <Content Include="bin\System.Web.Helpers.dll" />
+    <Content Include="bin\System.Web.Helpers.xml" />
+    <Content Include="bin\System.Web.Mvc.dll" />
+    <Content Include="bin\System.Web.Mvc.xml" />
+    <Content Include="bin\System.Web.Optimization.dll" />
+    <Content Include="bin\System.Web.Optimization.xml" />
+    <Content Include="bin\System.Web.Razor.dll" />
+    <Content Include="bin\System.Web.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.Deployment.dll" />
+    <Content Include="bin\System.Web.WebPages.Deployment.xml" />
+    <Content Include="bin\System.Web.WebPages.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.xml" />
+    <Content Include="bin\WebGrease.dll" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -187,6 +216,9 @@
       <DependentUpon>PurchasingOrderEntities.edmx</DependentUpon>
       <LastGenOutput>PurchasingOrderEntities.cs</LastGenOutput>
     </Content>
+    <Content Include="obj\Debug\FinalExamPurchaseOrderManagement.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\FinalExamPurchaseOrderManagement.dll" />
+    <Content Include="obj\Debug\FinalExamPurchaseOrderManagement.pdb" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <EntityDeploy Include="Models\PurchasingOrderEntities.edmx">
@@ -196,6 +228,13 @@
     <Content Include="Models\PurchasingOrderEntities.edmx.diagram">
       <DependentUpon>PurchasingOrderEntities.edmx</DependentUpon>
     </Content>
+    <Content Include="bin\FinalExamPurchaseOrderManagement.dll.config" />
+    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <Content Include="obj\Debug\edmxResourcesToEmbed\Models\PurchasingOrderEntities.csdl" />
+    <Content Include="obj\Debug\edmxResourcesToEmbed\Models\PurchasingOrderEntities.msl" />
+    <Content Include="obj\Debug\edmxResourcesToEmbed\Models\PurchasingOrderEntities.ssdl" />
+    <Content Include="obj\Debug\FinalExamPurchaseOrderManagement.csproj.CopyComplete" />
+    <Content Include="obj\Debug\FinalExamPurchaseOrderManagement.csproj.CoreCompileInputs.cache" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -227,10 +266,12 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\knockout.validation.min.js.map" />
     <Content Include="Views\Home\Details.cshtml" />
+    <Content Include="Views\Home\SentMail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Details\" />
+    <Folder Include="bin\roslyn\" />
+    <Folder Include="obj\Debug\TempPE\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
