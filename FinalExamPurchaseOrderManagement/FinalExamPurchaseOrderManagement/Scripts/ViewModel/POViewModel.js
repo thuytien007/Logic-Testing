@@ -57,5 +57,5 @@ function POViewModel() {
 
 
 $(function () {
-    ko.applyBindings(new POViewModel(), document.body);
+    ko.applyBindings(new POViewModel(), document.getElementById('index'));
 })

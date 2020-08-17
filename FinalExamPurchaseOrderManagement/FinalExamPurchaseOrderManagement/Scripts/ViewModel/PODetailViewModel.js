@@ -1,6 +1,14 @@
-﻿
+﻿//function to format date
+var formatDate = function (date) {
+    var oldDate = new Date(parseInt(date.replace(/(^.*\()|([+-].*$)/g, '')));
+    var newDate = oldDate.getDate() + "/" + (oldDate.getMonth() + 1) + "/" + oldDate.getFullYear();
+    return newDate;
+}
+
 //main ViewModel
 function PODetailViewModel() {
+    //debugger
+    var Id = $('#OrderId').val();
     var self = this;
     //Init PO Head Model Object
     self.PODetailModelInit = function (SupplierCode, SupplierName, StockSiteCode, StockSiteName, OrderDate, Country, Note, Address, PostCode) {
@@ -16,11 +24,11 @@ function PODetailViewModel() {
     };
 
     //Init PO Line List
-    self.POLineModelInit = function (PartCode, PartDescription, Manufacture, QtyOrder, BuyPrice, Memo) {
+    self.POLineModelInit = function (PartCode, PartDescription, ManufactureName, Amount, BuyPrice, Memo) {
         self.PartCode = ko.observable(PartCode);
         self.PartDescription = ko.observable(PartDescription);
-        self.Manufacture = ko.observable(Manufacture);
-        self.QtyOrder = ko.observable(QtyOrder);
+        self.ManufactureName = ko.observable(ManufactureName);
+        self.Amount = ko.observable(Amount);
         self.BuyPrice = ko.observable(BuyPrice);
         self.Memo = ko.observable(Memo);
     };
@@ -69,8 +77,13 @@ function PODetailViewModel() {
                 console.log("error with get data");
             }
         });
+        //listPOLineTemp.forEach(function () {
+        //    var row = new self.POLineModelInit("", "", "", 0, 0, "", 0);
+        //    self.POLineModelInit().PartCode()
+        //})
         return listPOLineTemp;
     }
+
     listPOLineTemp = self.getPOLineList();
     self.POLineList = ko.observableArray(listPOLineTemp);
 
@@ -103,6 +116,7 @@ $(function () {
         message: 'first name must larger than 5, lower than 10 and start with M'
     };
     ko.validation.registerExtenders();
+
+    ko.applyBindings(new PODetailViewModel(), document.getElementById('details'));
    
-    ko.applyBindings(new PODetailViewModel(), document.body);
 })

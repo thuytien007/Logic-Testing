@@ -4,80 +4,79 @@
 
 <script src="~/Scripts/ViewModel/POViewModel.js"></script>
 
-<h2><strong>Purchasing Order List</strong></h2>
+<div id="index">
+    <h2><strong>Purchasing Order List</strong></h2>
 
-<div style="float:right">
-    <input type="text" name="search" placeholder="find someone..." />
-    <button class="btn btn-success">Search</button>
-</div>
-<div>
-    <div class="container">
-        <div style="margin-top: 60px">
-            <div class="row" style="background-color:lightblue;height:30px; text-align:center">
-                <div style="font-weight:bold" class="col-lg-1">
-                    Order No:
-                </div>
-                <div style="font-weight:bold" class="col-lg-1">
-                    Supplier:
-                </div>
-                <div style="font-weight:bold" class="col-lg-2">
-                    Stock Site:
-                </div>
-                <div style="font-weight:bold" class="col-lg-3">
-                    Stock Name:
-                </div>
-                <div style="font-weight:bold" class="col-lg-2">
-                    Order Date:
-                </div>
-                <div style="font-weight:bold" class="col-lg-2">
-                    Last Update:
-                </div>
-                <div style="font-weight:bold" class="col-lg-1">
-                    Sent Mail:
+    <div>
+        <div class="container">
+            <div style="margin-top: 60px">
+                <div class="row" style="background-color:lightblue;height:30px; text-align:center">
+                    <div style="font-weight:bold" class="col-lg-1">
+                        Order No:
+                    </div>
+                    <div style="font-weight:bold" class="col-lg-1">
+                        Supplier:
+                    </div>
+                    <div style="font-weight:bold" class="col-lg-2">
+                        Stock Site:
+                    </div>
+                    <div style="font-weight:bold" class="col-lg-3">
+                        Stock Name:
+                    </div>
+                    <div style="font-weight:bold" class="col-lg-2">
+                        Order Date:
+                    </div>
+                    <div style="font-weight:bold" class="col-lg-2">
+                        Last Update:
+                    </div>
+                    <div style="font-weight:bold" class="col-lg-1">
+                        Sent Mail:
+                    </div>
                 </div>
             </div>
-        </div>
-        <div id="show-data" data-bind="foreach: resultFromGetPOList">
-            <!--$root or $parent is ok because it belongs to foreach above-->
-            <div class="row" style="margin-top:10px;">
-                <div class="col-lg-1 table-first-col">
-                    <a data-bind="attr: { href: '../Home/Details/' + OrderNo}"><span data-bind="text:OrderNo"></span></a>
-                </div>
-                <div class="col-lg-1 table-second-col" data-bind="text: SupplierCode"></div>
-                <div class="col-lg-2 table-first-col" data-bind="text: StockSiteCode"></div>
-                <div class="col-lg-3 table-second-col" data-bind="text: StockSiteName"></div>
-                <div class="col-lg-2 table-first-col" data-bind="text: OrderDate"></div>
-                <div class="col-lg-2 table-second-col" data-bind="text: LastUpdate"></div>
-                <div class="col-lg-1 table-first-col">
-                    <input type="checkbox" name="sent-mail" data-bind="checked: SentEmail" disabled />
+            <div id="show-data" data-bind="foreach: resultFromGetPOList">
+                <!--$root or $parent is ok because it belongs to foreach above-->
+                <div class="row" style="margin-top:10px;">
+                    <div class="col-lg-1 table-first-col">
+                        <a data-bind="attr: { href: '../Home/Details/' + OrderNo}"><span data-bind="text:OrderNo"></span></a>
+                    </div>
+                    <div class="col-lg-1 table-second-col" data-bind="text: SupplierCode"></div>
+                    <div class="col-lg-2 table-first-col" data-bind="text: StockSiteCode"></div>
+                    <div class="col-lg-3 table-second-col" data-bind="text: StockSiteName"></div>
+                    <div class="col-lg-2 table-first-col" data-bind="text: OrderDate"></div>
+                    <div class="col-lg-2 table-second-col" data-bind="text: LastUpdate"></div>
+                    <div class="col-lg-1 table-first-col">
+                        <input type="checkbox" name="sent-mail" data-bind="checked: SentEmail" disabled />
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-@*this use for dialog jquery
-      <div id="dialog-confirm" title="Delete this item?">
-          <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>This item will be permanently deleted and cannot be recovered. Are you sure?</p>
-    </div>*@
+    @*this use for dialog jquery
+          <div id="dialog-confirm" title="Delete this item?">
+              <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>This item will be permanently deleted and cannot be recovered. Are you sure?</p>
+        </div>*@
 
-@*this use for bootstrap dialog*@
-<div class="modal fade" id="dialog-confirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Delete Dialog</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Are you sure about delete it???
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bind="click: $root.deletePerson">Delete</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+    @*this use for bootstrap dialog*@
+    <div class="modal fade" id="dialog-confirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Delete Dialog</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure about delete it???
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bind="click: $root.deletePerson">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
             </div>
         </div>
     </div>
+
 </div>
