@@ -66,12 +66,12 @@ namespace FinalExamPurchaseOrderManagement.Controllers
 
         //get PO Head Object
         [HttpGet]
-        public JsonResult GetPOHeadObject()
+        public JsonResult GetPOHeadObject(int id)
         {
             var resultPOHead = from p in db.PurchaseOrders
                                join s in db.Suppliers on p.SupplierNo equals s.SupplierNo
                                join st in db.StockSites on p.StockSiteNo equals st.StockSiteNo
-                               where p.OrderNo == 1
+                               where p.OrderNo == id
                                select new { s.SupplierCode, s.SupplierName, st.StockSiteCode, st.StockSiteName, p.OrderDate, p.Country, p.Note, p.Address, p.PostCode };
 
             var result = resultPOHead.FirstOrDefault();
@@ -80,13 +80,13 @@ namespace FinalExamPurchaseOrderManagement.Controllers
 
         //get PO Line List (Part)
         [HttpGet]
-        public JsonResult GetPOLineList()
+        public JsonResult GetPOLineList(int id)
         {
             var resultPOLine = from p in db.PurchaseOrders
                                join pl in db.PurchaseOrderLines on p.OrderNo equals pl.OrderNo
                                join pt in db.Parts on pl.PartNo equals pt.PartNo
                                join m in db.Manufacturers on pt.ManufactureNo equals m.ManufactureNo
-                               where p.OrderNo == 1
+                               where p.OrderNo == id
                                select new { pt.Partcode, pt.PartDescription, m.ManufacturName, pl.Amount, pt.BuyPrice, pl.Memo};
 
             var result = resultPOLine.ToList();

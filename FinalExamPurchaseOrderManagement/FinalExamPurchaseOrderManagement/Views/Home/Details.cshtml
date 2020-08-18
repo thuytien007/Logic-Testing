@@ -94,20 +94,17 @@
                     </div>
                 </div>
             </div>
-            @*data-bind="text: PartNo"
-                data-bind="text: PartDescription"
-                    data-bind="text: Manufacture"
-                     data-bind="value: QtyOrder"
-                    data-bind="value: BuyPrice"
-                     data-bind="value: Memo"
-                    data-bind="text: TotalPrice"*@
             <div id="show-data" data-bind="foreach: POLineList">
                 <div class="row" style="margin-top:10px; cursor:pointer" data-bind="$root.poLineRow">
-                    <div class="col-lg-2 table-first-col" data-bind="text: Partcode"></div>
+                    <div class="col-lg-2 table-first-col">
+                        <select disabled>
+                            <option data-bind="text: PartCode"></option>
+                        </select>
+                    </div>
                     <div class="col-lg-2 table-second-col" data-bind="text: PartDescription"></div>
-                    <div class="col-lg-1 table-first-col" data-bind="text: ManufacturName"></div>
+                    <div class="col-lg-1 table-first-col" data-bind="text: ManufactureName"></div>
                     <div class="col-lg-1 table-second-col" style="display:flex;justify-content:center">
-                        <input style="width:95px;height:35px;border-radius:5px;border:1px solid grey " type="text" name="QtyOrder" data-bind="value: Amount" />
+                        <input class="form-control" style="width:95px;height:35px;border-radius:5px;border:1px solid grey " type="text" name="QtyOrder" data-bind="value: Amount" />
                     </div>
                     <div class="col-lg-2 table-first-col" style="display:flex;justify-content:center">
                         <input style="width:195px;height:35px;border-radius:5px;border:1px solid grey" type="text" name="BuyPrice" data-bind="value: BuyPrice" />
@@ -115,7 +112,7 @@
                     <div class="col-lg-2 table-second-col" style="display:flex;justify-content:center">
                         <input style="width:195px;height:35px;border-radius:5px;border:1px solid grey" type="text" name="Memo" data-bind="value: Memo" />
                     </div>
-                    <div class="col-lg-1 table-first-col" data-bind="TotalPrice"></div>
+                    <div class="col-lg-1 table-first-col" data-bind="text: TotalPrice"></div>
                     <div class="col-lg-1">
                         <span class="glyphicon glyphicon-remove-circle" style="color:red;font-size:30px"></span>
                     </div>
@@ -124,7 +121,9 @@
         </div>
     </div>
     <div style="float:right">
-        <p style="font-weight:bold">Purchase Order Price(&pound;):<span>0</span></p>
+        <div style="margin-top: 10px">
+            <p style="font-weight:bold">Purchase Order Price(&pound;):<span data-bind="text: sumTotalPrice()"></span></p>
+        </div>
         <div style="margin-top:10px;text-align:right">
             <button class="btn btn-primary">Add Purchase Order Line</button>
         </div>
