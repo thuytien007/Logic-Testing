@@ -3,7 +3,8 @@
 }
 
 .table-first-col {
-    background-color: rgba(255,0,0,.1);
+    /*background-color: rgba(255,0,0,.1);*/
+    background-color: lightgray;
     height: 35px;
 }
 
@@ -14,6 +15,25 @@
 
 a{
     text-decoration:none
+}
+
+.table {
+    display: table;
+    width: auto;
+    border: 1px solid #666666;
+}
+
+.table-row {
+    display: table-row;
+    width: auto;
+    clear: both;
+}
+
+.table-col {
+    float: left;
+    display: table-column;
+    width: 200px;
+    border: 1px solid #ccc;
 }
 
 

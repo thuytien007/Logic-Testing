@@ -1,28 +1,21 @@
-﻿using FinalExamPurchaseOrderManagement.Models;
-using System.Linq;
+﻿using FinalExamPurchaseOrderManagement.BussinessLogic.POService;
+using FinalExamPurchaseOrderManagement.Models;
 using System.Net;
 using System.Web.Mvc;
 
 namespace FinalExamPurchaseOrderManagement.Controllers
 {
-    //Init service
-    public class POService
-    {
-        FinalExamPOListEntities _db;
-        public POService(FinalExamPOListEntities db)
-        {
-            _db = db;
-        }
-    }
     public class HomeController : Controller
     {
         private FinalExamPOListEntities db;
         private POService poService;
+        //private List list;
 
         public HomeController()
         {
             db = new FinalExamPOListEntities();
             poService = new POService(db);
+            //list = new List(db);
         }
         public ActionResult Index()
         {
@@ -32,10 +25,7 @@ namespace FinalExamPurchaseOrderManagement.Controllers
         {
             return View();
         }
-        //public PurchaseOrder getById(int id)
-        //{
-        //    return db.PurchaseOrders.Where(x => x.OrderNo == id).FirstOrDefault();
-        //}
+
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -55,11 +45,7 @@ namespace FinalExamPurchaseOrderManagement.Controllers
         [HttpGet]
         public JsonResult GetPOList()
         {
-            var result = from p in db.PurchaseOrders
-                          join s in db.Suppliers on p.SupplierNo equals s.SupplierNo
-                          join st in db.StockSites on p.StockSiteNo equals st.StockSiteNo                         
-                          select new {p.OrderNo, s.SupplierCode, st.StockSiteCode, st.StockSiteName,p.OrderDate, p.LastUpdate, p.SentEmail};
-            result.ToList();
+            var result = poService.GetPOList();
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
@@ -68,13 +54,7 @@ namespace FinalExamPurchaseOrderManagement.Controllers
         [HttpGet]
         public JsonResult GetPOHeadObject(int id)
         {
-            var resultPOHead = from p in db.PurchaseOrders
-                               join s in db.Suppliers on p.SupplierNo equals s.SupplierNo
-                               join st in db.StockSites on p.StockSiteNo equals st.StockSiteNo
-                               where p.OrderNo == id
-                               select new { s.SupplierCode, s.SupplierName, st.StockSiteCode, st.StockSiteName, p.OrderDate, p.Country, p.Note, p.Address, p.PostCode };
-
-            var result = resultPOHead.FirstOrDefault();
+            var result = poService.GetPOHeadObject(id);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -82,16 +62,8 @@ namespace FinalExamPurchaseOrderManagement.Controllers
         [HttpGet]
         public JsonResult GetPOLineList(int id)
         {
-            var resultPOLine = from p in db.PurchaseOrders
-                               join pl in db.PurchaseOrderLines on p.OrderNo equals pl.OrderNo
-                               join pt in db.Parts on pl.PartNo equals pt.PartNo
-                               join m in db.Manufacturers on pt.ManufactureNo equals m.ManufactureNo
-                               where p.OrderNo == id
-                               select new { pt.Partcode, pt.PartDescription, m.ManufacturName, pl.Amount, pt.BuyPrice, pl.Memo};
-
-            var result = resultPOLine.ToList();
+            var result = poService.GetPOLineList(id);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-
     }
 }

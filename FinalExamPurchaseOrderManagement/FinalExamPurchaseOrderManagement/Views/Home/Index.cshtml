@@ -10,7 +10,7 @@
     <div>
         <div class="container">
             <div style="margin-top: 60px">
-                <div class="row" style="background-color:lightblue;height:30px; text-align:center">
+                <div class="row" style="background-color:cornflowerblue;height:30px; text-align:center">
                     <div style="font-weight:bold" class="col-lg-1">
                         Order No:
                     </div>
@@ -36,7 +36,7 @@
             </div>
             <div id="show-data" data-bind="foreach: resultFromGetPOList">
                 <!--$root or $parent is ok because it belongs to foreach above-->
-                <div class="row" style="margin-top:10px;">
+                <div class="row" style="border: 0.5px solid black">
                     <div class="col-lg-1 table-first-col">
                         <a data-bind="attr: { href: '../Home/Details/' + OrderNo}"><span data-bind="text:OrderNo"></span></a>
                     </div>
