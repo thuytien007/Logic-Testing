@@ -1,42 +1,11 @@
-﻿using FinalExamPurchaseOrderManagement.Models;
-using System;
+﻿using FinalExamPurchaseOrderManagement.BussinessLogic.Model;
+using FinalExamPurchaseOrderManagement.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace FinalExamPurchaseOrderManagement.BussinessLogic.POService
 {
-    public class POList
-    {
-        public int OrderNo { get; set; }
-        public string SupplierCode { get; set; }
-        public string StockSiteCode { get; set; }
-        public string StockSiteName { get; set; }
-        public DateTime? OrderDate { get; set; }
-        public DateTime? LastUpdate { get; set; }
-        public bool? SentEmail { get; set; }
-    }
-    public class POHead
-    {
-        public string SupplierCode { get; set; }
-        public string SupplierName { get; set; }
-        public string StockSiteCode { get; set; }
-        public string StockSiteName { get; set; }
-        public DateTime? OrderDate { get; set; }
-        public string Country { get; set; }
-        public string Note { get; set; }
-        public string Address { get; set; }
-        public string PostCode { get; set; }
-    }
-    public class POLine
-    {
-        public string Partcode { get; set; }
-        public string PartDescription { get; set; }
-        public string ManufacturName { get; set; }
-        public int? Amount { get; set; }
-        public double? BuyPrice { get; set; }
-        public string Memo { get; set; }
-    }
+    //this class call Model to get related objects
     public class POService
     {
         FinalExamPOListEntities _db;

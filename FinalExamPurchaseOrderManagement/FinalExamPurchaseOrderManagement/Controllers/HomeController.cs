@@ -9,13 +9,11 @@ namespace FinalExamPurchaseOrderManagement.Controllers
     {
         private FinalExamPOListEntities db;
         private POService poService;
-        //private List list;
 
         public HomeController()
         {
             db = new FinalExamPOListEntities();
             poService = new POService(db);
-            //list = new List(db);
         }
         public ActionResult Index()
         {
