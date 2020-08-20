@@ -6,42 +6,42 @@
 
 <h2>Sent Mail Page</h2>
 
-<h3 style="text-align:center;color:cornflowerblue;font-weight:bold">Email Purchase Order(s) to Supplier(s) for deal ref:<span>@TempData["OrderNo"]</span></h3>
-<form style="border:2px solid cornflowerblue">
-    <div style="background-color:cornflowerblue; height:30px">
+<h3 class="smTitle">Email Purchase Order(s) to Supplier(s) for deal ref</h3>
+<form class="smForm">
+    <div class="smNum">
         <p>Purchase Order <span>@TempData["OrderNo"]</span></p>
     </div>
-    <div style="margin:5px 5px 5px 5px">
+    <div class="smSpace">
         <div class="form-group row">
-            <label class="col-sm-1 col-form-label">From:</label>
+            <label class="col-sm-1">From:</label>
             <div>
-                <input type="email" class="form-control" placeholder="From Email..." style="max-width:800px; width:800px">
+                <input type="email" class="form-control maxWidth" placeholder="From Email...">
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-sm-1 col-form-label">To:</label>
+            <label class="col-sm-1">To:</label>
             <div>
-                <input type="email" class="form-control" placeholder="To Email..."  style="max-width:800px; width:800px">
+                <input type="email" class="form-control maxWidth" placeholder="To Email...">
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-sm-1 col-form-label">Cc:</label>
+            <label class="col-sm-1">Cc:</label>
             <div>
-                <input type="email" class="form-control" placeholder="Cc..." style="max-width:800px; width:800px">
+                <input type="email" class="form-control maxWidth" placeholder="Cc...">
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-sm-1 col-form-label">Subject:</label>
+            <label class="col-sm-1">Subject:</label>
             <div>
-                <input type="email" class="form-control" placeholder="Subject..." style="max-width:800px; width:800px">
+                <input type="email" class="form-control maxWidth" placeholder="Subject...">
             </div>
         </div>
         <div>
-            <textarea rows="10" class="form-control" style="max-width: 800px; width: 800px;margin-left:78px" placeholder="Content..."></textarea>
+            <textarea rows="10" class="form-control maxWidth smTexarea" placeholder="Content..."></textarea>
         </div>
     </div> 
 </form>
-<div style="margin-top:20px">
+<div class="smButton">
     <button class="btn btn-success"><span class="glyphicon glyphicon-envelope"></span>Sent Email</button>
     <button class="btn btn-secondary"><span class="glyphicon glyphicon-ban-circle"></span><a href="@Url.Action("Index","Home")">Sent Email Later, go to PO tab</a></button>
 </div>

@@ -4,9 +4,9 @@
 
 <script src="~/Scripts/ViewModel/POViewModel.js"></script>
 
-<div id="index" style="margin-top:50px">
+<div id="index" class="mgMain">
     <h2><strong>Purchasing Order List</strong></h2>
-    <div style="margin-top:30px">
+    <div class="smButton">
         <div class="row divRow">
             <div class="col-lg-1 divCol">
                 Order No:
@@ -31,7 +31,7 @@
             </div>
         </div>
         <div id="show-data" data-bind="foreach: resultFromGetPOList">
-            <div class="row box" style="text-align:center">
+            <div class="row box mCenter">
                 <div class="col-lg-1 divCol">
                     <a data-bind="attr: { href: '../Home/Details/' + OrderNo}"><span data-bind="text:OrderNo"></span></a>
                 </div>

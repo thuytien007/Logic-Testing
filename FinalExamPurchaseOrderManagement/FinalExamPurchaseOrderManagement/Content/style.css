@@ -2,34 +2,58 @@
     background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
 }
 
+/*main screen*/
 a{
-    text-decoration:none
+    text-decoration:none;
+}
+.mgMain {
+    margin-top: 50px;
 }
 
+.mCenter {
+    text-align: center;
+}
+
+/*detail screen*/
 .divRow {
     background-color: #0080ff;
     color: white;
     height: 36px;
     font-weight: bold;
-    text-align: center
+    text-align: center;
+}
+
+.dtInputWid{
+    width:175px;
+}
+
+.dtIcon {
+    color: red;
+    font-size: 27px;
 }
 
 .divCol {
     border: 1px solid #ccc;
     height: 36px;
-    padding: 5px
+    padding: 5px;
 }
 
 .inputTag {
     height: 27px;
     border-radius: 5px;
-    border: 1px solid grey
+    border: 1px solid grey;
+    padding: 5px;
 }
+
+.dtTextAlign{
+    text-align:right;
+}
+
 .divCol2 {
     border: 1px solid #ccc;
     height: 36px;
     padding:3px;
-    text-align:center
+    text-align:center;
 }
 .box:nth-child(odd) {
     background-color: #f2f2f2;
@@ -37,6 +61,69 @@ a{
 
 .box:nth-child(even) {
     background-color: #e6e6e6;
+}
+
+.dtTitle {
+    text-align: center;
+    color: cornflowerblue;
+    font-weight: bold;
+    text-decoration: underline;
+}
+.dtBorder {
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    height: 400px;
+}
+
+.dtBold {
+    font-weight: bold;
+}
+
+.dtSup {
+    color: red;
+    font-weight:bold;
+}
+
+.mg {
+    margin-top: 15px;
+}
+
+.mgButton {
+    margin-top: 10px;
+    text-align: right;
+}
+
+/*sent mail screen*/
+.smTitle {
+    text-align: center;
+    color: cornflowerblue;
+    font-weight: bold;
+}
+
+.maxWidth {
+    max-width: 800px;
+    width: 800px;
+}
+
+.smTexarea {
+    margin-left: 78px;
+}
+
+.smForm {
+    border: 2px solid cornflowerblue;
+}
+
+.smNum {
+    background-color: cornflowerblue;
+    height: 30px;
+}
+
+.smSpace {
+    margin: 5px 5px 5px 5px;
+}
+
+.smButton {
+    margin-top: 30px
 }
 
 

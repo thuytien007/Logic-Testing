@@ -10,115 +10,65 @@
 
 <div id="details">
     <h2>Details</h2>
-    <h3 style="text-align:center;color:cornflowerblue;font-weight:bold;text-decoration:underline">Purchase Order:@TempData["OrderNo"]<span></span></h3>
+    <h3 class="dtTitle">Purchase Order:@TempData["OrderNo"]<span></span></h3>
     <input id="OrderId" type="number" name="name" hidden value="@TempData["OrderNo"]" />
     <!--PO Head Object-->
-    @*<div style="border:2px solid #ccc; border-radius:10px; height:400px">
-            <form class="needs-validation" novalidate>
-                <div class="form-row">
-                    <div class="col-md-6 mb-5">
-                        <label>Supplier:</label>
-                        <input type="text" class="form-control" data-bind="value: poHeadObject().SupplierCode" disabled>
-                    </div>
-                    <div class="col-md-6 mb-5">
-                        <label>Supplier Name:</label>
-                        <input type="text" class="form-control" data-bind="value: poHeadObject().SupplierName" disabled>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col-md-6 mb-3">
-                        <label>Stock Site:</label>
-                        <input type="text" class="form-control" data-bind="value: poHeadObject().StockSiteCode" disabled>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label>Stock Name:</label>
-                        <input type="text" class="form-control" data-bind="value: poHeadObject().StockSiteName" disabled>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col-lg-6 mb-3">
-                        <label>Order Date:</label>
-                        <input type="text" class="form-control" data-bind="value: poHeadObject().OrderDate" disabled>
-                    </div>
-                    <div class="col-lg-6 mb-3">
-                        <label>Country:</label>
-                        <input type="text" class="form-control" placeholder="Country..." data-bind="value: poHeadObject().Country">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col-md-6 mb-3">
-                        <label>Note:</label>
-                        <textarea rows="5" class="form-control" placeholder="Note..." data-bind="value: poHeadObject().Note"></textarea>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div>
-                            <label>Address</label>
-                            <textarea rows="5" class="form-control" placeholder="Address..." data-bind="value: poHeadObject().Address"></textarea>
-                        </div>
-                        <div>
-                            <label>Post Code</label>
-                            <input type="text" class="form-control" placeholder="Post Code..." data-bind="value: poHeadObject().PostCode">
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>*@
-    <div style="border:2px solid #ccc; border-radius:10px; height:400px">
+    <div class="dtBorder">
         <form>
             <div class="col-lg-6">
                 <div>
-                    <div style="margin-top:15px" class="col-lg-4"><label>Supplier:</label></div>
-                    <div style="margin-top:15px" class="col-lg-8">
+                    <div class="col-lg-4 mg"><label>Supplier:</label></div>
+                    <div class="col-lg-8 mg">
                         <input type="text" class="form-control" data-bind="value: poHeadObject().SupplierCode" disabled>
                     </div>
                 </div>
                 <div>
-                    <div style="margin-top:15px" class="col-lg-4"><label>Stock Site:</label></div>
-                    <div style="margin-top:15px" class="col-lg-8">
+                    <div class="col-lg-4 mg"><label>Stock Site:</label></div>
+                    <div class="col-lg-8 mg">
                         <input type="text" class="form-control" data-bind="value: poHeadObject().StockSiteCode" disabled>
                     </div>
                 </div>
                 <div>
-                    <div style="margin-top:15px" class="col-lg-4"><label>Order Date:</label></div>
-                    <div style="margin-top:15px" class="col-lg-8">
+                    <div class="col-lg-4 mg"><label>Order Date:</label></div>
+                    <div class="col-lg-8 mg">
                         <input type="text" class="form-control" data-bind="value: poHeadObject().OrderDate" disabled>
                     </div>
                 </div>                
                 <div>
-                    <div style="margin-top:15px" class="col-lg-4"><label>Note:</label></div>
-                    <div style="margin-top:15px" class="col-lg-8">
+                    <div class="col-lg-4 mg"><label>Note:</label></div>
+                    <div class="col-lg-8 mg">
                         <textarea rows="5" class="form-control" placeholder="Note..." data-bind="value: poHeadObject().Note"></textarea>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div>
-                    <div style="margin-top:15px" class="col-lg-4"><label>Supplier Name:</label></div>
-                    <div style="margin-top:15px" class="col-lg-8">
+                    <div class="col-lg-4 mg"><label>Supplier Name:</label></div>
+                    <div class="col-lg-8 mg">
                         <input type="text" class="form-control" data-bind="value: poHeadObject().SupplierName" disabled>
                     </div>
                 </div>
                 <div>
-                    <div style="margin-top:15px" class="col-lg-4"><label>Stock Name:</label></div>
-                    <div style="margin-top:15px" class="col-lg-8">
+                    <div class="col-lg-4 mg"><label>Stock Name:</label></div>
+                    <div class="col-lg-8 mg">
                         <input type="text" class="form-control" data-bind="value: poHeadObject().StockSiteName" disabled>
                     </div>
                 </div>
                 <div>
-                    <div style="margin-top:15px" class="col-lg-4"><label>Country<sup style="color:red">*</sup>:</label></div>
-                    <div style="margin-top:15px" class="col-lg-8">
+                    <div class="col-lg-4 mg"><label>Country<sup class="dtSup">*</sup>:</label></div>
+                    <div class="col-lg-8 mg">
                         <input type="text" class="form-control" placeholder="Country..." data-bind="value: poHeadObject().Country">
                     </div>
                 </div>
                 <div>
-                    <div style="margin-top:15px" class="col-lg-4"><label>Address<sup style="color:red">*</sup>:</label></div>
-                    <div style="margin-top:15px" class="col-lg-8">
+                    <div class="col-lg-4 mg"><label>Address<sup class="dtSup">*</sup>:</label></div>
+                    <div class="col-lg-8 mg">
                         <textarea rows="5" class="form-control" placeholder="Address..." data-bind="value: poHeadObject().Address"></textarea>
                     </div>
                 </div>
                 <div>
-                    <div style="margin-top:15px" class="col-lg-4"><label>Post Code<sup style="color:red">*</sup>:</label></div>
-                    <div style="margin-top:15px" class="col-lg-8">
+                    <div class="col-lg-4 mg"><label>Post Code<sup class="dtSup">*</sup>:</label></div>
+                    <div class="col-lg-8 mg">
                         <input type="text" class="form-control" placeholder="Post Code..." data-bind="value: poHeadObject().PostCode">
                     </div>
                 </div>
@@ -127,7 +77,7 @@
     </div>
     <!--PO Line - order detail grid-->
 
-    <div style="margin-top: 60px">
+    <div class="mgMain">
         <div class="row divRow">
             <div class="col-lg-2 divCol">
                 Part No
@@ -156,38 +106,38 @@
         </div>
     </div>
     <div id="show-data" data-bind="foreach: POLineList">
-        <div class="row" style="cursor:pointer; text-align:center" data-bind="$root.poLineRow">
+        <div class="row mCenter" data-bind="$root.poLineRow">
             <div class="col-lg-2 divCol2">
-                <select disabled class="inputTag" style="width:175px">
+                <select disabled class="inputTag dtInputWid">
                     <option data-bind="text: PartCode"></option>
                 </select>
             </div>
             <div class="col-lg-2 divCol" data-bind="text: PartDescription"></div>
             <div class="col-lg-1 divCol" data-bind="text: ManufactureName"></div>
             <div class="col-lg-1 divCol2">
-                <input class="inputTag form-control" style="width:90px" type="text" name="QtyOrder" data-bind="value: Amount" />
+                <input class="inputTag form-control dtTextAlign" type="text" name="QtyOrder" data-bind="value: Amount" />
             </div>
             <div class="col-lg-2 divCol2">
-                <input class="inputTag form-control" style="width:187px" type="text" name="BuyPrice" data-bind="value: BuyPrice" />
+                <input class="inputTag form-control dtTextAlign" type="text" name="BuyPrice" data-bind="value: BuyPrice" />
             </div>
             <div class="col-lg-2 divCol2">
-                <input class="inputTag form-control" style="width:187px" type="text" name="Memo" data-bind="value: Memo" />
+                <input class="inputTag form-control" type="text" name="Memo" data-bind="value: Memo" />
             </div>
-            <div class="col-lg-1 divCol" data-bind="text: TotalPrice"></div>
+            <div class="col-lg-1 divCol dtTextAlign" data-bind="text: TotalPrice"></div>
             <div class="col-lg-1 divCol2">
-                <span class="glyphicon glyphicon-remove-circle" style="color:red;font-size:27px"></span>
+                <span class="glyphicon glyphicon-remove-circle dtIcon"></span>
             </div>
         </div>
     </div>
     <!--Buttons-->
-    <div style="float:right">
-        <div style="margin-top: 10px; text-align:right">
-            <p style="font-weight:bold">Purchase Order Price(&pound;):<span data-bind="text: sumTotalPrice()"></span></p>
+    <div>
+        <div class="mgButton">
+            <p class="dtBold">Purchase Order Price(&pound;):<span data-bind="text: sumTotalPrice()"></span></p>
         </div>
-        <div style="margin-top:10px;text-align:right">
+        <div class="mgButton">
             <a>Add Purchase Order Line</a>
         </div>
-        <div style="margin-top:10px">
+        <div class="mgButton">
             <button class="btn btn-secondary">Cancel PO</button>
             <button class="btn btn-secondary"><a href="@Url.Action("SentMail","Home")">Re-sent Email</a></button>
             <button class="btn btn-success">Save</button>
