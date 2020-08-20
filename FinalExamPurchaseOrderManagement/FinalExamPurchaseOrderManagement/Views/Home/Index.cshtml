@@ -4,55 +4,48 @@
 
 <script src="~/Scripts/ViewModel/POViewModel.js"></script>
 
-<div id="index">
+<div id="index" style="margin-top:50px">
     <h2><strong>Purchasing Order List</strong></h2>
-
-    <div>
-        <div class="container">
-            <div style="margin-top: 60px">
-                <div class="row" style="background-color:cornflowerblue;height:30px; text-align:center">
-                    <div style="font-weight:bold" class="col-lg-1">
-                        Order No:
-                    </div>
-                    <div style="font-weight:bold" class="col-lg-1">
-                        Supplier:
-                    </div>
-                    <div style="font-weight:bold" class="col-lg-2">
-                        Stock Site:
-                    </div>
-                    <div style="font-weight:bold" class="col-lg-3">
-                        Stock Name:
-                    </div>
-                    <div style="font-weight:bold" class="col-lg-2">
-                        Order Date:
-                    </div>
-                    <div style="font-weight:bold" class="col-lg-2">
-                        Last Update:
-                    </div>
-                    <div style="font-weight:bold" class="col-lg-1">
-                        Sent Mail:
-                    </div>
-                </div>
+    <div style="margin-top:30px">
+        <div class="row divRow">
+            <div class="col-lg-1 divCol">
+                Order No:
             </div>
-            <div id="show-data" data-bind="foreach: resultFromGetPOList">
-                <!--$root or $parent is ok because it belongs to foreach above-->
-                <div class="row" style="border: 0.5px solid black">
-                    <div class="col-lg-1 table-first-col">
-                        <a data-bind="attr: { href: '../Home/Details/' + OrderNo}"><span data-bind="text:OrderNo"></span></a>
-                    </div>
-                    <div class="col-lg-1 table-second-col" data-bind="text: SupplierCode"></div>
-                    <div class="col-lg-2 table-first-col" data-bind="text: StockSiteCode"></div>
-                    <div class="col-lg-3 table-second-col" data-bind="text: StockSiteName"></div>
-                    <div class="col-lg-2 table-first-col" data-bind="text: OrderDate"></div>
-                    <div class="col-lg-2 table-second-col" data-bind="text: LastUpdate"></div>
-                    <div class="col-lg-1 table-first-col">
-                        <input type="checkbox" name="sent-mail" data-bind="checked: SentEmail" disabled />
-                    </div>
+            <div class="col-lg-1 divCol">
+                Supplier:
+            </div>
+            <div class="col-lg-2 divCol">
+                Stock Site:
+            </div>
+            <div class="col-lg-3 divCol">
+                Stock Name:
+            </div>
+            <div class="col-lg-2 divCol">
+                Order Date:
+            </div>
+            <div class="col-lg-2 divCol">
+                Last Update:
+            </div>
+            <div class="col-lg-1 divCol">
+                Sent Mail:
+            </div>
+        </div>
+        <div id="show-data" data-bind="foreach: resultFromGetPOList">
+            <div class="row box" style="text-align:center">
+                <div class="col-lg-1 divCol">
+                    <a data-bind="attr: { href: '../Home/Details/' + OrderNo}"><span data-bind="text:OrderNo"></span></a>
+                </div>
+                <div class="col-lg-1 divCol" data-bind="text: SupplierCode"></div>
+                <div class="col-lg-2 divCol" data-bind="text: StockSiteCode"></div>
+                <div class="col-lg-3 divCol" data-bind="text: StockSiteName"></div>
+                <div class="col-lg-2 divCol" data-bind="text: OrderDate"></div>
+                <div class="col-lg-2 divCol" data-bind="text: LastUpdate"></div>
+                <div class="col-lg-1 divCol">
+                    <input type="checkbox" name="sent-mail" data-bind="checked: SentEmail" disabled />
                 </div>
             </div>
         </div>
     </div>
-
     @*this use for dialog jquery
           <div id="dialog-confirm" title="Delete this item?">
               <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>This item will be permanently deleted and cannot be recovered. Are you sure?</p>
@@ -78,5 +71,4 @@
             </div>
         </div>
     </div>
-
 </div>

@@ -2,38 +2,41 @@
     background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
 }
 
-.table-first-col {
-    /*background-color: rgba(255,0,0,.1);*/
-    background-color: lightgray;
-    height: 35px;
-}
-
-.table-second-col {
-    background-color: lightgray;
-    height: 35px;
-}
-
 a{
     text-decoration:none
 }
 
-.table {
-    display: table;
-    width: auto;
-    border: 1px solid #666666;
+.divRow {
+    background-color: #0080ff;
+    color: white;
+    height: 36px;
+    font-weight: bold;
+    text-align: center
 }
 
-.table-row {
-    display: table-row;
-    width: auto;
-    clear: both;
-}
-
-.table-col {
-    float: left;
-    display: table-column;
-    width: 200px;
+.divCol {
     border: 1px solid #ccc;
+    height: 36px;
+    padding: 5px
+}
+
+.inputTag {
+    height: 27px;
+    border-radius: 5px;
+    border: 1px solid grey
+}
+.divCol2 {
+    border: 1px solid #ccc;
+    height: 36px;
+    padding:3px;
+    text-align:center
+}
+.box:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+.box:nth-child(even) {
+    background-color: #e6e6e6;
 }
 
 
