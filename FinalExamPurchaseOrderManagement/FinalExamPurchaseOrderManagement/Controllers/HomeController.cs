@@ -1,5 +1,7 @@
-﻿using FinalExamPurchaseOrderManagement.BussinessLogic.POService;
+﻿using FinalExamPurchaseOrderManagement.BussinessLogic.Model;
+using FinalExamPurchaseOrderManagement.BussinessLogic.POService;
 using FinalExamPurchaseOrderManagement.Models;
+using System.Collections.Generic;
 using System.Net;
 using System.Web.Mvc;
 
@@ -61,6 +63,14 @@ namespace FinalExamPurchaseOrderManagement.Controllers
         public JsonResult GetPOLineList(int id)
         {
             var result = poService.GetPOLineList(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        //update PO Detail
+        [HttpPost]
+        public JsonResult UpdatePODetails(POHead poHead, List<POLine> poLine)
+        {
+            var result = poService.UpdatePODetail(poHead, poLine);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
     }

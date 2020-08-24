@@ -19,25 +19,25 @@
                 <div>
                     <div class="col-lg-4 mg"><label>Supplier:</label></div>
                     <div class="col-lg-8 mg">
-                        <input type="text" class="form-control" data-bind="value: poHeadObject().SupplierCode" disabled>
+                        <input type="text" class="form-control" data-bind="value: SupplierCode" disabled>
                     </div>
                 </div>
                 <div>
                     <div class="col-lg-4 mg"><label>Stock Site:</label></div>
                     <div class="col-lg-8 mg">
-                        <input type="text" class="form-control" data-bind="value: poHeadObject().StockSiteCode" disabled>
+                        <input type="text" class="form-control" data-bind="value: StockSiteCode" disabled>
                     </div>
                 </div>
                 <div>
                     <div class="col-lg-4 mg"><label>Order Date:</label></div>
                     <div class="col-lg-8 mg">
-                        <input type="text" class="form-control" data-bind="value: poHeadObject().OrderDate" disabled>
+                        <input type="text" class="form-control" data-bind="value: OrderDate" disabled>
                     </div>
                 </div>                
                 <div>
                     <div class="col-lg-4 mg"><label>Note:</label></div>
                     <div class="col-lg-8 mg">
-                        <textarea rows="5" class="form-control" placeholder="Note..." data-bind="value: poHeadObject().Note"></textarea>
+                        <textarea rows="5" class="form-control" placeholder="Note..." data-bind="value: Note"></textarea>
                     </div>
                 </div>
             </div>
@@ -45,31 +45,31 @@
                 <div>
                     <div class="col-lg-4 mg"><label>Supplier Name:</label></div>
                     <div class="col-lg-8 mg">
-                        <input type="text" class="form-control" data-bind="value: poHeadObject().SupplierName" disabled>
+                        <input type="text" class="form-control" data-bind="value: SupplierName" disabled>
                     </div>
                 </div>
                 <div>
                     <div class="col-lg-4 mg"><label>Stock Name:</label></div>
                     <div class="col-lg-8 mg">
-                        <input type="text" class="form-control" data-bind="value: poHeadObject().StockSiteName" disabled>
+                        <input type="text" class="form-control" data-bind="value: StockSiteName" disabled>
                     </div>
                 </div>
                 <div>
                     <div class="col-lg-4 mg"><label>Country<sup class="dtSup">*</sup>:</label></div>
                     <div class="col-lg-8 mg">
-                        <input type="text" class="form-control" placeholder="Country..." data-bind="value: poHeadObject().Country">
+                        <input type="text" class="form-control" placeholder="Country..." data-bind="value: Country">
                     </div>
                 </div>
                 <div>
                     <div class="col-lg-4 mg"><label>Address<sup class="dtSup">*</sup>:</label></div>
                     <div class="col-lg-8 mg">
-                        <textarea rows="5" class="form-control" placeholder="Address..." data-bind="value: poHeadObject().Address"></textarea>
+                        <textarea rows="5" class="form-control" placeholder="Address..." data-bind="value: Address"></textarea>
                     </div>
                 </div>
                 <div>
                     <div class="col-lg-4 mg"><label>Post Code<sup class="dtSup">*</sup>:</label></div>
                     <div class="col-lg-8 mg">
-                        <input type="text" class="form-control" placeholder="Post Code..." data-bind="value: poHeadObject().PostCode">
+                        <input type="text" class="form-control" placeholder="Post Code..." data-bind="value: PostCode">
                     </div>
                 </div>
             </div>
@@ -140,7 +140,7 @@
         <div class="mgButton">
             <button class="btn btn-secondary">Cancel PO</button>
             <button class="btn btn-secondary"><a href="@Url.Action("SentMail","Home")">Re-sent Email</a></button>
-            <button class="btn btn-success">Save</button>
+            <button class="btn btn-success" data-bind="click: updatePODetail">Save</button>
         </div>
     </div>
 </div>

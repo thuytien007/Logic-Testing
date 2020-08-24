@@ -31,6 +31,7 @@ namespace FinalExamPurchaseOrderManagement.BussinessLogic.POService
 
             return result.ToList();
         }
+        //get PO Head object with required OrderNo (id)
         public POHead GetPOHeadObject(int id)
         {
             var resultPOHead = from p in _db.PurchaseOrders
@@ -39,6 +40,7 @@ namespace FinalExamPurchaseOrderManagement.BussinessLogic.POService
                                where p.OrderNo == id
                                select new POHead
                                {
+                                   OrderNo = p.OrderNo,
                                    SupplierCode = s.SupplierCode,
                                    SupplierName = s.SupplierName,
                                    StockSiteCode = st.StockSiteCode,
@@ -54,6 +56,7 @@ namespace FinalExamPurchaseOrderManagement.BussinessLogic.POService
             return result;
         }
 
+        //get PO Line list with required OrderNo (id)
         public List<POLine> GetPOLineList(int id)
         {
             var resultPOLine = from p in _db.PurchaseOrders
@@ -63,9 +66,11 @@ namespace FinalExamPurchaseOrderManagement.BussinessLogic.POService
                                where p.OrderNo == id
                                select new POLine
                                {
+                                   OrderNo = pl.OrderNo,
+                                   PartNo = pl.PartNo,
                                    Partcode = pt.Partcode,
                                    PartDescription = pt.PartDescription,
-                                   ManufacturName = m.ManufacturName,
+                                   ManufactureName = m.ManufacturName,
                                    Amount = pl.Amount,
                                    BuyPrice = pt.BuyPrice,
                                    Memo = pl.Memo
@@ -73,6 +78,34 @@ namespace FinalExamPurchaseOrderManagement.BussinessLogic.POService
 
             var result = resultPOLine.ToList();
             return result;
+        }
+
+        //handle save button -> update PO Detail included PO Head & PO Line
+        public string UpdatePODetail(POHead poHead, List<POLine> poLine)
+        {
+            //save PO Head
+            var updatePO = _db.PurchaseOrders.Find(poHead.OrderNo);
+            updatePO.Note = poHead.Note;
+            updatePO.Address = poHead.Address;
+            updatePO.Country = poHead.Country;
+            updatePO.PostCode = poHead.PostCode;
+            //save on PO List
+            _db.SaveChanges();
+            //save list of PO Line
+            for (int i = 0; i < poLine.Count; i++)
+            {
+                var updatePartNo = _db.Parts.Find(poLine[i].PartNo);
+                updatePartNo.BuyPrice = poLine[i].BuyPrice;
+                //this Init to get the value first, then LinQ easy to understand this is a value,
+                //sqlserver is just understand value, not object
+                var partNum = poLine[i].PartNo;
+                var orderNum = poLine[i].OrderNo;
+                var updatePOLine = _db.PurchaseOrderLines.FirstOrDefault(pl => (pl.PartNo == partNum) && (pl.OrderNo == orderNum));
+                updatePOLine.Amount = poLine[i].Amount;
+                updatePOLine.Memo = poLine[i].Memo;
+                _db.SaveChanges();
+            }
+            return "update success";
         }
     }
 }

@@ -4,6 +4,7 @@ namespace FinalExamPurchaseOrderManagement.BussinessLogic.Model
 {
     public class POHead
     {
+        public int OrderNo { get; set; }
         public string SupplierCode { get; set; }
         public string SupplierName { get; set; }
         public string StockSiteCode { get; set; }
