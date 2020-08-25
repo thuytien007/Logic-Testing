@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="FinalExamPOListModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="FinalExamPOListModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Manufacturer">
           <Key>
             <PropertyRef Name="ManufactureNo" />
@@ -17,7 +17,7 @@
             <PropertyRef Name="PartNo" />
           </Key>
           <Property Name="PartNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="PartDescription" Type="varchar(max)" />
+          <Property Name="PartDescription" Type="varchar" MaxLength="50" />
           <Property Name="BuyPrice" Type="float" />
           <Property Name="ManufactureNo" Type="int" />
           <Property Name="Partcode" Type="varchar" MaxLength="50" />
@@ -34,10 +34,11 @@
           <Property Name="SentEmail" Type="bit" />
           <Property Name="SupplierNo" Type="int" />
           <Property Name="StockSiteNo" Type="int" />
-          <Property Name="Note" Type="varchar(max)" />
-          <Property Name="Address" Type="varchar(max)" />
+          <Property Name="Note" Type="varchar" MaxLength="50" />
+          <Property Name="Address" Type="varchar" MaxLength="50" />
           <Property Name="Country" Type="varchar" MaxLength="50" />
           <Property Name="PostCode" Type="varchar" MaxLength="50" />
+          <Property Name="Cancel" Type="bit" />
         </EntityType>
         <EntityType Name="PurchaseOrderLine">
           <Key>
@@ -47,7 +48,7 @@
           <Property Name="OrderNo" Type="int" Nullable="false" />
           <Property Name="PartNo" Type="int" Nullable="false" />
           <Property Name="Amount" Type="int" />
-          <Property Name="Memo" Type="varchar(max)" />
+          <Property Name="Memo" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="StockSite">
           <Key>
@@ -55,7 +56,8 @@
           </Key>
           <Property Name="StockSiteNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="StockSiteCode" Type="varchar" MaxLength="50" />
-          <Property Name="StockSiteName" Type="varchar(max)" />
+          <Property Name="StockSiteName" Type="varchar" MaxLength="50" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Supplier">
           <Key>
@@ -63,7 +65,8 @@
           </Key>
           <Property Name="SupplierNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SupplierCode" Type="varchar" MaxLength="50" />
-          <Property Name="SupplierName" Type="varchar(max)" />
+          <Property Name="SupplierName" Type="varchar" MaxLength="50" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
         </EntityType>
         <Association Name="FK_Part_Manufacturer">
           <End Role="Manufacturer" Type="Self.Manufacturer" Multiplicity="0..1" />
@@ -153,8 +156,7 @@
             <End Role="PurchaseOrderLine" EntitySet="PurchaseOrderLine" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="FinalExamPOListModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -171,7 +173,7 @@
             <PropertyRef Name="PartNo" />
           </Key>
           <Property Name="PartNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PartDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PartDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="BuyPrice" Type="Double" />
           <Property Name="ManufactureNo" Type="Int32" />
           <Property Name="Partcode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -190,13 +192,14 @@
           <Property Name="SentEmail" Type="Boolean" />
           <Property Name="SupplierNo" Type="Int32" />
           <Property Name="StockSiteNo" Type="Int32" />
-          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Note" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="PostCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="StockSite" Relationship="Self.FK_PurchaseOrder_StockSite" FromRole="PurchaseOrder" ToRole="StockSite" />
           <NavigationProperty Name="Supplier" Relationship="Self.FK_PurchaseOrder_Supplier" FromRole="PurchaseOrder" ToRole="Supplier" />
           <NavigationProperty Name="PurchaseOrderLines" Relationship="Self.FK_PurchaseOrderLine_PurchaseOrder" FromRole="PurchaseOrder" ToRole="PurchaseOrderLine" />
+          <Property Name="Cancel" Type="Boolean" />
         </EntityType>
         <EntityType Name="PurchaseOrderLine">
           <Key>
@@ -206,7 +209,7 @@
           <Property Name="OrderNo" Type="Int32" Nullable="false" />
           <Property Name="PartNo" Type="Int32" Nullable="false" />
           <Property Name="Amount" Type="Int32" />
-          <Property Name="Memo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Memo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Part" Relationship="Self.FK_PurchaseOrderLine_Part" FromRole="PurchaseOrderLine" ToRole="Part" />
           <NavigationProperty Name="PurchaseOrder" Relationship="Self.FK_PurchaseOrderLine_PurchaseOrder" FromRole="PurchaseOrderLine" ToRole="PurchaseOrder" />
         </EntityType>
@@ -216,8 +219,9 @@
           </Key>
           <Property Name="StockSiteNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="StockSiteCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="StockSiteName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="StockSiteName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="PurchaseOrders" Relationship="Self.FK_PurchaseOrder_StockSite" FromRole="StockSite" ToRole="PurchaseOrder" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Supplier">
           <Key>
@@ -225,8 +229,9 @@
           </Key>
           <Property Name="SupplierNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SupplierCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="SupplierName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SupplierName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="PurchaseOrders" Relationship="Self.FK_PurchaseOrder_Supplier" FromRole="Supplier" ToRole="PurchaseOrder" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_Part_Manufacturer">
           <End Role="Manufacturer" Type="Self.Manufacturer" Multiplicity="0..1" />
@@ -344,6 +349,7 @@
           <EntitySetMapping Name="PurchaseOrders">
             <EntityTypeMapping TypeName="FinalExamPOListModel.PurchaseOrder">
               <MappingFragment StoreEntitySet="PurchaseOrder">
+                <ScalarProperty Name="Cancel" ColumnName="Cancel" />
                 <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
                 <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
                 <ScalarProperty Name="ETADate" ColumnName="ETADate" />
@@ -372,6 +378,7 @@
           <EntitySetMapping Name="StockSites">
             <EntityTypeMapping TypeName="FinalExamPOListModel.StockSite">
               <MappingFragment StoreEntitySet="StockSite">
+                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="StockSiteNo" ColumnName="StockSiteNo" />
                 <ScalarProperty Name="StockSiteCode" ColumnName="StockSiteCode" />
                 <ScalarProperty Name="StockSiteName" ColumnName="StockSiteName" />
@@ -381,6 +388,7 @@
           <EntitySetMapping Name="Suppliers">
             <EntityTypeMapping TypeName="FinalExamPOListModel.Supplier">
               <MappingFragment StoreEntitySet="Supplier">
+                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="SupplierNo" ColumnName="SupplierNo" />
                 <ScalarProperty Name="SupplierCode" ColumnName="SupplierCode" />
                 <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />

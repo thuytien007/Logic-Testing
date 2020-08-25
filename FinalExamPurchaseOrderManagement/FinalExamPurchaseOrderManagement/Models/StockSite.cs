@@ -23,6 +23,7 @@ namespace FinalExamPurchaseOrderManagement.Models
         public int StockSiteNo { get; set; }
         public string StockSiteCode { get; set; }
         public string StockSiteName { get; set; }
+        public string Email { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }

@@ -32,6 +32,7 @@ namespace FinalExamPurchaseOrderManagement.Models
         public string Address { get; set; }
         public string Country { get; set; }
         public string PostCode { get; set; }
+        public Nullable<bool> Cancel { get; set; }
     
         public virtual StockSite StockSite { get; set; }
         public virtual Supplier Supplier { get; set; }

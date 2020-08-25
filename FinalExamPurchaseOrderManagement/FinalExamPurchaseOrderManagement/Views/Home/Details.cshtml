@@ -6,10 +6,8 @@
 
 <script src="~/Scripts/ViewModel/PODetailViewModel.js"></script>
 
-@*<script src="~/Scripts/ViewModel/POViewModel.js"></script>*@
-
 <div id="details">
-    <h2>Details</h2>
+    <h2>Purchase Order Details</h2>
     <h3 class="dtTitle">Purchase Order:@TempData["OrderNo"]<span></span></h3>
     <input id="OrderId" type="number" name="name" hidden value="@TempData["OrderNo"]" />
     <!--PO Head Object-->
@@ -19,25 +17,25 @@
                 <div>
                     <div class="col-lg-4 mg"><label>Supplier:</label></div>
                     <div class="col-lg-8 mg">
-                        <input type="text" class="form-control" data-bind="value: SupplierCode" disabled>
+                        <input type="text" class="form-control" data-bind="value: poHeadObject().SupplierCode" disabled>
                     </div>
                 </div>
                 <div>
                     <div class="col-lg-4 mg"><label>Stock Site:</label></div>
                     <div class="col-lg-8 mg">
-                        <input type="text" class="form-control" data-bind="value: StockSiteCode" disabled>
+                        <input type="text" class="form-control" data-bind="value: poHeadObject().StockSiteCode" disabled>
                     </div>
                 </div>
                 <div>
                     <div class="col-lg-4 mg"><label>Order Date:</label></div>
                     <div class="col-lg-8 mg">
-                        <input type="text" class="form-control" data-bind="value: OrderDate" disabled>
+                        <input type="text" class="form-control" data-bind="value: poHeadObject().OrderDate" disabled>
                     </div>
-                </div>                
+                </div>
                 <div>
                     <div class="col-lg-4 mg"><label>Note:</label></div>
                     <div class="col-lg-8 mg">
-                        <textarea rows="5" class="form-control" placeholder="Note..." data-bind="value: Note"></textarea>
+                        <textarea rows="5" class="form-control" placeholder="Note..." data-bind="value: poHeadObject().Note"></textarea>
                     </div>
                 </div>
             </div>
@@ -45,36 +43,40 @@
                 <div>
                     <div class="col-lg-4 mg"><label>Supplier Name:</label></div>
                     <div class="col-lg-8 mg">
-                        <input type="text" class="form-control" data-bind="value: SupplierName" disabled>
+                        <input type="text" class="form-control" data-bind="value: poHeadObject().SupplierName" disabled>
                     </div>
                 </div>
                 <div>
                     <div class="col-lg-4 mg"><label>Stock Name:</label></div>
                     <div class="col-lg-8 mg">
-                        <input type="text" class="form-control" data-bind="value: StockSiteName" disabled>
+                        <input type="text" class="form-control" data-bind="value: poHeadObject().StockSiteName" disabled>
                     </div>
                 </div>
                 <div>
                     <div class="col-lg-4 mg"><label>Country<sup class="dtSup">*</sup>:</label></div>
                     <div class="col-lg-8 mg">
-                        <input type="text" class="form-control" placeholder="Country..." data-bind="value: Country">
+                        <input type="text" class="form-control" placeholder="Country..." data-bind="value: poHeadObject().Country">
                     </div>
                 </div>
                 <div>
                     <div class="col-lg-4 mg"><label>Address<sup class="dtSup">*</sup>:</label></div>
                     <div class="col-lg-8 mg">
-                        <textarea rows="5" class="form-control" placeholder="Address..." data-bind="value: Address"></textarea>
+                        <textarea rows="5" class="form-control" placeholder="Address..." data-bind="value: poHeadObject().Address"></textarea>
                     </div>
                 </div>
                 <div>
                     <div class="col-lg-4 mg"><label>Post Code<sup class="dtSup">*</sup>:</label></div>
                     <div class="col-lg-8 mg">
-                        <input type="text" class="form-control" placeholder="Post Code..." data-bind="value: PostCode">
+                        <input type="text" class="form-control" placeholder="Post Code..." data-bind="value: poHeadObject().PostCode">
                     </div>
                 </div>
             </div>
         </form>
     </div>
+
+    <!--Check submittion-->
+    <div class="alert alert-success" role="alert" style="display:none; margin-top: 10px;"> <span class="glyphicon  glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Form has submitted with successful </div>
+    <div class="alert alert-danger" role="alert" style="display:none; margin-top: 10px;"> <span class="glyphicon  glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Please check your submission </div>
     <!--PO Line - order detail grid-->
 
     <div class="mgMain">
@@ -106,31 +108,33 @@
         </div>
     </div>
     <div id="show-data" data-bind="foreach: POLineList">
-        <div class="row mCenter" data-bind="$root.poLineRow">
+        <div class="row mCenter" data-bind="click: $root.poLineRow">
             <div class="col-lg-2 divCol2">
                 <select disabled class="inputTag dtInputWid">
-                    <option data-bind="text: PartCode"></option>
+                    <option data-bind="text: $data.PartCode"></option>
                 </select>
             </div>
-            <div class="col-lg-2 divCol" data-bind="text: PartDescription"></div>
-            <div class="col-lg-1 divCol" data-bind="text: ManufactureName"></div>
+            <div class="col-lg-2 divCol" data-bind="text: $data.PartDescription"></div>
+            <div class="col-lg-1 divCol" data-bind="text: $data.ManufactureName"></div>
             <div class="col-lg-1 divCol2">
-                <input class="inputTag form-control dtTextAlign" type="text" name="QtyOrder" data-bind="value: Amount" />
+                <input class="inputTag form-control dtTextAlign" type="text" name="QtyOrder" data-bind="value: $data.Amount" />
             </div>
             <div class="col-lg-2 divCol2">
-                <input class="inputTag form-control dtTextAlign" type="text" name="BuyPrice" data-bind="value: BuyPrice" />
+                <input class="inputTag form-control dtTextAlign" type="text" name="BuyPrice" data-bind="value: $data.BuyPrice" />
             </div>
             <div class="col-lg-2 divCol2">
-                <input class="inputTag form-control" type="text" name="Memo" data-bind="value: Memo" />
+                <input class="inputTag form-control" type="text" name="Memo" data-bind="value: $data.Memo" />
             </div>
-            <div class="col-lg-1 divCol dtTextAlign" data-bind="text: TotalPrice"></div>
+            <div class="col-lg-1 divCol dtTextAlign" data-bind="text: $data.TotalPrice"></div>
             <div class="col-lg-1 divCol2">
                 <span class="glyphicon glyphicon-remove-circle dtIcon"></span>
             </div>
-        </div>
+        </div>  
     </div>
+    
     <!--Buttons-->
     <div>
+        @*<p class="validationMessage" data-bind="validationMessage: Amount" style="color: red"></p>*@
         <div class="mgButton">
             <p class="dtBold">Purchase Order Price(&pound;):<span data-bind="text: sumTotalPrice()"></span></p>
         </div>

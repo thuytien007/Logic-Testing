@@ -13,15 +13,17 @@ function PODetailViewModel() {
 
     //Init PO Head Model Object
     self.PODetailModelInit = function (SupplierCode, SupplierName, StockSiteCode, StockSiteName, OrderDate, Country, Note, Address, PostCode) {
-        self.SupplierCode = ko.observable(SupplierCode);
-        self.SupplierName = ko.observable(SupplierName);
-        self.StockSiteCode = ko.observable(StockSiteCode);
-        self.StockSiteName = ko.observable(StockSiteName);
-        self.OrderDate = ko.observable(OrderDate);
-        self.Country = ko.observable(Country).extend({ required: true });
-        self.Note = ko.observable(Note);
-        self.Address = ko.observable(Address).extend({ required: true });
-        self.PostCode = ko.observable(PostCode).extend({ required: true });
+        var _this = this;
+        _this.SupplierCode = ko.observable(SupplierCode);
+        _this.SupplierName = ko.observable(SupplierName);
+        _this.StockSiteCode = ko.observable(StockSiteCode);
+        _this.StockSiteName = ko.observable(StockSiteName);
+        _this.OrderDate = ko.observable(OrderDate);
+        _this.Country = ko.observable(Country).extend({ required: true, maxLength: 50});
+        _this.Note = ko.observable(Note);
+        _this.Address = ko.observable(Address).extend({ required: true, maxLength: 50 });
+        _this.PostCode = ko.observable(PostCode).extend({ required: true, maxLength: 50 });
+        return _this;
     };
 
     //this function set data got from db to ko.observerble-->serve for validate if it have any changes
@@ -57,24 +59,24 @@ function PODetailViewModel() {
         return objectTemp;
     }
     var objResult = self.getResultPOHeadObject();
-    //Init temp PO Head Object to get data from controller
+    //Init temp PO Head Object to get data from db
     self.poHeadObject = ko.observable(self.poHeadObjectSetObserverble(objResult));
 
     //Init PO Line List
     self.POLineModelInit = function (PartNo, OrderNo, PartCode, PartDescription, ManufactureName, Amount, BuyPrice, Memo) {
-        var self = this;
-        self.PartNo = ko.observable(PartNo);
-        self.OrderNo = ko.observable(OrderNo);
-        self.PartCode = ko.observable(PartCode);
-        self.PartDescription = ko.observable(PartDescription);
-        self.ManufactureName = ko.observable(ManufactureName);
-        self.Amount = ko.observable(Amount).extend({ required: true, min: 1 }).extend({ digit: true });
-        self.BuyPrice = ko.observable(BuyPrice).extend({ required: true, min: 1 }).extend({ digit: true });
-        self.Memo = ko.observable(Memo);
-        self.TotalPrice = ko.computed(function () {
-            return self.Amount() * self.BuyPrice();
+        var _this = this;
+        _this.PartNo = ko.observable(PartNo);
+        _this.OrderNo = ko.observable(OrderNo);
+        _this.PartCode = ko.observable(PartCode);
+        _this.PartDescription = ko.observable(PartDescription);
+        _this.ManufactureName = ko.observable(ManufactureName);
+        _this.Amount = ko.observable(Amount).extend({ required: true, min: 1 }).extend({ digit: true });
+        _this.BuyPrice = ko.observable(BuyPrice).extend({ required: true, min: 1 }).extend({ digit: true });
+        _this.Memo = ko.observable(Memo);
+        _this.TotalPrice = ko.computed(function () {
+            return _this.Amount() * _this.BuyPrice();
         });
-        return this;
+        return _this;
     };
 
     //this function to set new array object with ko observable POLineModelInit, so the TotalPrice is auto valuable
@@ -136,24 +138,48 @@ function PODetailViewModel() {
 
     //Init row of PO Line
     self.poLineRow = ko.observable(new self.POLineModelInit("", "", "", 0, 0, "", 0));
-
+    //check error of PO Line list
+    self.checkValidatePOLine = function (poLineList) {
+        var error = false;
+        for (var i = 0; i < poLineList.length; i++)
+        {
+            var amount = parseInt(poLineList[i].Amount());
+            var buyPrice = parseFloat(poLineList[i].BuyPrice());
+            if (amount <= 0 || buyPrice <= 0 || isNaN(amount) || isNaN(buyPrice)) {
+                error = true;
+                break;
+            }
+        }
+        return error;
+    }
     //update PO Detail
     self.updatePODetail = function () {
         debugger
-        $.ajax({
-            url: '/Home/UpdatePODetails',
-            contentType: 'application/json',
-            //this is passing with multiple object
-            data: ko.toJSON({ poHead: self.poHeadObject, poLine: self.POLineList }),
-            //this is passing with 1 object
-            //data: ko.toJSON(self.poHeadObject),
-            type: "POST",
-            dataType: 'json',
-            async: false,
-            success: self.successCallback,
-            error: self.errorCallback
-        });
+        var errorPOHead = ko.validation.group(self.poHeadObject());
+        //validate PO Line before submit
+        var rsCheckPOLineError = self.checkValidatePOLine(self.POLineList());
+       
+        if (errorPOHead().length === 0 && rsCheckPOLineError == false) {
+            $('div.alert-success').show();
+            $.ajax({
+                url: '/Home/UpdatePODetails',
+                contentType: 'application/json',
+                //this is passing with multiple object
+                data: ko.toJSON({ poHead: self.poHeadObject, poLine: self.POLineList }),
+                //this is passing with 1 object
+                //data: ko.toJSON(self.poHeadObject),
+                type: "POST",
+                dataType: 'json',
+                async: false,
+                success: self.successCallback,
+                error: self.errorCallback
+            });
+        } else {
+            alert('Please check your submission');
+            $('div.alert-danger').show();
+        }
     }
+
     self.successCallback = function () {
         alert("update success");
     }
@@ -169,19 +195,21 @@ $(function () {
         messagesOnModified: true,
         insertMessages: true,
         parseInputAttributes: true,
+        //style css for error tag
         errorClass: 'errorStyle',
         //using grouping with deep because we have arrayobject, need to get object inside array
         //deep helps us access into that object
-        grouping: { deep: true, observable: true },
+        //grouping: { deep: true, observable: true },
         messageTemplate: null
     }, true);
 
-    ko.validation.rules['requiredFirstName'] = {
-        validator: function (val) {
-            return val.length >= 5 && val.length <= 10 && val.charAt(0) == "M";
-        },
-        message: 'first name must larger than 5, lower than 10 and start with M'
-    };
+    ////Ex: handle for specific validate that rule is not support
+    //ko.validation.rules['requiredFirstName'] = {
+    //    validator: function (val) {
+    //        return val.length >= 5 && val.length <= 10 && val.charAt(0) == "M";
+    //    },
+    //    message: 'first name must larger than 5, lower than 10 and start with M'
+    //};
 
     ko.validation.registerExtenders();
 
