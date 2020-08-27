@@ -73,5 +73,21 @@ namespace FinalExamPurchaseOrderManagement.Controllers
             var result = poService.UpdatePODetail(poHead, poLine);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        //update cancel PO
+        [HttpPost]
+        public JsonResult UpdateCancelPO(POHead poHead, List<POLine> poLine)
+        {
+            var result = poService.UpdateCancelPO(poHead, poLine);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        //add PO Line
+        [HttpPost]
+        public JsonResult AddPOLine(POLine poLineNew)
+        {
+            var result = poService.AddNewPOLine(poLineNew);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }

@@ -3,9 +3,11 @@
 }
 
 /*main screen*/
-a{
+a:hover{
+    color:blue;
     text-decoration:none;
 }
+
 .mgMain {
     margin-top: 50px;
 }
@@ -124,6 +126,10 @@ a{
 
 .smButton {
     margin-top: 30px
+}
+
+.warning{
+    color:coral;
 }
 
 /*style form error on View*/

@@ -12,8 +12,9 @@ function PODetailViewModel() {
     var self = this;
 
     //Init PO Head Model Object
-    self.PODetailModelInit = function (SupplierCode, SupplierName, StockSiteCode, StockSiteName, OrderDate, Country, Note, Address, PostCode) {
+    self.PODetailModelInit = function (OrderNo, SupplierCode, SupplierName, StockSiteCode, StockSiteName, OrderDate, Country, Note, Address, PostCode, Cancel) {
         var _this = this;
+        _this.OrderNo = ko.observable(OrderNo);
         _this.SupplierCode = ko.observable(SupplierCode);
         _this.SupplierName = ko.observable(SupplierName);
         _this.StockSiteCode = ko.observable(StockSiteCode);
@@ -23,13 +24,14 @@ function PODetailViewModel() {
         _this.Note = ko.observable(Note);
         _this.Address = ko.observable(Address).extend({ required: true, maxLength: 50 });
         _this.PostCode = ko.observable(PostCode).extend({ required: true, maxLength: 50 });
+        _this.Cancel = ko.observable(Cancel);
         return _this;
     };
 
     //this function set data got from db to ko.observerble-->serve for validate if it have any changes
     self.poHeadObjectSetObserverble = function (obj) {
         try {
-            var poHead = new self.PODetailModelInit(obj.SupplierCode, obj.SupplierName, obj.StockSiteCode, obj.StockSiteName, obj.OrderDate, obj.Country, obj.Note, obj.Address, obj.PostCode);
+            var poHead = new self.PODetailModelInit(obj.OrderNo, obj.SupplierCode, obj.SupplierName, obj.StockSiteCode, obj.StockSiteName, obj.OrderDate, obj.Country, obj.Note, obj.Address, obj.PostCode, obj.Cancel);
             return poHead;
         } catch (err) {
             console.log(err.message);
@@ -78,7 +80,6 @@ function PODetailViewModel() {
         });
         return _this;
     };
-
     //this function to set new array object with ko observable POLineModelInit, so the TotalPrice is auto valuable
     self.poLineListWithTotalPrice = function (oriArray) {
         try {
@@ -125,7 +126,7 @@ function PODetailViewModel() {
                 //must be parse to int because when we update it from view, it's a string
                 sumTotalPrice += parseFloat(item.TotalPrice());
             })
-            return sumTotalPrice;
+            return Number((sumTotalPrice).toFixed(2));
         } catch (err) {
             console.log(err.message);
         }
@@ -154,7 +155,6 @@ function PODetailViewModel() {
     }
     //update PO Detail
     self.updatePODetail = function () {
-        debugger
         var errorPOHead = ko.validation.group(self.poHeadObject());
         //validate PO Line before submit
         var rsCheckPOLineError = self.checkValidatePOLine(self.POLineList());
@@ -180,6 +180,45 @@ function PODetailViewModel() {
         }
     }
 
+    //cancel PO
+    self.cancelPO = function () {
+        $.ajax({
+            url: '/Home/UpdateCancelPO',
+            contentType: 'application/json',
+            data: ko.toJSON({ poHead: self.poHeadObject, poLine: self.POLineList }),
+            type: "POST",
+            async: false,
+            success: self.successCancelPO,
+            error: self.errorCallback
+        });      
+    }
+    //check if is Cancel then bind to the link
+    self.handleCancel = function () {
+        if (self.poHeadObject().Cancel() == true) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    //Add PO Line
+    self.addPOLine = function () {
+        if (self.poHeadObject().Cancel() == true) {
+            return false;
+        } else {
+            $.ajax({
+                url: '/Home/UpdateCancelPO',
+                contentType: 'application/json',
+                data: ko.toJSON(self.poHeadObject),
+                type: "POST",
+                async: false,
+                success: self.successCancelPO,
+                error: self.errorCallback
+            });
+        }
+    }
+    self.successCancelPO = function () {
+        window.location.href = '/Home/Details/'+Id;
+    }
     self.successCallback = function () {
         alert("update success");
     }

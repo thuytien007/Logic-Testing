@@ -1,5 +1,6 @@
 ﻿using FinalExamPurchaseOrderManagement.BussinessLogic.Model;
 using FinalExamPurchaseOrderManagement.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -49,7 +50,8 @@ namespace FinalExamPurchaseOrderManagement.BussinessLogic.POService
                                    Country = p.Country,
                                    Note = p.Note,
                                    Address = p.Address,
-                                   PostCode = p.PostCode
+                                   PostCode = p.PostCode,
+                                   Cancel = p.Cancel,
                                };
 
             var result = resultPOHead.FirstOrDefault();
@@ -106,6 +108,48 @@ namespace FinalExamPurchaseOrderManagement.BussinessLogic.POService
                 _db.SaveChanges();
             }
             return "update success";
+        }
+
+        public string UpdateCancelPO(POHead pOHead, List<POLine> poLine)
+        {
+            try
+            {
+                var updateCancelPO = _db.PurchaseOrders.Find(pOHead.OrderNo);
+                updateCancelPO.Cancel = true;
+                _db.SaveChanges();
+                for (int i = 0; i < poLine.Count; i++)
+                {
+                    var udPartQty = _db.Parts.Find(poLine[i].PartNo);
+                    udPartQty.BuyPrice = 0;
+                    _db.SaveChanges();
+                    var partNum = poLine[i].PartNo;
+                    var orderNum = poLine[i].OrderNo;
+                    var updatePOLine = _db.PurchaseOrderLines.FirstOrDefault(pl => (pl.PartNo == partNum) && (pl.OrderNo == orderNum));
+                    updatePOLine.Amount = 0;
+                    _db.SaveChanges();
+                }
+
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return "calcel po sucess";
+        }
+        public string AddNewPOLine(POLine poNewLine)
+        {
+            try
+            {
+                //var updateCancelPO = _db.PurchaseOrders.Find(pOHead.OrderNo);
+                //updateCancelPO.Cancel = true;
+                _db.SaveChanges();
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return "calcel po sucess";
         }
     }
 }

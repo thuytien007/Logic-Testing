@@ -7,7 +7,8 @@
 <script src="~/Scripts/ViewModel/PODetailViewModel.js"></script>
 
 <div id="details">
-    <h2>Purchase Order Details</h2>
+    <h2 class="dtBold">Purchase Order Details</h2>
+    <h4 class="warning" data-bind="text:'Warning: this PO can not be edit because aldready cancelled', visible: poHeadObject().Cancel"></h4>
     <h3 class="dtTitle">Purchase Order:@TempData["OrderNo"]<span></span></h3>
     <input id="OrderId" type="number" name="name" hidden value="@TempData["OrderNo"]" />
     <!--PO Head Object-->
@@ -35,7 +36,7 @@
                 <div>
                     <div class="col-lg-4 mg"><label>Note:</label></div>
                     <div class="col-lg-8 mg">
-                        <textarea rows="5" class="form-control" placeholder="Note..." data-bind="value: poHeadObject().Note"></textarea>
+                        <textarea rows="5" class="form-control" placeholder="Note..." data-bind="value: poHeadObject().Note, disable: poHeadObject().Cancel"></textarea>
                     </div>
                 </div>
             </div>
@@ -55,19 +56,19 @@
                 <div>
                     <div class="col-lg-4 mg"><label>Country<sup class="dtSup">*</sup>:</label></div>
                     <div class="col-lg-8 mg">
-                        <input type="text" class="form-control" placeholder="Country..." data-bind="value: poHeadObject().Country">
+                        <input type="text" class="form-control" placeholder="Country..." data-bind="value: poHeadObject().Country, disable: poHeadObject().Cancel">
                     </div>
                 </div>
                 <div>
                     <div class="col-lg-4 mg"><label>Address<sup class="dtSup">*</sup>:</label></div>
                     <div class="col-lg-8 mg">
-                        <textarea rows="5" class="form-control" placeholder="Address..." data-bind="value: poHeadObject().Address"></textarea>
+                        <textarea rows="5"class="form-control" placeholder="Address..." data-bind="value: poHeadObject().Address, disable: poHeadObject().Cancel"></textarea>
                     </div>
                 </div>
                 <div>
                     <div class="col-lg-4 mg"><label>Post Code<sup class="dtSup">*</sup>:</label></div>
                     <div class="col-lg-8 mg">
-                        <input type="text" class="form-control" placeholder="Post Code..." data-bind="value: poHeadObject().PostCode">
+                        <input type="text" class="form-control" placeholder="Post Code..." data-bind="value: poHeadObject().PostCode, disable: poHeadObject().Cancel">
                     </div>
                 </div>
             </div>
@@ -107,8 +108,8 @@
             </div>
         </div>
     </div>
-    <div id="show-data" data-bind="foreach: POLineList">
-        <div class="row mCenter" data-bind="click: $root.poLineRow">
+    <div id="show-data" data-bind="foreach: POLineList, disable:poHeadObject().Cancel">
+        <div id="poLineDiv" class="row mCenter" data-bind="click: $root.poLineRow">
             <div class="col-lg-2 divCol2">
                 <select disabled class="inputTag dtInputWid">
                     <option data-bind="text: $data.PartCode"></option>
@@ -117,21 +118,22 @@
             <div class="col-lg-2 divCol" data-bind="text: $data.PartDescription"></div>
             <div class="col-lg-1 divCol" data-bind="text: $data.ManufactureName"></div>
             <div class="col-lg-1 divCol2">
-                <input class="inputTag form-control dtTextAlign" type="text" name="QtyOrder" data-bind="value: $data.Amount" />
+                @*disable:$root.poHeadObject().Cancel used root because polinelist and pohead are the same level, access to father*@
+                <input class="inputTag form-control dtTextAlign" type="text" data-bind="value: $data.Amount, disable:$root.poHeadObject().Cancel" />
             </div>
             <div class="col-lg-2 divCol2">
-                <input class="inputTag form-control dtTextAlign" type="text" name="BuyPrice" data-bind="value: $data.BuyPrice" />
+                <input class="inputTag form-control dtTextAlign" type="text" data-bind="value: $data.BuyPrice, disable:$root.poHeadObject().Cancel" />
             </div>
             <div class="col-lg-2 divCol2">
-                <input class="inputTag form-control" type="text" name="Memo" data-bind="value: $data.Memo" />
+                <input class="inputTag form-control" type="text" data-bind="value: $data.Memo, disable:$root.poHeadObject().Cancel" />
             </div>
             <div class="col-lg-1 divCol dtTextAlign" data-bind="text: $data.TotalPrice"></div>
             <div class="col-lg-1 divCol2">
                 <span class="glyphicon glyphicon-remove-circle dtIcon"></span>
             </div>
-        </div>  
+        </div>
     </div>
-    
+
     <!--Buttons-->
     <div>
         @*<p class="validationMessage" data-bind="validationMessage: Amount" style="color: red"></p>*@
@@ -139,12 +141,38 @@
             <p class="dtBold">Purchase Order Price(&pound;):<span data-bind="text: sumTotalPrice()"></span></p>
         </div>
         <div class="mgButton">
-            <a>Add Purchase Order Line</a>
+            <a id="btnAdd" data-bind="click: addPOLine">Add Purchase Order Line</a>
         </div>
         <div class="mgButton">
-            <button class="btn btn-secondary">Cancel PO</button>
-            <button class="btn btn-secondary"><a href="@Url.Action("SentMail","Home")">Re-sent Email</a></button>
-            <button class="btn btn-success" data-bind="click: updatePODetail">Save</button>
+            <button id="btnCancelPO" class="btn btn-secondary" data-toggle="modal" data-target="#dialog-confirm" data-bind="disable:poHeadObject().Cancel">Cancel PO</button>
+            <button class="btn btn-secondary"><a data-bind="attr:{href: '@Url.Action("SentMail","Home")'},click:handleCancel">Re-sent Email</a></button>
+            <button id="btnSave" class="btn btn-success" data-bind="click: updatePODetail, disable:poHeadObject().Cancel">Save</button>
+        </div>
+    </div>
+    <!--dialog for cancel PO-->
+    @*this use for dialog jquery
+          <div id="dialog-confirm" title="Delete this item?">
+              <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>This item will be permanently deleted and cannot be recovered. Are you sure?</p>
+        </div>*@
+
+    @*this use for bootstrap dialog*@
+    <div class="modal fade" id="dialog-confirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Cancel PO Dialog</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure about cancel this PO???
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bind="click: cancelPO">Yes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -14,5 +14,6 @@ namespace FinalExamPurchaseOrderManagement.BussinessLogic.Model
         public string Note { get; set; }
         public string Address { get; set; }
         public string PostCode { get; set; }
+        public bool? Cancel { get; set; }
     }
 }
