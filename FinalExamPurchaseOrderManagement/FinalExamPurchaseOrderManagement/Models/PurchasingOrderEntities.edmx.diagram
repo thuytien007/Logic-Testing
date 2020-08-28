@@ -5,12 +5,12 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="69cf5bc8cf5b438bbad5d93745c80960" Name="Diagram1">
-        <EntityTypeShape EntityType="FinalExamPOListModel.Manufacturer" Width="1.5" PointX="0.75" PointY="9.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="FinalExamPOListModel.Part" Width="1.5" PointX="3" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinalExamPOListModel.Manufacturer" Width="1.5" PointX="7.25" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinalExamPOListModel.Part" Width="1.5" PointX="5.75" PointY="5.125" IsExpanded="true" />
         <EntityTypeShape EntityType="FinalExamPOListModel.PurchaseOrder" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="FinalExamPOListModel.PurchaseOrderLine" Width="1.5" PointX="5.25" PointY="1.875" IsExpanded="true" />
         <EntityTypeShape EntityType="FinalExamPOListModel.StockSite" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="FinalExamPOListModel.Supplier" Width="1.5" PointX="0.75" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinalExamPOListModel.Supplier" Width="1.5" PointX="0.5" PointY="5.25" IsExpanded="true" />
         <AssociationConnector Association="FinalExamPOListModel.FK_Part_Manufacturer" ManuallyRouted="false" />
         <AssociationConnector Association="FinalExamPOListModel.FK_PurchaseOrderLine_Part" ManuallyRouted="false" />
         <AssociationConnector Association="FinalExamPOListModel.FK_PurchaseOrder_StockSite" ManuallyRouted="false" />

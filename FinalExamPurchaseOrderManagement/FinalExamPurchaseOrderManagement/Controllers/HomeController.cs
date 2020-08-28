@@ -82,12 +82,12 @@ namespace FinalExamPurchaseOrderManagement.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        //add PO Line
-        [HttpPost]
-        public JsonResult AddPOLine(POLine poLineNew)
-        {
-            var result = poService.AddNewPOLine(poLineNew);
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
+        ////add PO Line
+        //[HttpPost]
+        //public JsonResult AddPOLine(POLine poLineNew)
+        //{
+        //    var result = poService.AddNewPOLine(poLineNew);
+        //    return Json(result, JsonRequestBehavior.AllowGet);
+        //}
     }
 }

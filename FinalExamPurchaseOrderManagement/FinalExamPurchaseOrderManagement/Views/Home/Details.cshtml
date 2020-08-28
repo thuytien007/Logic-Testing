@@ -111,8 +111,13 @@
     <div id="show-data" data-bind="foreach: POLineList, disable:poHeadObject().Cancel">
         <div id="poLineDiv" class="row mCenter" data-bind="click: $root.poLineRow">
             <div class="col-lg-2 divCol2">
+                <!-- if -->
                 <select disabled class="inputTag dtInputWid">
                     <option data-bind="text: $data.PartCode"></option>
+                </select>
+                <!-- else -->
+                <select id="newRow">
+                    <option></option>
                 </select>
             </div>
             <div class="col-lg-2 divCol" data-bind="text: $data.PartDescription"></div>

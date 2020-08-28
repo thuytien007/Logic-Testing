@@ -1,16 +1,16 @@
-﻿//function to format date
-var formatDate = function (date) {
-    var oldDate = new Date(parseInt(date.replace(/(^.*\()|([+-].*$)/g, '')));
-    var newDate = ("0" + oldDate.getDate()).slice(-2) + "/" +
-        ("0" + (oldDate.getMonth() + 1)).slice(-2) + "/" + oldDate.getFullYear();
-    return newDate;
-}
-
-//main ViewModel
+﻿//main ViewModel
 function PODetailViewModel() {
     //get Id from PO List screen
     var Id = parseInt($('#OrderId').val());
     var self = this;
+
+    //function to format date
+    self.formatDate = function (date) {
+        var oldDate = new Date(parseInt(date.replace(/(^.*\()|([+-].*$)/g, '')));
+        var newDate = ("0" + oldDate.getDate()).slice(-2) + "/" +
+            ("0" + (oldDate.getMonth() + 1)).slice(-2) + "/" + oldDate.getFullYear();
+        return newDate;
+    }
 
     //Init PO Head Model Object
     self.PODetailModelInit = function (OrderNo, SupplierCode, SupplierName, StockSiteCode, StockSiteName, OrderDate, Country, Note, Address, PostCode, Cancel) {
@@ -57,7 +57,7 @@ function PODetailViewModel() {
                 alert("Not Found");
             }
         });
-        orderDate = formatDate(objectTemp.OrderDate);
+        orderDate = self.formatDate(objectTemp.OrderDate);
         objectTemp.OrderDate = orderDate;
         return objectTemp;
     }
@@ -75,7 +75,7 @@ function PODetailViewModel() {
         _this.ManufactureName = ko.observable(ManufactureName);
         _this.Amount = ko.observable(Amount).extend({ required: true, min: 1 }).extend({ digit: true });
         _this.BuyPrice = ko.observable(BuyPrice).extend({ required: true, min: 1 }).extend({ digit: true });
-        _this.Memo = ko.observable(Memo);
+        _this.Memo = ko.observable(Memo).extend({ maxLength: 50 });
         _this.TotalPrice = ko.computed(function () {
             return _this.Amount() * _this.BuyPrice();
         });
@@ -203,19 +203,7 @@ function PODetailViewModel() {
     }
     //Add PO Line
     self.addPOLine = function () {
-        if (self.poHeadObject().Cancel() == true) {
-            return false;
-        } else {
-            $.ajax({
-                url: '/Home/UpdateCancelPO',
-                contentType: 'application/json',
-                data: ko.toJSON(self.poHeadObject),
-                type: "POST",
-                async: false,
-                success: self.successCancelPO,
-                error: self.errorCallback
-            });
-        }
+        self.POLineList.push(new self.POLineModelInit("",));
     }
     self.successCancelPO = function () {
         window.location.href = '/Home/Details/'+Id;
