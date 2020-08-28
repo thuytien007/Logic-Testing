@@ -145,7 +145,7 @@
         </div>
         <div class="mgButton">
             <button id="btnCancelPO" class="btn btn-secondary" data-toggle="modal" data-target="#dialog-confirm" data-bind="disable:poHeadObject().Cancel">Cancel PO</button>
-            <button class="btn btn-secondary"><a data-bind="attr:{href: '@Url.Action("SentMail","Home")'},click:handleCancel">Re-sent Email</a></button>
+            <button class="btn btn-secondary"><a data-bind="attr:{href: '@Url.Action("SentMail","Home")'},click:handleCancel">Re-send Email</a></button>
             <button id="btnSave" class="btn btn-success" data-bind="click: updatePODetail, disable:poHeadObject().Cancel">Save</button>
         </div>
     </div>

@@ -1,7 +1,12 @@
 ﻿//function to format date
 var formatDate = function (date) {
     var oldDate = new Date(parseInt(date.replace(/(^.*\()|([+-].*$)/g, '')));
-    var newDate = oldDate.getDate() + "/" + (oldDate.getMonth() + 1) + "/" + oldDate.getFullYear();
+    var newDate = ("0" + oldDate.getUTCDate()).slice(-2) + "/" +
+        ("0" + (oldDate.getUTCMonth() + 1)).slice(-2) + "/" +
+        oldDate.getUTCFullYear() + " " +
+        ("0" + oldDate.getUTCHours()).slice(-2) + ":" +
+        ("0" + oldDate.getUTCMinutes()).slice(-2) + ":" +
+        ("0" + oldDate.getUTCSeconds()).slice(-2);
     return newDate;
 }
 
