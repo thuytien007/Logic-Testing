@@ -18,6 +18,7 @@ namespace FinalExamPurchaseOrderManagement.Models
         public int PartNo { get; set; }
         public Nullable<int> Amount { get; set; }
         public string Memo { get; set; }
+        public Nullable<double> Price { get; set; }
     
         public virtual Part Part { get; set; }
         public virtual PurchaseOrder PurchaseOrder { get; set; }

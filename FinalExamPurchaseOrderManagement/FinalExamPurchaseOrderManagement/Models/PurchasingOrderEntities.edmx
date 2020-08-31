@@ -27,9 +27,9 @@
             <PropertyRef Name="OrderNo" />
           </Key>
           <Property Name="OrderNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="OrderDate" Type="date" />
-          <Property Name="ETADate" Type="date" />
-          <Property Name="LastUpdate" Type="date" />
+          <Property Name="OrderDate" Type="datetime" />
+          <Property Name="ETADate" Type="datetime" />
+          <Property Name="LastUpdate" Type="datetime" />
           <Property Name="QtyOpen" Type="int" />
           <Property Name="SentEmail" Type="bit" />
           <Property Name="SupplierNo" Type="int" />
@@ -49,6 +49,7 @@
           <Property Name="PartNo" Type="int" Nullable="false" />
           <Property Name="Amount" Type="int" />
           <Property Name="Memo" Type="varchar" MaxLength="50" />
+          <Property Name="Price" Type="float" />
         </EntityType>
         <EntityType Name="StockSite">
           <Key>
@@ -185,9 +186,9 @@
             <PropertyRef Name="OrderNo" />
           </Key>
           <Property Name="OrderNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OrderDate" Type="DateTime" Precision="0" />
-          <Property Name="ETADate" Type="DateTime" Precision="0" />
-          <Property Name="LastUpdate" Type="DateTime" Precision="0" />
+          <Property Name="OrderDate" Type="DateTime" Precision="3" />
+          <Property Name="ETADate" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdate" Type="DateTime" Precision="3" />
           <Property Name="QtyOpen" Type="Int32" />
           <Property Name="SentEmail" Type="Boolean" />
           <Property Name="SupplierNo" Type="Int32" />
@@ -212,6 +213,7 @@
           <Property Name="Memo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Part" Relationship="Self.FK_PurchaseOrderLine_Part" FromRole="PurchaseOrderLine" ToRole="Part" />
           <NavigationProperty Name="PurchaseOrder" Relationship="Self.FK_PurchaseOrderLine_PurchaseOrder" FromRole="PurchaseOrderLine" ToRole="PurchaseOrder" />
+          <Property Name="Price" Type="Double" />
         </EntityType>
         <EntityType Name="StockSite">
           <Key>
@@ -368,6 +370,7 @@
           <EntitySetMapping Name="PurchaseOrderLines">
             <EntityTypeMapping TypeName="FinalExamPOListModel.PurchaseOrderLine">
               <MappingFragment StoreEntitySet="PurchaseOrderLine">
+                <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
                 <ScalarProperty Name="PartNo" ColumnName="PartNo" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />

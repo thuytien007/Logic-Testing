@@ -9,7 +9,7 @@ namespace FinalExamPurchaseOrderManagement.BussinessLogic.Model
         public string PartDescription { get; set; }
         public string ManufactureName { get; set; }
         public int? Amount { get; set; }
-        public double? BuyPrice { get; set; }
+        public double? Price { get; set; }
         public string Memo { get; set; }
     }
 }

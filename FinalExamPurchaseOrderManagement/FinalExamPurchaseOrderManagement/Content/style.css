@@ -139,7 +139,8 @@ a:hover{
     font-size: 13px;
     padding: 5px 5px;
     border-radius: 5px;
-    margin-top: 10px;
+    position: sticky;
+    z-index: 1;
 }  
 
 

@@ -21,7 +21,7 @@ function PODetailViewModel() {
         _this.StockSiteCode = ko.observable(StockSiteCode);
         _this.StockSiteName = ko.observable(StockSiteName);
         _this.OrderDate = ko.observable(OrderDate);
-        _this.Country = ko.observable(Country).extend({ required: true, maxLength: 50});
+        _this.Country = ko.observable(Country).extend({ required: true, maxLength: 50 });
         _this.Note = ko.observable(Note);
         _this.Address = ko.observable(Address).extend({ required: true, maxLength: 50 });
         _this.PostCode = ko.observable(PostCode).extend({ required: true, maxLength: 50 });
@@ -66,7 +66,7 @@ function PODetailViewModel() {
     self.poHeadObject = ko.observable(self.poHeadObjectSetObserverble(objResult));
 
     //Init PO Line List
-    self.POLineModelInit = function (PartNo, OrderNo, PartCode, PartDescription, ManufactureName, Amount, BuyPrice, Memo) {
+    self.POLineModelInit = function (PartNo, OrderNo, PartCode, PartDescription, ManufactureName, Amount, Price, Memo) {
         var _this = this;
         _this.PartNo = ko.observable(PartNo);
         _this.OrderNo = ko.observable(OrderNo);
@@ -74,10 +74,10 @@ function PODetailViewModel() {
         _this.PartDescription = ko.observable(PartDescription);
         _this.ManufactureName = ko.observable(ManufactureName);
         _this.Amount = ko.observable(Amount).extend({ required: true, min: 1 }).extend({ digit: true });
-        _this.BuyPrice = ko.observable(BuyPrice).extend({ required: true, min: 1 }).extend({ digit: true });
+        _this.Price = ko.observable(Price).extend({ required: true, min: 1 }).extend({ digit: true });
         _this.Memo = ko.observable(Memo).extend({ maxLength: 50 });
         _this.TotalPrice = ko.computed(function () {
-            return _this.Amount() * _this.BuyPrice();
+            return _this.Amount() * _this.Price();
         });
         return _this;
     };
@@ -86,7 +86,7 @@ function PODetailViewModel() {
         try {
             this.tempList = [];
             oriArray.forEach(function (item) {
-                var poLine = new self.POLineModelInit(item.PartNo, item.OrderNo, item.Partcode, item.PartDescription, item.ManufactureName, item.Amount, item.BuyPrice, item.Memo);
+                var poLine = new self.POLineModelInit(item.PartNo, item.OrderNo, item.Partcode, item.PartDescription, item.ManufactureName, item.Amount, item.Price, item.Memo);
                 this.tempList.push(poLine);
             }, this);
 
@@ -143,8 +143,7 @@ function PODetailViewModel() {
     //check error of PO Line list
     self.checkValidatePOLine = function (poLineList) {
         var error = false;
-        for (var i = 0; i < poLineList.length; i++)
-        {
+        for (var i = 0; i < poLineList.length; i++) {
             var amount = parseInt(poLineList[i].Amount());
             var buyPrice = parseFloat(poLineList[i].BuyPrice());
             if (amount <= 0 || buyPrice <= 0 || isNaN(amount) || isNaN(buyPrice)) {
@@ -159,7 +158,7 @@ function PODetailViewModel() {
         var errorPOHead = ko.validation.group(self.poHeadObject());
         //validate PO Line before submit
         var rsCheckPOLineError = self.checkValidatePOLine(self.POLineList());
-       
+
         if (errorPOHead().length === 0 && rsCheckPOLineError == false) {
             $('div.alert-success').show();
             $.ajax({
@@ -191,7 +190,7 @@ function PODetailViewModel() {
             async: false,
             success: self.successCancelPO,
             error: self.errorCallback
-        });      
+        });
     }
     //check if is Cancel then bind to the link
     self.handleCancel = function () {
@@ -203,10 +202,14 @@ function PODetailViewModel() {
     }
     //Add PO Line
     self.addPOLine = function () {
-        self.POLineList.push(new self.POLineModelInit("",));
+        if (self.poHeadObject().Cancel() == true)
+            return false;
+        else {
+            self.POLineList.push(new self.POLineModelInit(""));
+        } 
     }
     self.successCancelPO = function () {
-        window.location.href = '/Home/Details/'+Id;
+        window.location.href = '/Home/Details/' + Id;
     }
     self.successCallback = function () {
         alert("update success");

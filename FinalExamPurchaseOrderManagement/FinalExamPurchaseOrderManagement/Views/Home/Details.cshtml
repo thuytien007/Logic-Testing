@@ -116,9 +116,9 @@
                     <option data-bind="text: $data.PartCode"></option>
                 </select>
                 <!-- else -->
-                <select id="newRow">
+                @*<select id="newRow">
                     <option></option>
-                </select>
+                </select>*@
             </div>
             <div class="col-lg-2 divCol" data-bind="text: $data.PartDescription"></div>
             <div class="col-lg-1 divCol" data-bind="text: $data.ManufactureName"></div>
@@ -127,7 +127,7 @@
                 <input class="inputTag form-control dtTextAlign" type="text" data-bind="value: $data.Amount, disable:$root.poHeadObject().Cancel" />
             </div>
             <div class="col-lg-2 divCol2">
-                <input class="inputTag form-control dtTextAlign" type="text" data-bind="value: $data.BuyPrice, disable:$root.poHeadObject().Cancel" />
+                <input class="inputTag form-control dtTextAlign" type="text" data-bind="value: $data.Price, disable:$root.poHeadObject().Cancel" />
             </div>
             <div class="col-lg-2 divCol2">
                 <input class="inputTag form-control" type="text" data-bind="value: $data.Memo, disable:$root.poHeadObject().Cancel" />

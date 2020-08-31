@@ -74,7 +74,7 @@ namespace FinalExamPurchaseOrderManagement.BussinessLogic.POService
                                    PartDescription = pt.PartDescription,
                                    ManufactureName = m.ManufacturName,
                                    Amount = pl.Amount,
-                                   BuyPrice = pt.BuyPrice,
+                                   Price = pl.Price,
                                    Memo = pl.Memo
                                };
 
@@ -96,14 +96,13 @@ namespace FinalExamPurchaseOrderManagement.BussinessLogic.POService
             //save list of PO Line
             for (int i = 0; i < poLine.Count; i++)
             {
-                var updatePartNo = _db.Parts.Find(poLine[i].PartNo);
-                updatePartNo.BuyPrice = poLine[i].BuyPrice;
                 //this Init to get the value first, then LinQ easy to understand this is a value,
                 //sqlserver is just understand value, not object
                 var partNum = poLine[i].PartNo;
                 var orderNum = poLine[i].OrderNo;
                 var updatePOLine = _db.PurchaseOrderLines.FirstOrDefault(pl => (pl.PartNo == partNum) && (pl.OrderNo == orderNum));
                 updatePOLine.Amount = poLine[i].Amount;
+                updatePOLine.Price = poLine[i].Price;
                 updatePOLine.Memo = poLine[i].Memo;
                 _db.SaveChanges();
             }
@@ -119,13 +118,12 @@ namespace FinalExamPurchaseOrderManagement.BussinessLogic.POService
                 _db.SaveChanges();
                 for (int i = 0; i < poLine.Count; i++)
                 {
-                    var udPartQty = _db.Parts.Find(poLine[i].PartNo);
-                    udPartQty.BuyPrice = 0;
-                    _db.SaveChanges();
+                    //update POLine table: QtyOrder + Price(currentprice) = 0
                     var partNum = poLine[i].PartNo;
                     var orderNum = poLine[i].OrderNo;
                     var updatePOLine = _db.PurchaseOrderLines.FirstOrDefault(pl => (pl.PartNo == partNum) && (pl.OrderNo == orderNum));
                     updatePOLine.Amount = 0;
+                    updatePOLine.Price = 0;
                     _db.SaveChanges();
                 }
 
