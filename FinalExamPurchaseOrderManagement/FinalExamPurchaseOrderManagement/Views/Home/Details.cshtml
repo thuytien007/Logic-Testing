@@ -109,30 +109,30 @@
         </div>
     </div>
     <div id="show-data" data-bind="foreach: POLineList, disable:poHeadObject().Cancel">
-        <div id="poLineDiv" class="row mCenter" data-bind="click: $root.poLineRow">
+        <div id="poLineDiv" class="row mCenter" style="cursor:pointer" data-bind="click: $root.poLineRow">
             <div class="col-lg-2 divCol2">
                 <!-- if -->
                 <select disabled class="inputTag dtInputWid">
-                    <option data-bind="text: $data.PartCode"></option>
+                    <option data-bind="text: PartCode"></option>
                 </select>
                 <!-- else -->
                 @*<select id="newRow">
                     <option></option>
                 </select>*@
             </div>
-            <div class="col-lg-2 divCol" data-bind="text: $data.PartDescription"></div>
-            <div class="col-lg-1 divCol" data-bind="text: $data.ManufactureName"></div>
+            <div class="col-lg-2 divCol" data-bind="text: PartDescription"></div>
+            <div class="col-lg-1 divCol" data-bind="text: ManufactureName"></div>
             <div class="col-lg-1 divCol2">
                 @*disable:$root.poHeadObject().Cancel used root because polinelist and pohead are the same level, access to father*@
-                <input class="inputTag form-control dtTextAlign" type="text" data-bind="value: $data.Amount, disable:$root.poHeadObject().Cancel" />
+                <input class="inputTag form-control dtTextAlign" type="text" data-bind="value: Amount, disable:$root.poHeadObject().Cancel" />
             </div>
             <div class="col-lg-2 divCol2">
-                <input class="inputTag form-control dtTextAlign" type="text" data-bind="value: $data.Price, disable:$root.poHeadObject().Cancel" />
+                <input class="inputTag form-control dtTextAlign" type="text" data-bind="value: Price, disable:$root.poHeadObject().Cancel" />
             </div>
             <div class="col-lg-2 divCol2">
-                <input class="inputTag form-control" type="text" data-bind="value: $data.Memo, disable:$root.poHeadObject().Cancel" />
+                <input class="inputTag form-control" type="text" data-bind="value: Memo, disable:$root.poHeadObject().Cancel" />
             </div>
-            <div class="col-lg-1 divCol dtTextAlign" data-bind="text: $data.TotalPrice"></div>
+            <div class="col-lg-1 divCol dtTextAlign" data-bind="text: TotalPrice"></div>
             <div class="col-lg-1 divCol2">
                 <span class="glyphicon glyphicon-remove-circle dtIcon"></span>
             </div>

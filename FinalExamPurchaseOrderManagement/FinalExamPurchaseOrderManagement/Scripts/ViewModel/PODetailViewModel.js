@@ -73,8 +73,8 @@ function PODetailViewModel() {
         _this.PartCode = ko.observable(PartCode);
         _this.PartDescription = ko.observable(PartDescription);
         _this.ManufactureName = ko.observable(ManufactureName);
-        _this.Amount = ko.observable(Amount).extend({ required: true, min: 1 }).extend({ digit: true });
-        _this.Price = ko.observable(Price).extend({ required: true, min: 1 }).extend({ digit: true });
+        _this.Amount = ko.observable(Amount).extend({ required: true, min: 1 });
+        _this.Price = ko.observable(Price).extend({ required: true, min: 1 });
         _this.Memo = ko.observable(Memo).extend({ maxLength: 50 });
         _this.TotalPrice = ko.computed(function () {
             return _this.Amount() * _this.Price();
@@ -138,8 +138,6 @@ function PODetailViewModel() {
         return self.sumTotalPriceOfPOLineList(self.POLineList());
     });
 
-    //Init row of PO Line
-    self.poLineRow = ko.observable(new self.POLineModelInit("", "", "", 0, 0, "", 0));
     //check error of PO Line list
     self.checkValidatePOLine = function (poLineList) {
         var error = false;
@@ -217,6 +215,9 @@ function PODetailViewModel() {
     self.errorCallback = function () {
         alert("update failed");
     }
+
+    //Init row of PO Line to handle delete button
+    self.poLineRow = ko.observable(new self.POLineModelInit("", "", "", 0, 0, "", 0));
 }
 
 
