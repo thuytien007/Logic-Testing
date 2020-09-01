@@ -77,10 +77,11 @@ function PODetailViewModel() {
         _this.Price = ko.observable(Price).extend({ required: true, min: 1 });
         _this.Memo = ko.observable(Memo).extend({ maxLength: 50 });
         _this.TotalPrice = ko.computed(function () {
-            return _this.Amount() * _this.Price();
+            return Number(_this.Amount() * _this.Price()).toFixed(2);
         });
         return _this;
     };
+
     //this function to set new array object with ko observable POLineModelInit, so the TotalPrice is auto valuable
     self.poLineListWithTotalPrice = function (oriArray) {
         try {
@@ -186,7 +187,7 @@ function PODetailViewModel() {
             data: ko.toJSON({ poHead: self.poHeadObject, poLine: self.POLineList }),
             type: "POST",
             async: false,
-            success: self.successCancelPO,
+            success: self.successDialog,
             error: self.errorCallback
         });
     }
@@ -206,7 +207,7 @@ function PODetailViewModel() {
             self.POLineList.push(new self.POLineModelInit(""));
         } 
     }
-    self.successCancelPO = function () {
+    self.successDialog = function () {
         window.location.href = '/Home/Details/' + Id;
     }
     self.successCallback = function () {
@@ -218,6 +219,34 @@ function PODetailViewModel() {
 
     //Init row of PO Line to handle delete button
     self.poLineRow = ko.observable(new self.POLineModelInit("", "", "", 0, 0, "", 0));
+
+    //remove line after add button clicked(maybe an empty line or not but didn't save yet)
+    self.removePOLine = function (item) {
+        self.POLineList.remove(item);
+    }
+    self.deletePOLine = function (data) {
+        debugger
+        var countRow = self.POLineList().length;
+        if (countRow > 1) {
+            if (confirm("Are you sure about delete this PO Line?")) {
+                if (data.PartNo() == "") {
+                    self.removePOLine(data);
+                } else {
+                    $.ajax({
+                        url: '/Home/DeletePerson',
+                        contentType: 'application/json',
+                        data: ko.toJSON(data),
+                        type: "POST",
+                        async: false,
+                        success: self.successDialog,
+                        error: self.errorCallback
+                    });
+                }                    
+            }        
+        } else {
+            alert("Warning: The PO must have at least one PO line");
+        }    
+    }
 }
 
 

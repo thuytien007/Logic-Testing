@@ -109,6 +109,7 @@ namespace FinalExamPurchaseOrderManagement.BussinessLogic.POService
             return "update success";
         }
 
+        //handle cancel po button
         public string UpdateCancelPO(POHead pOHead, List<POLine> poLine)
         {
             try
@@ -134,6 +135,7 @@ namespace FinalExamPurchaseOrderManagement.BussinessLogic.POService
             }
             return "calcel po sucess";
         }
+        //handle add button, add a new line in po line
         public string AddNewPOLine(POLine poNewLine)
         {
             try
@@ -146,8 +148,26 @@ namespace FinalExamPurchaseOrderManagement.BussinessLogic.POService
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                return "Delete PO Line failed";
             }
             return "calcel po sucess";
+        }
+
+        public string DeletePOLine(POLine poLine)
+        {
+            try
+            {
+                var deletePOLine = _db.PurchaseOrderLines.FirstOrDefault(o => o.OrderNo == poLine.OrderNo && o.PartNo == poLine.PartNo);
+                _db.PurchaseOrderLines.Remove(deletePOLine);
+                _db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return "Delete PO Line failed";
+            }
+            
+            return "Delete PO Line successfully";
         }
     }
 }

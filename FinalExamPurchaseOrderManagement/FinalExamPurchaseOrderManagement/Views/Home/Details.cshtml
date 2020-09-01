@@ -6,7 +6,7 @@
 
 <script src="~/Scripts/ViewModel/PODetailViewModel.js"></script>
 
-<div id="details">
+<div id="details" class="container">
     <h2 class="dtBold">Purchase Order Details</h2>
     <h4 class="warning" data-bind="text:'Warning: this PO can not be edit because aldready cancelled', visible: poHeadObject().Cancel"></h4>
     <h3 class="dtTitle">Purchase Order:@TempData["OrderNo"]<span></span></h3>
@@ -54,7 +54,7 @@
                     </div>
                 </div>
                 <div>
-                    <div class="col-lg-4 mg"><label>Country<sup class="dtSup">*</sup>:</label></div>
+                    <div class="col-lg-4 mg"><label>County<sup class="dtSup">*</sup>:</label></div>
                     <div class="col-lg-8 mg">
                         <input type="text" class="form-control" placeholder="Country..." data-bind="value: poHeadObject().Country, disable: poHeadObject().Cancel">
                     </div>
@@ -62,7 +62,7 @@
                 <div>
                     <div class="col-lg-4 mg"><label>Address<sup class="dtSup">*</sup>:</label></div>
                     <div class="col-lg-8 mg">
-                        <textarea rows="5"class="form-control" placeholder="Address..." data-bind="value: poHeadObject().Address, disable: poHeadObject().Cancel"></textarea>
+                        <textarea rows="5" class="form-control" placeholder="Address..." data-bind="value: poHeadObject().Address, disable: poHeadObject().Cancel"></textarea>
                     </div>
                 </div>
                 <div>
@@ -74,12 +74,10 @@
             </div>
         </form>
     </div>
-
     <!--Check submittion-->
     <div class="alert alert-success" role="alert" style="display:none; margin-top: 10px;"> <span class="glyphicon  glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Form has submitted with successful </div>
     <div class="alert alert-danger" role="alert" style="display:none; margin-top: 10px;"> <span class="glyphicon  glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Please check your submission </div>
     <!--PO Line - order detail grid-->
-
     <div class="mgMain">
         <div class="row divRow">
             <div class="col-lg-2 divCol">
@@ -117,8 +115,8 @@
                 </select>
                 <!-- else -->
                 @*<select id="newRow">
-                    <option></option>
-                </select>*@
+                        <option></option>
+                    </select>*@
             </div>
             <div class="col-lg-2 divCol" data-bind="text: PartDescription"></div>
             <div class="col-lg-1 divCol" data-bind="text: ManufactureName"></div>
@@ -134,14 +132,13 @@
             </div>
             <div class="col-lg-1 divCol dtTextAlign" data-bind="text: TotalPrice"></div>
             <div class="col-lg-1 divCol2">
-                <span class="glyphicon glyphicon-remove-circle dtIcon"></span>
+                <button class="btnDelete" data-bind="click: function(){$parent.deletePOLine($data)}, disable:$root.poHeadObject().Cancel"><i class="glyphicon glyphicon-remove-circle dtIcon"></i></button>
+                @*<span class="glyphicon glyphicon-remove-circle dtIcon" data-bind="click: function(){$parent.deletePOLine($data)},disable:$root.poHeadObject().Cancel"></span>*@
             </div>
         </div>
     </div>
-
     <!--Buttons-->
     <div>
-        @*<p class="validationMessage" data-bind="validationMessage: Amount" style="color: red"></p>*@
         <div class="mgButton">
             <p class="dtBold">Purchase Order Price(&pound;):<span data-bind="text: sumTotalPrice()"></span></p>
         </div>
@@ -154,13 +151,7 @@
             <button id="btnSave" class="btn btn-success" data-bind="click: updatePODetail, disable:poHeadObject().Cancel">Save</button>
         </div>
     </div>
-    <!--dialog for cancel PO-->
-    @*this use for dialog jquery
-          <div id="dialog-confirm" title="Delete this item?">
-              <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>This item will be permanently deleted and cannot be recovered. Are you sure?</p>
-        </div>*@
-
-    @*this use for bootstrap dialog*@
+    @*this use for bootstrap dialog, dialog for cancel po*@
     <div class="modal fade" id="dialog-confirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -181,7 +172,3 @@
         </div>
     </div>
 </div>
-
-
-
-

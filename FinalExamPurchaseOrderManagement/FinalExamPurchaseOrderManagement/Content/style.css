@@ -8,6 +8,19 @@ a:hover{
     text-decoration:none;
 }
 
+.logo{
+    width:200px;
+    height:100px;
+    margin-left:20px;
+}
+
+.bigTitle {
+    color:white; 
+    text-align:center;
+    display: inline;
+    margin-left: 20px;
+}
+
 .mgMain {
     margin-top: 50px;
 }
@@ -17,6 +30,13 @@ a:hover{
 }
 
 /*detail screen*/
+.btnDelete {
+    height: 28px;
+    background-color: white;
+    border: none;
+    outline-color: white;
+}
+
 .divRow {
     background-color: #0080ff;
     color: white;
@@ -32,6 +52,7 @@ a:hover{
 .dtIcon {
     color: red;
     font-size: 27px;
+    margin-bottom: 5px;
 }
 
 .divCol {
@@ -102,13 +123,18 @@ a:hover{
     font-weight: bold;
 }
 
+.smSubject{
+    margin-left:20px;
+    font-weight:bold;
+}
 .maxWidth {
-    max-width: 800px;
-    width: 800px;
+    max-width: 1020px;
+    width: 850px;
 }
 
 .smTexarea {
-    margin-left: 78px;
+    margin: 15px;
+    width:1020px;
 }
 
 .smForm {

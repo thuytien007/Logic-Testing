@@ -2,6 +2,7 @@
 using FinalExamPurchaseOrderManagement.BussinessLogic.POService;
 using FinalExamPurchaseOrderManagement.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 
@@ -89,5 +90,13 @@ namespace FinalExamPurchaseOrderManagement.Controllers
         //    var result = poService.AddNewPOLine(poLineNew);
         //    return Json(result, JsonRequestBehavior.AllowGet);
         //}
+
+        //delete po line
+        [HttpPost]
+        public JsonResult DeletePerson(POLine poLine)
+        {
+            var result = poService.DeletePOLine(poLine);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }
