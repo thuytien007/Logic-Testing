@@ -199,14 +199,6 @@ function PODetailViewModel() {
             return true;
         }
     }
-    //Add PO Line
-    self.addPOLine = function () {
-        if (self.poHeadObject().Cancel() == true)
-            return false;
-        else {
-            self.POLineList.push(new self.POLineModelInit(""));
-        } 
-    }
     self.successDialog = function () {
         window.location.href = '/Home/Details/' + Id;
     }
@@ -217,8 +209,32 @@ function PODetailViewModel() {
         alert("update failed");
     }
 
-    //Init row of PO Line to handle delete button
-    self.poLineRow = ko.observable(new self.POLineModelInit("", "", "", 0, 0, "", 0));
+    //Add PO Line 
+    var addPOLTemp = [];
+    self.addPOLine = function () {
+        debugger       
+        $.ajax({
+            url: '/Home/AddPOLine',
+            contentType: 'application/json',
+            data: { id: Id },
+            type: "GET",
+            async: false,
+            success: function (data) {
+                self.POLineList.push(new self.POLineModelInit(""));
+                addPOLTemp = data;
+                console.log("get data from PO Line success");
+            },
+            error: function () {
+                console.log("error with get data for new PO Line");
+            }
+        });
+        return addPOLTemp;
+    }
+
+    self.rsAddPOL = ko.observableArray(self.addPOLine());
+
+    debugger
+    self.selectedOption = new self.POLineModelInit(0,0,"","","",0,0,"");
 
     //remove line after add button clicked(maybe an empty line or not but didn't save yet)
     self.removePOLine = function (item) {
@@ -241,11 +257,11 @@ function PODetailViewModel() {
                         success: self.successDialog,
                         error: self.errorCallback
                     });
-                }                    
-            }        
+                }
+            }
         } else {
             alert("Warning: The PO must have at least one PO line");
-        }    
+        }
     }
 }
 

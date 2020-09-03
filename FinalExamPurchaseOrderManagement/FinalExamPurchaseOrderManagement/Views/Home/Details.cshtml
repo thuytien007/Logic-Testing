@@ -109,14 +109,12 @@
     <div id="show-data" data-bind="foreach: POLineList, disable:poHeadObject().Cancel">
         <div id="poLineDiv" class="row mCenter" style="cursor:pointer" data-bind="click: $root.poLineRow">
             <div class="col-lg-2 divCol2">
-                <!-- if -->
-                <select disabled class="inputTag dtInputWid">
-                    <option data-bind="text: PartCode"></option>
-                </select>
-                <!-- else -->
-                @*<select id="newRow">
-                        <option></option>
-                    </select>*@
+                <!-- ko if: OrderNo -->
+                <input type="text" data-bind="value: PartCode" class="inputTag dtInputWid" disabled />
+                <!-- /ko -->
+                <!-- ko ifnot: OrderNo -->
+                <select data-bind="options: $root.rsAddPOL, optionsText: 'Partcode', value: $root.selectedOption, optionsCaption: 'Choose...'" class="inputTag dtInputWid"></select>
+                <!-- /ko -->
             </div>
             <div class="col-lg-2 divCol" data-bind="text: PartDescription"></div>
             <div class="col-lg-1 divCol" data-bind="text: ManufactureName"></div>
@@ -143,7 +141,7 @@
             <p class="dtBold">Purchase Order Price(&pound;):<span data-bind="text: sumTotalPrice()"></span></p>
         </div>
         <div class="mgButton">
-            <a id="btnAdd" data-bind="click: addPOLine">Add Purchase Order Line</a>
+            <button class="btn btn-link" data-bind="click: addPOLine,disable:poHeadObject().Cancel">Add Purchase Order Line</button>
         </div>
         <div class="mgButton">
             <button id="btnCancelPO" class="btn btn-secondary" data-toggle="modal" data-target="#dialog-confirm" data-bind="disable:poHeadObject().Cancel">Cancel PO</button>

@@ -136,21 +136,37 @@ namespace FinalExamPurchaseOrderManagement.BussinessLogic.POService
             return "calcel po sucess";
         }
         //handle add button, add a new line in po line
-        public string AddNewPOLine(POLine poNewLine)
+        public List<POLine> AddNewPOLine(int id)
         {
+            List<POLine> result = new List<POLine>();
             try
             {
-                //var updateCancelPO = _db.PurchaseOrders.Find(pOHead.OrderNo);
-                //updateCancelPO.Cancel = true;
-                _db.SaveChanges();
+                var getPOLineList = GetPOLineList(id);
+
+                var allPOLine = (from p in _db.PurchaseOrders
+                                 join pl in _db.PurchaseOrderLines on p.OrderNo equals pl.OrderNo
+                                 join pt in _db.Parts on pl.PartNo equals pt.PartNo
+                                 join m in _db.Manufacturers on pt.ManufactureNo equals m.ManufactureNo
+                                 select new POLine
+                                 {
+                                     OrderNo = pl.OrderNo,
+                                     PartNo = pt.PartNo,
+                                     Partcode = pt.Partcode,
+                                     PartDescription = pt.PartDescription,
+                                     ManufactureName = m.ManufacturName,
+                                     Amount = pl.Amount,
+                                     Price = pt.BuyPrice,
+                                     Memo = pl.Memo
+                                 }).ToList();
+
+                result = allPOLine.Except(getPOLineList).ToList();           
 
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                return "Delete PO Line failed";
             }
-            return "calcel po sucess";
+            return result;
         }
 
         public string DeletePOLine(POLine poLine)
