@@ -3,10 +3,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script src="~/Scripts/ViewModel/SentMailViewModel.js"></script>
+
 <h2 class="smSubject">Sent Mail Page</h2>
 
 <h3 class="smTitle">Email Purchase Order(s) to Supplier(s) for deal ref</h3>
-<div style="margin-left:30px">
+<div style="margin-left:30px" id="sent-mail">
+    <input id="smOrderId" type="number" hidden value="@TempData["smOrderNo"]" />
     <div class="col-lg-5">
         <div class="row divRow">
             <div class="col-lg-1 divCol">
@@ -28,7 +31,7 @@
             <div class="col-lg-1 divCol">
                 <input type="checkbox" name="sent-mail" data-bind="checked: SentEmail" disabled />
             </div>
-            <div class="col-lg-2 divCol" data-bind="text: OrderNo"></div>
+            <div class="col-lg-2 divCol" data-bind="text: smObject.OrderNo"></div>
             <div class="col-lg-3 divCol" data-bind="text: SupplierCode"></div>
             <div class="col-lg-3 divCol" data-bind="text: StockSiteCode"></div>
             <div class="col-lg-3 divCol" data-bind="text: PostCode"></div>
@@ -37,7 +40,7 @@
     <div class="col-lg-7">
         <form class="smForm">
             <div class="smNum">
-                <p>Purchase Order <span>@TempData["OrderNo"]</span></p>
+                <p>Purchase Order <span>@TempData["smOrderNo"]</span></p>
             </div>
             <div class="smSpace">
                 <div class="form-group row">

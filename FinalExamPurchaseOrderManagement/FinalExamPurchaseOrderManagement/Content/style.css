@@ -119,7 +119,7 @@ a:hover{
 /*sent mail screen*/
 .smTitle {
     text-align: center;
-    color: cornflowerblue;
+    color: #0080ff;
     font-weight: bold;
 }
 
@@ -138,11 +138,11 @@ a:hover{
 }
 
 .smForm {
-    border: 2px solid cornflowerblue;
+    border: 2px solid #0080ff;
 }
 
 .smNum {
-    background-color: cornflowerblue;
+    background-color: #0080ff;
     height: 30px;
 }
 

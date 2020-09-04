@@ -107,13 +107,13 @@
         </div>
     </div>
     <div id="show-data" data-bind="foreach: POLineList, disable:poHeadObject().Cancel">
-        <div id="poLineDiv" class="row mCenter" style="cursor:pointer" data-bind="click: $root.poLineRow">
+        <div class="row mCenter" style="cursor:pointer">
             <div class="col-lg-2 divCol2">
                 <!-- ko if: OrderNo -->
                 <input type="text" data-bind="value: PartCode" class="inputTag dtInputWid" disabled />
                 <!-- /ko -->
                 <!-- ko ifnot: OrderNo -->
-                <select data-bind="options: $root.rsAddPOL, optionsText: 'Partcode', value: $root.selectedOption, optionsCaption: 'Choose...'" class="inputTag dtInputWid"></select>
+                <select data-bind="options: $root.rsAddPOL, optionsText: 'Partcode', value: $root.SelectedPartNo, optionsCaption: 'Choose...',event:{ change: $parent.permissionChanged}" class="inputTag dtInputWid"></select>
                 <!-- /ko -->
             </div>
             <div class="col-lg-2 divCol" data-bind="text: PartDescription"></div>
@@ -170,3 +170,4 @@
         </div>
     </div>
 </div>
+

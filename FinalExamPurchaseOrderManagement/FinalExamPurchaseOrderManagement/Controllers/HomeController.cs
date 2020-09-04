@@ -24,6 +24,16 @@ namespace FinalExamPurchaseOrderManagement.Controllers
         }
         public ActionResult SentMail()
         {
+            //if (id == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+            //PurchaseOrder sentMail = db.PurchaseOrders.Find(id);
+            //if (sentMail == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            //TempData["smOrderNo"] = id;
             return View();
         }
 

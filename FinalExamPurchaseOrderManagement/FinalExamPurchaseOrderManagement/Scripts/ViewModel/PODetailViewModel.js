@@ -13,7 +13,7 @@ function PODetailViewModel() {
     }
 
     //Init PO Head Model Object
-    self.PODetailModelInit = function (OrderNo, SupplierCode, SupplierName, StockSiteCode, StockSiteName, OrderDate, Country, Note, Address, PostCode, Cancel) {
+    self.POHeadModelInit = function (OrderNo, SupplierCode, SupplierName, StockSiteCode, StockSiteName, OrderDate, Country, Note, Address, PostCode, Cancel) {
         var _this = this;
         _this.OrderNo = ko.observable(OrderNo);
         _this.SupplierCode = ko.observable(SupplierCode);
@@ -32,7 +32,7 @@ function PODetailViewModel() {
     //this function set data got from db to ko.observerble-->serve for validate if it have any changes
     self.poHeadObjectSetObserverble = function (obj) {
         try {
-            var poHead = new self.PODetailModelInit(obj.OrderNo, obj.SupplierCode, obj.SupplierName, obj.StockSiteCode, obj.StockSiteName, obj.OrderDate, obj.Country, obj.Note, obj.Address, obj.PostCode, obj.Cancel);
+            var poHead = new self.POHeadModelInit(obj.OrderNo, obj.SupplierCode, obj.SupplierName, obj.StockSiteCode, obj.StockSiteName, obj.OrderDate, obj.Country, obj.Note, obj.Address, obj.PostCode, obj.Cancel);
             return poHead;
         } catch (err) {
             console.log(err.message);
@@ -144,7 +144,7 @@ function PODetailViewModel() {
         var error = false;
         for (var i = 0; i < poLineList.length; i++) {
             var amount = parseInt(poLineList[i].Amount());
-            var buyPrice = parseFloat(poLineList[i].BuyPrice());
+            var buyPrice = parseFloat(poLineList[i].Price());
             if (amount <= 0 || buyPrice <= 0 || isNaN(amount) || isNaN(buyPrice)) {
                 error = true;
                 break;
@@ -210,7 +210,8 @@ function PODetailViewModel() {
     }
 
     //Add PO Line 
-    var addPOLTemp = [];
+    //var addPOLTemp = [];
+    self.rsAddPOL = ko.observableArray();
     self.addPOLine = function () {
         debugger       
         $.ajax({
@@ -221,20 +222,34 @@ function PODetailViewModel() {
             async: false,
             success: function (data) {
                 self.POLineList.push(new self.POLineModelInit(""));
-                addPOLTemp = data;
+                self.rsAddPOL(data);
                 console.log("get data from PO Line success");
             },
             error: function () {
                 console.log("error with get data for new PO Line");
             }
         });
-        return addPOLTemp;
+        //return addPOLTemp;    
     }
 
-    self.rsAddPOL = ko.observableArray(self.addPOLine());
+    self.permissionChanged = function (obj, event) {
+        debugger
+        console.log(self.POLineList()[2].PartNo());
+        if (event.originalEvent) {
+            //user changed
+            var len = self.POLineList().length;
+            self.POLineList()[len - 1].PartNo(obj.PartNo().PartNo);
+            self.POLineList()[len - 1].OrderNo(0);
+            self.POLineList()[len - 1].PartDescription(obj.PartNo().PartDescription);
+            self.POLineList()[len - 1].ManufactureName(obj.PartNo().ManufactureName);
+            self.POLineList()[len - 1].Amount(obj.PartNo().Amount);
+            self.POLineList()[len - 1].Price(obj.PartNo().Price);
+            self.POLineList()[len - 1].Memo(obj.PartNo().Memo);
+        } else { 
+            // program changed
+        }
 
-    debugger
-    self.selectedOption = new self.POLineModelInit(0,0,"","","",0,0,"");
+    }
 
     //remove line after add button clicked(maybe an empty line or not but didn't save yet)
     self.removePOLine = function (item) {

@@ -100,11 +100,28 @@ namespace FinalExamPurchaseOrderManagement.BussinessLogic.POService
                 //sqlserver is just understand value, not object
                 var partNum = poLine[i].PartNo;
                 var orderNum = poLine[i].OrderNo;
-                var updatePOLine = _db.PurchaseOrderLines.FirstOrDefault(pl => (pl.PartNo == partNum) && (pl.OrderNo == orderNum));
-                updatePOLine.Amount = poLine[i].Amount;
-                updatePOLine.Price = poLine[i].Price;
-                updatePOLine.Memo = poLine[i].Memo;
-                _db.SaveChanges();
+                if(orderNum == 0)
+                {
+                    var newPOLine = new PurchaseOrderLine()
+                    {
+                        OrderNo = poHead.OrderNo,
+                        PartNo = poLine[i].PartNo,
+                        Amount = poLine[i].Amount,
+                        Price = poLine[i].Price,
+                        Memo = poLine[i].Memo
+                    };
+
+                    _db.PurchaseOrderLines.Add(newPOLine);
+                    _db.SaveChanges();
+                }
+                else
+                {
+                    var updatePOLine = _db.PurchaseOrderLines.FirstOrDefault(pl => (pl.PartNo == partNum) && (pl.OrderNo == orderNum));
+                    updatePOLine.Amount = poLine[i].Amount;
+                    updatePOLine.Price = poLine[i].Price;
+                    updatePOLine.Memo = poLine[i].Memo;
+                    _db.SaveChanges();
+                }    
             }
             return "update success";
         }
@@ -143,24 +160,22 @@ namespace FinalExamPurchaseOrderManagement.BussinessLogic.POService
             {
                 var getPOLineList = GetPOLineList(id);
 
-                var allPOLine = (from p in _db.PurchaseOrders
-                                 join pl in _db.PurchaseOrderLines on p.OrderNo equals pl.OrderNo
-                                 join pt in _db.Parts on pl.PartNo equals pt.PartNo
+                var allPOLine = (from pt in _db.Parts
                                  join m in _db.Manufacturers on pt.ManufactureNo equals m.ManufactureNo
                                  select new POLine
                                  {
-                                     OrderNo = pl.OrderNo,
+                                     //OrderNo = pl.OrderNo,
                                      PartNo = pt.PartNo,
                                      Partcode = pt.Partcode,
                                      PartDescription = pt.PartDescription,
                                      ManufactureName = m.ManufacturName,
-                                     Amount = pl.Amount,
+                                     //Amount = pl.Amount,
                                      Price = pt.BuyPrice,
-                                     Memo = pl.Memo
+                                     //Memo = pl.Memo
                                  }).ToList();
 
-                result = allPOLine.Except(getPOLineList).ToList();           
-
+                //if you want to use Except in here, on POLine Model you must make a function Equal to compare attribute that you want
+                result = allPOLine.Except(getPOLineList).ToList();
             }
             catch (Exception e)
             {
