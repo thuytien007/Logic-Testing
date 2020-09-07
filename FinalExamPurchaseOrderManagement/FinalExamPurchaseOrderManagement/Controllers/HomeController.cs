@@ -111,9 +111,9 @@ namespace FinalExamPurchaseOrderManagement.Controllers
 
         //sent mail
         [HttpPost]
-        public JsonResult SentMail(int id, SentMailObject smObject)
+        public JsonResult SentMail(SentMailObject smObject)
         {
-            var result = poService.SentMail(id, smObject);
+            var result = poService.SentMail(smObject);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
     }

@@ -208,12 +208,12 @@ namespace FinalExamPurchaseOrderManagement.BussinessLogic.POService
         }
 
         //handle sent mail
-        public string SentMail(int id, SentMailObject smObject)
+        public string SentMail(SentMailObject smObject)
         {
             try
             {
                 //update sentmail column in db to True
-                var updateId = _db.PurchaseOrders.Find(id);
+                var updateId = _db.PurchaseOrders.Find(smObject.OrderNo);
                 updateId.SentEmail = true;
                 _db.SaveChanges();
 

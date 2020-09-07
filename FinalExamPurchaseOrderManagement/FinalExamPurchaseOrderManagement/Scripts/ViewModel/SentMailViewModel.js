@@ -35,6 +35,7 @@
 
     self.SentMailModel = function () {
         var _this = this;
+        _this.OrderNo = Id;
         _this.From = ko.observable(self.smObject().StockEmail);
         _this.To = ko.observable(self.smObject().SupplierEmail);
         _this.Cc = ko.observable();
@@ -44,15 +45,15 @@
     }
 
     //self.sentMailObser = ko.observable(self.SentMailModel());
-    self.sentMailObser = ko.observable(self.SentMailModel());
+    self.sentMailObser = ko.observable(new self.SentMailModel());
 
     self.sentMail = function () {
         debugger
         $.ajax({
             url: '/Home/SentMail',
             contentType: 'application/json',
-            data: ko.toJSON({ id: Id, smObject: self.sentMailObser }),
-            type: "GET",
+            data: ko.toJSON({ smObject: self.sentMailObser }),
+            type: "POST",
             async: false,
             success: self.successCallback,
             error: self.errorCallback
