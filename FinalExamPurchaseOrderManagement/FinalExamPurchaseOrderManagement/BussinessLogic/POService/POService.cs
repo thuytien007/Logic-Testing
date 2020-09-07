@@ -3,6 +3,7 @@ using FinalExamPurchaseOrderManagement.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 
 namespace FinalExamPurchaseOrderManagement.BussinessLogic.POService
 {
@@ -44,14 +45,18 @@ namespace FinalExamPurchaseOrderManagement.BussinessLogic.POService
                                    OrderNo = p.OrderNo,
                                    SupplierCode = s.SupplierCode,
                                    SupplierName = s.SupplierName,
+                                   SupplierEmail = s.Email,
                                    StockSiteCode = st.StockSiteCode,
                                    StockSiteName = st.StockSiteName,
+                                   StockEmail = st.Email,
                                    OrderDate = p.OrderDate,
                                    Country = p.Country,
                                    Note = p.Note,
                                    Address = p.Address,
                                    PostCode = p.PostCode,
                                    Cancel = p.Cancel,
+                                   //also get sent email to serve for checkbox of SM Screen
+                                   SentEmail = p.SentEmail
                                };
 
             var result = resultPOHead.FirstOrDefault();
@@ -184,6 +189,7 @@ namespace FinalExamPurchaseOrderManagement.BussinessLogic.POService
             return result;
         }
 
+        //delete po line
         public string DeletePOLine(POLine poLine)
         {
             try
@@ -199,6 +205,41 @@ namespace FinalExamPurchaseOrderManagement.BussinessLogic.POService
             }
             
             return "Delete PO Line successfully";
+        }
+
+        //handle sent mail
+        public string SentMail(int id, SentMailObject smObject)
+        {
+            try
+            {
+                //update sentmail column in db to True
+                var updateId = _db.PurchaseOrders.Find(id);
+                updateId.SentEmail = true;
+                _db.SaveChanges();
+
+                //sent mail to someone
+                MailMessage mail = new MailMessage();
+                mail.To.Add(smObject.To);
+                mail.From = new MailAddress(smObject.From, "Email head", System.Text.Encoding.UTF8);
+                mail.Subject = smObject.Subject;
+                mail.SubjectEncoding = System.Text.Encoding.UTF8;
+                mail.Body = smObject.Content;
+                mail.BodyEncoding = System.Text.Encoding.UTF8;
+                mail.IsBodyHtml = true;
+                mail.Priority = MailPriority.High;
+                SmtpClient client = new SmtpClient();
+                client.Credentials = new System.Net.NetworkCredential("tiennguyen0607", "hahaha");
+                client.Port = 587;
+                client.Host = "smtp.gmail.com";
+                client.EnableSsl = true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return "send mail failed";
+            }
+
+            return "send mail successfully";
         }
     }
 }

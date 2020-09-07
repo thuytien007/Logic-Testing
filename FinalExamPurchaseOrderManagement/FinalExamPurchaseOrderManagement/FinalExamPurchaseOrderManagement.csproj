@@ -131,6 +131,7 @@
     <Compile Include="BussinessLogic\Model\POHead.cs" />
     <Compile Include="BussinessLogic\Model\POLine.cs" />
     <Compile Include="BussinessLogic\Model\POList.cs" />
+    <Compile Include="BussinessLogic\Model\SentMailObject.cs" />
     <Compile Include="BussinessLogic\POService\POService.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">

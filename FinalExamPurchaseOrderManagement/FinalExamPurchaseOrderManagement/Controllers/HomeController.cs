@@ -22,19 +22,19 @@ namespace FinalExamPurchaseOrderManagement.Controllers
         {
             return View();
         }
-        public ActionResult SentMail()
+        public ActionResult SentMail(int? id)
         {
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            //PurchaseOrder sentMail = db.PurchaseOrders.Find(id);
-            //if (sentMail == null)
-            //{
-            //    return HttpNotFound();
-            //}
-            //TempData["smOrderNo"] = id;
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            PurchaseOrder sentMail = db.PurchaseOrders.Find(id);
+            if (sentMail == null)
+            {
+                return HttpNotFound();
+            }
+            TempData["OrderNo"] = id;
+            return View(sentMail);
         }
 
         public ActionResult Details(int? id)
@@ -106,6 +106,14 @@ namespace FinalExamPurchaseOrderManagement.Controllers
         public JsonResult DeletePerson(POLine poLine)
         {
             var result = poService.DeletePOLine(poLine);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        //sent mail
+        [HttpPost]
+        public JsonResult SentMail(int id, SentMailObject smObject)
+        {
+            var result = poService.SentMail(id, smObject);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
     }

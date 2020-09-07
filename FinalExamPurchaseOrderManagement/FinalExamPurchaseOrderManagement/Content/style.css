@@ -158,6 +158,12 @@ a:hover{
     color:coral;
 }
 
+.smOrderNoTitle{
+    font-weight:bold;
+    color:white;
+    padding:2px;
+}
+
 /*style form error on View*/
 .errorStyle {
     background-color: #ffff99;

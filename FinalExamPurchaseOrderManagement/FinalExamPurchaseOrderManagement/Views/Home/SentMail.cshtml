@@ -9,7 +9,7 @@
 
 <h3 class="smTitle">Email Purchase Order(s) to Supplier(s) for deal ref</h3>
 <div style="margin-left:30px" id="sent-mail">
-    <input id="smOrderId" type="number" hidden value="@TempData["smOrderNo"]" />
+    <input id="smOrderId" type="number" hidden value="@TempData["OrderNo"]" />
     <div class="col-lg-5">
         <div class="row divRow">
             <div class="col-lg-1 divCol">
@@ -29,52 +29,52 @@
         </div>
         <div class="row box2 mCenter">
             <div class="col-lg-1 divCol">
-                <input type="checkbox" name="sent-mail" data-bind="checked: SentEmail" disabled />
+                <input type="checkbox" data-bind="checked: smObject().SentEmail" disabled />
             </div>
-            <div class="col-lg-2 divCol" data-bind="text: smObject.OrderNo"></div>
-            <div class="col-lg-3 divCol" data-bind="text: SupplierCode"></div>
-            <div class="col-lg-3 divCol" data-bind="text: StockSiteCode"></div>
-            <div class="col-lg-3 divCol" data-bind="text: PostCode"></div>
+            <div class="col-lg-2 divCol" data-bind="text: smObject().OrderNo"></div>
+            <div class="col-lg-3 divCol" data-bind="text: smObject().SupplierCode"></div>
+            <div class="col-lg-3 divCol" data-bind="text: smObject().StockSiteCode"></div>
+            <div class="col-lg-3 divCol" data-bind="text: smObject().PostCode"></div>
         </div>
     </div>
     <div class="col-lg-7">
         <form class="smForm">
             <div class="smNum">
-                <p>Purchase Order <span>@TempData["smOrderNo"]</span></p>
+                <p class="smOrderNoTitle">Purchase Order: <span>@TempData["OrderNo"]</span></p>
             </div>
             <div class="smSpace">
                 <div class="form-group row">
                     <div class="col-lg-2"><label class="col-sm-1">From:</label></div>
                     <div class="col-lg-4">
-                        <input type="email" class="form-control maxWidth" placeholder="From Email...">
+                        <input type="email" class="form-control maxWidth" data-bind="value: sentMailObser().From" disabled>
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-lg-2"><label class="col-sm-1">To:</label></div>
                     <div class="col-lg-4">
-                        <input type="email" class="form-control maxWidth" placeholder="To Email...">
+                        <input type="email" class="form-control maxWidth" data-bind="value: sentMailObser().To">
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-lg-2"><label class="col-sm-1">Cc:</label></div>
                     <div class="col-lg-4">
-                        <input type="email" class="form-control maxWidth" placeholder="Cc...">
+                        <input type="email" class="form-control maxWidth" data-bind="value: sentMailObser().Cc">
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-lg-2"><label class="col-sm-1">Subject:</label></div>
                     <div class="col-lg-4">
-                        <input type="email" class="form-control maxWidth" placeholder="Subject...">
+                        <input type="email" class="form-control maxWidth" data-bind="value: sentMailObser().Subject">
                     </div>
                 </div>
                 <div>
-                    <textarea rows="10" class="form-control maxWidth smTexarea" placeholder="Content..."></textarea>
+                    <textarea rows="10" class="form-control maxWidth smTexarea" data-bind="value: sentMailObser().Content"></textarea>
                 </div>
             </div>
         </form>
         <div class="smButton">
-            <button class="btn btn-success"><span class="glyphicon glyphicon-envelope"></span>Sent Email</button>
-            <button class="btn btn-secondary"><span class="glyphicon glyphicon-ban-circle"></span><a href="@Url.Action("Index","Home")">Sent Email Later, go to PO tab</a></button>
+            <button class="btn btn-success" data-bind="click: sentMail"><span class="glyphicon glyphicon-envelope"></span> Sent 1 email(s)</button>
+            <button class="btn btn-secondary"><span class="glyphicon glyphicon-ban-circle"></span><a href="@Url.Action("Index","Home")"> Sent email later, go to PO tab</a></button>
         </div>
     </div>
 </div>

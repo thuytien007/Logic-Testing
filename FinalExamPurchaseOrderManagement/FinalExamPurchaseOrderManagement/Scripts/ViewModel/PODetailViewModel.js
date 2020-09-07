@@ -30,7 +30,7 @@ function PODetailViewModel() {
     };
 
     //this function set data got from db to ko.observerble-->serve for validate if it have any changes
-    self.poHeadObjectSetObserverble = function (obj) {
+    self.poHeadObjectSetObservable = function (obj) {
         try {
             var poHead = new self.POHeadModelInit(obj.OrderNo, obj.SupplierCode, obj.SupplierName, obj.StockSiteCode, obj.StockSiteName, obj.OrderDate, obj.Country, obj.Note, obj.Address, obj.PostCode, obj.Cancel);
             return poHead;
@@ -63,7 +63,7 @@ function PODetailViewModel() {
     }
     var objResult = self.getResultPOHeadObject();
     //Init temp PO Head Object to get data from db
-    self.poHeadObject = ko.observable(self.poHeadObjectSetObserverble(objResult));
+    self.poHeadObject = ko.observable(self.poHeadObjectSetObservable(objResult));
 
     //Init PO Line List
     self.POLineModelInit = function (PartNo, OrderNo, PartCode, PartDescription, ManufactureName, Amount, Price, Memo) {
