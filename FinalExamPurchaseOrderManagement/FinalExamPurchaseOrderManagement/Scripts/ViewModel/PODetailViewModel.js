@@ -199,6 +199,7 @@ function PODetailViewModel() {
             return true;
         }
     }
+
     self.successDialog = function () {
         window.location.href = '/Home/Details/' + Id;
     }
@@ -232,29 +233,33 @@ function PODetailViewModel() {
         //return addPOLTemp;    
     }
 
-    self.permissionChanged = function (obj, event) {
-        debugger
-        console.log(self.POLineList()[2].PartNo());
-        if (event.originalEvent) {
-            //user changed
-            var len = self.POLineList().length;
-            self.POLineList()[len - 1].PartNo(obj.PartNo().PartNo);
-            self.POLineList()[len - 1].OrderNo(0);
-            self.POLineList()[len - 1].PartDescription(obj.PartNo().PartDescription);
-            self.POLineList()[len - 1].ManufactureName(obj.PartNo().ManufactureName);
-            self.POLineList()[len - 1].Amount(obj.PartNo().Amount);
-            self.POLineList()[len - 1].Price(obj.PartNo().Price);
-            self.POLineList()[len - 1].Memo(obj.PartNo().Memo);
-        } else { 
-            // program changed
-        }
+    //self.permissionChanged = function (obj, event) {
+    //    debugger
+    //    console.log(self.POLineList()[2].PartNo());
+    //    if (event.originalEvent) {
+    //        //user changed
+    //        var len = self.POLineList().length;
+    //        self.POLineList()[len - 1].PartNo(obj.PartNo().PartNo);
+    //        self.POLineList()[len - 1].OrderNo(0);
+    //        self.POLineList()[len - 1].PartDescription(obj.PartNo().PartDescription);
+    //        self.POLineList()[len - 1].ManufactureName(obj.PartNo().ManufactureName);
+    //        self.POLineList()[len - 1].Amount(obj.PartNo().Amount);
+    //        self.POLineList()[len - 1].Price(obj.PartNo().Price);
+    //        self.POLineList()[len - 1].Memo(obj.PartNo().Memo);
+    //    } else { 
+    //        // program changed
+    //    }
+    //}
+    debugger
+    //self.selectedPartNo = ko.observable(new self.POLineModelInit());
+    self.selectedPartNo = ko.observable();
 
-    }
 
     //remove line after add button clicked(maybe an empty line or not but didn't save yet)
     self.removePOLine = function (item) {
         self.POLineList.remove(item);
     }
+
     self.deletePOLine = function (data) {
         debugger
         var countRow = self.POLineList().length;

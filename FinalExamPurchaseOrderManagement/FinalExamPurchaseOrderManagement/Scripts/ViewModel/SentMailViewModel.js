@@ -48,31 +48,32 @@
     listPOLineTemp = self.getPOLineList();
 
     self.smSubject = ko.computed(function () {
-        return 'Order - [ ' + self.smObject().OrderNo + ' - ' + self.smObject().StockSiteName + ' ]';
+        return 'Order - <' + self.smObject().OrderNo + ' - ' + self.smObject().StockSiteName + '>';
     })
 
     self.smContent = ko.computed(function () {
         debugger
         var stringPOLine = "";
         for (var i = 0; i < listPOLineTemp.length; i++){
-            stringPOLine += "Part Name: " + listPOLineTemp[i].Partcode + "   " + "Qty: "+ listPOLineTemp[i].Amount + "   " + "Price: "+listPOLineTemp[i].Price + "\r\n\r\n";
+            stringPOLine += "Part Name: " +'<'+ listPOLineTemp[i].Partcode + '>' + "   " + "Qty: "+ '<'+listPOLineTemp[i].Amount + '>'+ "   " + "Price: " + "<" +listPOLineTemp[i].Price + '>' + "\r\n\r\n";
         }
         return 'Hi,\r\n\r\nPlease process the attached order directly into our customer as stipulated on the attached PO.\r\n\r\nPO Number: ' +
             self.smObject().OrderNo + '\r\n\r\n' + 'PO Line List:' + '\r\n\r\n' + stringPOLine + '\r\n\r\nKind Regards,';
     })
 
+    //create a sent mail model to return to database to sent to someone
     self.SentMailModel = function () {
         var _this = this;
         _this.OrderNo = Id;
         _this.From = ko.observable(self.smObject().StockEmail);
         _this.To = ko.observable(self.smObject().SupplierEmail).extend({ required:true, email:true});
-        _this.Cc = ko.observable().extend({email: true });;
+        _this.Cc = ko.observable();
         _this.Subject = ko.observable(self.smSubject());
         _this.Content = ko.observable(self.smContent());
         return _this;
     }
 
-    //self.sentMailObser = ko.observable(self.SentMailModel());
+    //an observable SentMailModel auto change if user change on FORM
     self.sentMailObser = ko.observable(new self.SentMailModel());
 
     self.sentMail = function () {
@@ -106,9 +107,6 @@ $(function () {
         parseInputAttributes: true,
         //style css for error tag
         errorClass: 'errorStyle',
-        //using grouping with deep because we have arrayobject, need to get object inside array
-        //deep helps us access into that object
-        //grouping: { deep: true, observable: true },
         messageTemplate: null
     }, true);
 

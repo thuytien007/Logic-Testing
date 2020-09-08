@@ -1,16 +1,6 @@
-﻿//main ViewModel
+﻿//main ViewModel (PO List)
 function POViewModel() {
     var self = this;
-    //Init PO Detai Model Object
-    //self.POModelInit = function (OrderNo, SupplierCode, StockSiteCode, StockSiteName, OrderDate, LastUpdate, SentEmail) {
-    //    self.OrderNo = ko.observable(OrderNo);
-    //    self.SupplierCode = ko.observable(SupplierCode);
-    //    self.StockSiteCode = ko.observable(StockSiteCode);
-    //    self.StockSiteName = ko.observable(StockSiteName);
-    //    self.OrderDate = ko.observable(OrderDate);
-    //    self.LastUpdate = ko.observable(LastUpdate);
-    //    self.SentEmail = ko.observable(SentEmail);
-    //};
 
     //function to format date
     self.formatDate = function (date) {
