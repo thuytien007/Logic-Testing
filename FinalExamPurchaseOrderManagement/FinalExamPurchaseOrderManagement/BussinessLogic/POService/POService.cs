@@ -3,7 +3,9 @@ using FinalExamPurchaseOrderManagement.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Mail;
+using System.Windows;
 
 namespace FinalExamPurchaseOrderManagement.BussinessLogic.POService
 {
@@ -208,7 +210,7 @@ namespace FinalExamPurchaseOrderManagement.BussinessLogic.POService
         }
 
         //handle sent mail
-        public string SentMail(SentMailObject smObject)
+        public void SentMail(SentMailObject smObject)
         {
             try
             {
@@ -218,28 +220,29 @@ namespace FinalExamPurchaseOrderManagement.BussinessLogic.POService
                 _db.SaveChanges();
 
                 //sent mail to someone
-                MailMessage mail = new MailMessage();
-                mail.To.Add(smObject.To);
-                mail.From = new MailAddress(smObject.From, "Email head", System.Text.Encoding.UTF8);
-                mail.Subject = smObject.Subject;
-                mail.SubjectEncoding = System.Text.Encoding.UTF8;
-                mail.Body = smObject.Content;
-                mail.BodyEncoding = System.Text.Encoding.UTF8;
-                mail.IsBodyHtml = true;
-                mail.Priority = MailPriority.High;
-                SmtpClient client = new SmtpClient();
-                client.Credentials = new System.Net.NetworkCredential("tiennguyen0607", "hahaha");
+                NetworkCredential lg = new NetworkCredential("tientien@gmail.com", "hahaha");
+                SmtpClient client = new SmtpClient("smtp.gmail.com");
                 client.Port = 587;
-                client.Host = "smtp.gmail.com";
                 client.EnableSsl = true;
+                client.Credentials = lg;
+                MailMessage mgs = new MailMessage();
+                mgs.From = new MailAddress(smObject.From, "Tien Nguyen", System.Text.Encoding.UTF8);
+                mgs.To.Add(new MailAddress(smObject.To));
+                if (!string.IsNullOrEmpty(smObject.Cc))
+                    mgs.To.Add(new MailAddress(smObject.Cc));
+                mgs.Subject = smObject.Subject;
+                mgs.SubjectEncoding = System.Text.Encoding.UTF8;
+                mgs.Body = smObject.Content;
+                mgs.BodyEncoding = System.Text.Encoding.UTF8;
+                mgs.IsBodyHtml = true;
+                mgs.Priority = MailPriority.Normal;
+                mgs.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+                client.Send(mgs);
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
-                return "send mail failed";
+                MessageBox.Show(e.Message);               
             }
-
-            return "send mail successfully";
         }
     }
 }

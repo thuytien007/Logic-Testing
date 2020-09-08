@@ -113,8 +113,8 @@ namespace FinalExamPurchaseOrderManagement.Controllers
         [HttpPost]
         public JsonResult SentMail(SentMailObject smObject)
         {
-            var result = poService.SentMail(smObject);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            poService.SentMail(smObject);
+            return Json(JsonRequestBehavior.AllowGet);
         }
     }
 }

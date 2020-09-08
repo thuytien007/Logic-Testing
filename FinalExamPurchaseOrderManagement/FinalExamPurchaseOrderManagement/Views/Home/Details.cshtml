@@ -10,7 +10,7 @@
     <h2 class="dtBold">Purchase Order Details</h2>
     <h4 class="warning" data-bind="text:'Warning: this PO can not be edit because aldready cancelled', visible: poHeadObject().Cancel"></h4>
     <h3 class="dtTitle">Purchase Order:@TempData["OrderNo"]<span></span></h3>
-    <input id="OrderId" type="number" name="name" hidden value="@TempData["OrderNo"]" />
+    <input id="OrderId" type="number" hidden value="@TempData["OrderNo"]" />
     <!--PO Head Object-->
     <div class="dtBorder">
         <form>

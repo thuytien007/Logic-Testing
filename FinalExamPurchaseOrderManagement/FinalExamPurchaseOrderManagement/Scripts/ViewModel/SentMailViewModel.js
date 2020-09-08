@@ -25,20 +25,48 @@
     //get Object result from db
     self.smObject = ko.observable(self.getResultSentMailObject());
 
+    //get PO Line List
+    var listPOLineTemp = [];
+    self.getPOLineList = function () {
+        $.ajax({
+            url: '/Home/GetPOLineList',
+            contentType: 'application/json',
+            data: { id: Id },
+            type: "GET",
+            async: false,
+            success: function (data) {
+                listPOLineTemp = data;
+                console.log("get data from PO Line success");
+            },
+            error: function () {
+                console.log("error with get data");
+            }
+        });
+        return listPOLineTemp;
+    }
+
+    listPOLineTemp = self.getPOLineList();
+
     self.smSubject = ko.computed(function () {
         return 'Order - [ ' + self.smObject().OrderNo + ' - ' + self.smObject().StockSiteName + ' ]';
     })
 
     self.smContent = ko.computed(function () {
-        return 'Hi,\r\n\r\nPlease process the attached order directly into our customer as stipulated on the attached PO.\r\n\r\nPO Number: ' + self.smObject().OrderNo + '\r\n\r\nKind Regards,';
+        debugger
+        var stringPOLine = "";
+        for (var i = 0; i < listPOLineTemp.length; i++){
+            stringPOLine += "Part Name: " + listPOLineTemp[i].Partcode + "   " + "Qty: "+ listPOLineTemp[i].Amount + "   " + "Price: "+listPOLineTemp[i].Price + "\r\n\r\n";
+        }
+        return 'Hi,\r\n\r\nPlease process the attached order directly into our customer as stipulated on the attached PO.\r\n\r\nPO Number: ' +
+            self.smObject().OrderNo + '\r\n\r\n' + 'PO Line List:' + '\r\n\r\n' + stringPOLine + '\r\n\r\nKind Regards,';
     })
 
     self.SentMailModel = function () {
         var _this = this;
         _this.OrderNo = Id;
         _this.From = ko.observable(self.smObject().StockEmail);
-        _this.To = ko.observable(self.smObject().SupplierEmail);
-        _this.Cc = ko.observable();
+        _this.To = ko.observable(self.smObject().SupplierEmail).extend({ required:true, email:true});
+        _this.Cc = ko.observable().extend({email: true });;
         _this.Subject = ko.observable(self.smSubject());
         _this.Content = ko.observable(self.smContent());
         return _this;
@@ -64,6 +92,7 @@
         alert("sent mail success");
         window.location.href = '/Home/SentMail/' + Id;
     }
+
     self.errorCallback = function () {
         alert("sent mail failed");
     }
