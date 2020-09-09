@@ -220,11 +220,14 @@ namespace FinalExamPurchaseOrderManagement.BussinessLogic.POService
                 _db.SaveChanges();
 
                 //sent mail to someone
-                NetworkCredential lg = new NetworkCredential("tientien@gmail.com", "hahaha");
+               
                 SmtpClient client = new SmtpClient("smtp.gmail.com");
-                client.Port = 587;
+          
+                client.UseDefaultCredentials = false;
+                //NetworkCredential lg = new NetworkCredential("tientien@gmail.com", "hahaha");
+                client.Credentials = new NetworkCredential("tientien@gmail.com", "hahaha");
                 client.EnableSsl = true;
-                client.Credentials = lg;
+                client.Port = 587;
                 MailMessage mgs = new MailMessage();
                 mgs.From = new MailAddress(smObject.From, "Tien Nguyen", System.Text.Encoding.UTF8);
                 mgs.To.Add(new MailAddress(smObject.To));

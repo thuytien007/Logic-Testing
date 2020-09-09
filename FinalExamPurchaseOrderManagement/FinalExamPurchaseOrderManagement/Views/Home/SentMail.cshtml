@@ -7,8 +7,9 @@
 
 <h2 class="smSubject">Sent Mail Page</h2>
 
+<div class="alert alert-danger" role="alert" style="display:none; margin-top: 10px;"> <span class="glyphicon  glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Please check your submission </div>
 <h3 class="smTitle">Email Purchase Order(s) to Supplier(s) for deal ref</h3>
-<div style="margin-left:30px" id="sent-mail">
+<div style="margin-left:30px" id="send-mail">
     <input id="smOrderId" type="number" hidden value="@TempData["OrderNo"]" />
     <div class="col-lg-5">
         <div class="row divRow">
@@ -73,7 +74,7 @@
             </div>
         </form>
         <div class="smButton">
-            <button class="btn btn-success" data-bind="click: sentMail"><span class="glyphicon glyphicon-envelope"></span> Sent 1 email(s)</button>
+            <button class="btn btn-success" data-bind="click: sentMail"><span class="glyphicon glyphicon-envelope"></span> Send 1 email(s)</button>
             <button class="btn btn-secondary"><span class="glyphicon glyphicon-ban-circle"></span><a href="@Url.Action("Index","Home")"> Sent email later, go to PO tab</a></button>
         </div>
     </div>

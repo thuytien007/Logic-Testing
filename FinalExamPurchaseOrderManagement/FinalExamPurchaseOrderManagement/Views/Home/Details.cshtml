@@ -113,7 +113,7 @@
                 <input type="text" data-bind="value: PartCode" class="inputTag dtInputWid" disabled />
                 <!-- /ko -->
                 <!-- ko ifnot: OrderNo -->
-                <select data-bind="options: $root.rsAddPOL, optionsText: 'Partcode', optionsValue: 'PartNo', value: $root.selectedPartNo, optionsCaption: 'Choose...'" class="inputTag dtInputWid"></select>
+                <select data-bind="options: $root.rsAddPOL, optionsText: 'Partcode', value: $root.idSelected, optionsCaption: 'Choose...'" class="inputTag dtInputWid"></select>
                 <!-- /ko -->
             </div>
             <div class="col-lg-2 divCol" data-bind="text: PartDescription"></div>

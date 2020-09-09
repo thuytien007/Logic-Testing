@@ -3,6 +3,7 @@ function PODetailViewModel() {
     //get Id from PO List screen
     var Id = parseInt($('#OrderId').val());
     var self = this;
+    var checkAdd = false;
 
     //function to format date
     self.formatDate = function (date) {
@@ -159,7 +160,6 @@ function PODetailViewModel() {
         var rsCheckPOLineError = self.checkValidatePOLine(self.POLineList());
 
         if (errorPOHead().length === 0 && rsCheckPOLineError == false) {
-            $('div.alert-success').show();
             $.ajax({
                 url: '/Home/UpdatePODetails',
                 contentType: 'application/json',
@@ -204,7 +204,8 @@ function PODetailViewModel() {
         window.location.href = '/Home/Details/' + Id;
     }
     self.successCallback = function () {
-        alert("update success");
+        alert("updated success");
+        window.location.href = '/Home/Details/' + Id;
     }
     self.errorCallback = function () {
         alert("update failed");
@@ -214,7 +215,6 @@ function PODetailViewModel() {
     //var addPOLTemp = [];
     self.rsAddPOL = ko.observableArray();
     self.addPOLine = function () {
-        debugger       
         $.ajax({
             url: '/Home/AddPOLine',
             contentType: 'application/json',
@@ -222,7 +222,8 @@ function PODetailViewModel() {
             type: "GET",
             async: false,
             success: function (data) {
-                self.POLineList.push(new self.POLineModelInit(""));
+                self.POLineList.push(new self.POLineModelInit(0, 0, "", "", "", 0, 0, ""));
+                checkAdd = true;
                 self.rsAddPOL(data);
                 console.log("get data from PO Line success");
             },
@@ -233,41 +234,37 @@ function PODetailViewModel() {
         //return addPOLTemp;    
     }
 
-    //self.permissionChanged = function (obj, event) {
-    //    debugger
-    //    console.log(self.POLineList()[2].PartNo());
-    //    if (event.originalEvent) {
-    //        //user changed
-    //        var len = self.POLineList().length;
-    //        self.POLineList()[len - 1].PartNo(obj.PartNo().PartNo);
-    //        self.POLineList()[len - 1].OrderNo(0);
-    //        self.POLineList()[len - 1].PartDescription(obj.PartNo().PartDescription);
-    //        self.POLineList()[len - 1].ManufactureName(obj.PartNo().ManufactureName);
-    //        self.POLineList()[len - 1].Amount(obj.PartNo().Amount);
-    //        self.POLineList()[len - 1].Price(obj.PartNo().Price);
-    //        self.POLineList()[len - 1].Memo(obj.PartNo().Memo);
-    //    } else { 
-    //        // program changed
-    //    }
-    //}
-    debugger
-    //self.selectedPartNo = ko.observable(new self.POLineModelInit());
-    self.selectedPartNo = ko.observable();
+    self.idSelected = ko.observable(new self.POLineModelInit());
 
+    self.idSelected.subscribe((selected) => {
+        console.log(self.idSelected());
+        var len = self.POLineList().length;
+        if (self.idSelected() !== undefined) {
+            self.POLineList()[len - 1].PartNo(self.idSelected().PartNo);
+            self.POLineList()[len - 1].OrderNo(0);
+            self.POLineList()[len - 1].PartDescription(selected.PartDescription);
+            self.POLineList()[len - 1].ManufactureName(selected.ManufactureName);
+            self.POLineList()[len - 1].Amount(selected.Amount);
+            self.POLineList()[len - 1].Price(selected.Price);
+            self.POLineList()[len - 1].Memo(selected.Memo);
+        }
+    });
 
     //remove line after add button clicked(maybe an empty line or not but didn't save yet)
     self.removePOLine = function (item) {
         self.POLineList.remove(item);
     }
 
+    //delete a poline
     self.deletePOLine = function (data) {
-        debugger
-        var countRow = self.POLineList().length;
-        if (countRow > 1) {
-            if (confirm("Are you sure about delete this PO Line?")) {
-                if (data.PartNo() == "") {
-                    self.removePOLine(data);
-                } else {
+        //when user add a new empty po line
+        if (data.PartNo() == "") {
+            self.removePOLine(data);
+        } else {
+            var countRow = self.POLineList().length;
+            if (countRow > 1 && checkAdd == false) {
+                if (confirm("Are you sure about delete this PO Line?")) {
+                    //confirm is a function of js. if user click yes then lead to ajax
                     $.ajax({
                         url: '/Home/DeletePerson',
                         contentType: 'application/json',
@@ -278,10 +275,10 @@ function PODetailViewModel() {
                         error: self.errorCallback
                     });
                 }
+            } else {
+                alert("Warning: The PO must have at least one PO line");
             }
-        } else {
-            alert("Warning: The PO must have at least one PO line");
-        }
+        }       
     }
 }
 

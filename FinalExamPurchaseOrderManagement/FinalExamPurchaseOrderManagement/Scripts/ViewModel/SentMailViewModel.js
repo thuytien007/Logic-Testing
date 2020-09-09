@@ -54,8 +54,8 @@
     self.smContent = ko.computed(function () {
         debugger
         var stringPOLine = "";
-        for (var i = 0; i < listPOLineTemp.length; i++){
-            stringPOLine += "Part Name: " +'<'+ listPOLineTemp[i].Partcode + '>' + "   " + "Qty: "+ '<'+listPOLineTemp[i].Amount + '>'+ "   " + "Price: " + "<" +listPOLineTemp[i].Price + '>' + "\r\n\r\n";
+        for (var i = 0; i < listPOLineTemp.length; i++) {
+            stringPOLine += "Part Name: " + '<' + listPOLineTemp[i].Partcode + '>' + "   " + "Qty: " + '<' + listPOLineTemp[i].Amount + '>' + "   " + "Price: " + "<" + listPOLineTemp[i].Price + '>' + "\r\n\r\n";
         }
         return 'Hi,\r\n\r\nPlease process the attached order directly into our customer as stipulated on the attached PO.\r\n\r\nPO Number: ' +
             self.smObject().OrderNo + '\r\n\r\n' + 'PO Line List:' + '\r\n\r\n' + stringPOLine + '\r\n\r\nKind Regards,';
@@ -66,7 +66,7 @@
         var _this = this;
         _this.OrderNo = Id;
         _this.From = ko.observable(self.smObject().StockEmail);
-        _this.To = ko.observable(self.smObject().SupplierEmail).extend({ required:true, email:true});
+        _this.To = ko.observable(self.smObject().SupplierEmail);
         _this.Cc = ko.observable();
         _this.Subject = ko.observable(self.smSubject());
         _this.Content = ko.observable(self.smContent());
@@ -77,16 +77,21 @@
     self.sentMailObser = ko.observable(new self.SentMailModel());
 
     self.sentMail = function () {
-        debugger
-        $.ajax({
-            url: '/Home/SentMail',
-            contentType: 'application/json',
-            data: ko.toJSON({ smObject: self.sentMailObser }),
-            type: "POST",
-            async: false,
-            success: self.successCallback,
-            error: self.errorCallback
-        });
+        //var errorSentMail = ko.validation.group(self.sentMailObser());
+        //if (errorSentMail().length === 0) {
+            $.ajax({
+                url: '/Home/SentMail',
+                contentType: 'application/json',
+                data: ko.toJSON({ smObject: self.sentMailObser }),
+                type: "POST",
+                async: false,
+                success: self.successCallback,
+                error: self.errorCallback
+            });
+        //} else {
+           // alert('Please check your submission');
+           // $('div.alert-danger').show();
+        //}
     }
 
     self.successCallback = function () {
@@ -113,5 +118,5 @@ $(function () {
     ko.validation.registerExtenders();
 
     //applyBindings for specific screen to avoid error multiple apply
-    ko.applyBindings(new SentMailViewModel(), document.getElementById('sent-mail'));
+    ko.applyBindings(new SentMailViewModel(), document.getElementById('send-mail'));
 })
