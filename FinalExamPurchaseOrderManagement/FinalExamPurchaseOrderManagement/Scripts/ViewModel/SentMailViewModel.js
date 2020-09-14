@@ -3,7 +3,7 @@
     var Id = parseInt($('#smOrderId').val());
     var self = this;
 
-    //get data to show on PO Head
+    //get data to as PO Head to show on inputs
     var smObjectTemp = null;
     self.getResultSentMailObject = function () {
         $.ajax({
@@ -25,7 +25,7 @@
     //get Object result from db
     self.smObject = ko.observable(self.getResultSentMailObject());
 
-    //get PO Line List
+    //get PO Line List at detail screen to show on content of email
     var listPOLineTemp = [];
     self.getPOLineList = function () {
         $.ajax({
@@ -52,7 +52,6 @@
     })
 
     self.smContent = ko.computed(function () {
-        debugger
         var stringPOLine = "";
         for (var i = 0; i < listPOLineTemp.length; i++) {
             stringPOLine += "Part Name: " + '<' + listPOLineTemp[i].Partcode + '>' + "   " + "Qty: " + '<' + listPOLineTemp[i].Amount + '>' + "   " + "Price: " + "<" + listPOLineTemp[i].Price + '>' + "\r\n\r\n";
@@ -61,12 +60,12 @@
             self.smObject().OrderNo + '\r\n\r\n' + 'PO Line List:' + '\r\n\r\n' + stringPOLine + '\r\n\r\nKind Regards,';
     })
 
-    //create a sent mail model to return to database to sent to someone
+    //create a sent mail model to return back to database to sent to someone
     self.SentMailModel = function () {
         var _this = this;
         _this.OrderNo = Id;
         _this.From = ko.observable(self.smObject().StockEmail);
-        _this.To = ko.observable(self.smObject().SupplierEmail);
+        _this.To = ko.observable(self.smObject().SupplierEmail).extend({required:true});
         _this.Cc = ko.observable();
         _this.Subject = ko.observable(self.smSubject());
         _this.Content = ko.observable(self.smContent());

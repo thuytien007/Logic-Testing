@@ -107,13 +107,13 @@
         </div>
     </div>
     <div id="show-data" data-bind="foreach: POLineList, disable:poHeadObject().Cancel">
-        <div class="row mCenter" style="cursor:pointer">
+        <div class="row mCenter" style="cursor:pointer"data-bind="click: $root.getIndexObject">
             <div class="col-lg-2 divCol2">
                 <!-- ko if: OrderNo -->
                 <input type="text" data-bind="value: PartCode" class="inputTag dtInputWid" disabled />
                 <!-- /ko -->
                 <!-- ko ifnot: OrderNo -->
-                <select data-bind="options: $root.rsAddPOL, optionsText: 'Partcode', value: $root.idSelected, optionsCaption: 'Choose...'" class="inputTag dtInputWid"></select>
+                <select data-bind="options: $root.poLineListExceptedExistedPOLineList, optionsText: 'Partcode', value:$root.idSelected, optionsCaption: 'Choose...'" class="inputTag dtInputWid"></select>
                 <!-- /ko -->
             </div>
             <div class="col-lg-2 divCol" data-bind="text: PartDescription"></div>
@@ -131,14 +131,13 @@
             <div class="col-lg-1 divCol dtTextAlign" data-bind="text: TotalPrice"></div>
             <div class="col-lg-1 divCol2">
                 <button class="btnDelete" data-bind="click: function(){$parent.deletePOLine($data)}, disable:$root.poHeadObject().Cancel"><i class="glyphicon glyphicon-remove-circle dtIcon"></i></button>
-                @*<span class="glyphicon glyphicon-remove-circle dtIcon" data-bind="click: function(){$parent.deletePOLine($data)},disable:$root.poHeadObject().Cancel"></span>*@
             </div>
         </div>
     </div>
     <!--Buttons-->
     <div>
         <div class="mgButton">
-            <p class="dtBold">Purchase Order Price(&pound;):<span data-bind="text: sumTotalPrice()"></span></p>
+            <p class="dtBold">Purchase Order Price(&pound;):<span data-bind="text: sumTotalPrice"></span></p>
         </div>
         <div class="mgButton">
             <button class="btn btn-link" data-bind="click: addPOLine,disable:poHeadObject().Cancel">Add Purchase Order Line</button>
