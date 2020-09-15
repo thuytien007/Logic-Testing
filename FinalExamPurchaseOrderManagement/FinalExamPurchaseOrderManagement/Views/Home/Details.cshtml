@@ -107,7 +107,7 @@
         </div>
     </div>
     <div id="show-data" data-bind="foreach: POLineList, disable:poHeadObject().Cancel">
-        <div class="row mCenter" style="cursor:pointer"data-bind="click: $root.getIndexObject">
+        <div class="row mCenter" style="cursor:pointer"data-bind="click: $root.GetIndexObjectInPOLList">
             <div class="col-lg-2 divCol2">
                 <!-- ko if: OrderNo -->
                 <input type="text" data-bind="value: PartCode" class="inputTag dtInputWid" disabled />
@@ -130,22 +130,22 @@
             </div>
             <div class="col-lg-1 divCol dtTextAlign" data-bind="text: TotalPrice"></div>
             <div class="col-lg-1 divCol2">
-                <button class="btnDelete" data-bind="click: function(){$parent.deletePOLine($data)}, disable:$root.poHeadObject().Cancel"><i class="glyphicon glyphicon-remove-circle dtIcon"></i></button>
+                <button class="btnDelete" data-bind="click: function(){$parent.DeletePOLine($data)}, disable:$root.poHeadObject().Cancel"><i class="glyphicon glyphicon-remove-circle dtIcon"></i></button>
             </div>
         </div>
     </div>
     <!--Buttons-->
     <div>
         <div class="mgButton">
-            <p class="dtBold">Purchase Order Price(&pound;):<span data-bind="text: sumTotalPrice"></span></p>
+            <p class="dtBold">Purchase Order Price(&pound;):<span data-bind="text: SumTotalPrice"></span></p>
         </div>
         <div class="mgButton">
             <button class="btn btn-link" data-bind="click: addPOLine,disable:poHeadObject().Cancel">Add Purchase Order Line</button>
         </div>
         <div class="mgButton">
             <button id="btnCancelPO" class="btn btn-secondary" data-toggle="modal" data-target="#dialog-confirm" data-bind="disable:poHeadObject().Cancel">Cancel PO</button>
-            <button class="btn btn-secondary"><a data-bind="attr:{href: '@Url.Action("SentMail","Home", new {id = TempData["OrderNo"]})'},click:handleCancel">Re-send Email</a></button>
-            <button id="btnSave" class="btn btn-success" data-bind="click: updatePODetail, disable:poHeadObject().Cancel">Save</button>
+            <button class="btn btn-secondary"><a data-bind="attr:{href: '@Url.Action("SentMail","Home", new {id = TempData["OrderNo"]})'},click:checkIfPOCancel">Re-send Email</a></button>
+            <button id="btnSave" class="btn btn-success" data-bind="click: UpdatePODetail, disable:poHeadObject().Cancel">Save</button>
         </div>
     </div>
     @*this use for bootstrap dialog, dialog for cancel po*@

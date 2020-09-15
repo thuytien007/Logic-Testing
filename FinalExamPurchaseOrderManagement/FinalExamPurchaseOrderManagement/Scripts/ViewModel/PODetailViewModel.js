@@ -102,7 +102,6 @@ function PODetailViewModel() {
     };
 
     //get PO Line List
-    //var listPOLineTemp = [];
     self.GetPOLineList = function () {
         $.ajax({
             url: '/Home/GetPOLineList',
@@ -119,9 +118,9 @@ function PODetailViewModel() {
                 console.log("error with get data");
             }
         });
-        //return listPOLineTemp;
     }();
 
+    //this function to set list got from db to POLineList & sum price
     self.GetPOLineSuccessCallBack = function (data)
     {
         self.POLineList(self.InitPOLineModelList(data));
@@ -173,7 +172,7 @@ function PODetailViewModel() {
                 //data: ko.toJSON(self.poHeadObject),
                 type: "POST",
                 dataType: 'json',
-                async: false,
+                async: true,
                 success: self.UpdatePODetailSuccessCallback,
                 error: self.errorCallback
             });
@@ -197,8 +196,9 @@ function PODetailViewModel() {
             error: self.errorCallback
         });
     }
+
     //check if is Cancel then bind to the link
-    self.handleCancel = function () {
+    self.checkIfPOCancel = function () {
         if (self.poHeadObject().Cancel() == true) {
             //if PO is cancelled then return false, it means do nothing when link clicked
             return false;
@@ -207,11 +207,12 @@ function PODetailViewModel() {
         }
     }
 
-    // this function to do...
+    // this function to reload page after update all PO Head & PO Line
     self.UpdatePODetailSuccessCallback = function () {
         alert("updated success");
         window.location.href = '/Home/Details/' + Id;
     }
+    //this is a general function when error occur
     self.errorCallback = function () {
         alert("update failed");
     }
@@ -224,7 +225,7 @@ function PODetailViewModel() {
             contentType: 'application/json',
             data: { id: Id },
             type: "GET",
-            async: false,
+            async: true,
             success: function (data) {
                 self.POLineList.push(new self.POLineModel(0, 0, "", "", "", 0, 0, ""));
                 checkAdd = true;
