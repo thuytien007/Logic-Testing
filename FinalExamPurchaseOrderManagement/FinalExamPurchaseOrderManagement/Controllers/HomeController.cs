@@ -2,7 +2,6 @@
 using FinalExamPurchaseOrderManagement.BussinessLogic.POService;
 using FinalExamPurchaseOrderManagement.Models;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 
@@ -95,9 +94,9 @@ namespace FinalExamPurchaseOrderManagement.Controllers
 
         //handle add PO Line function
         [HttpGet]
-        public JsonResult AddPOLine(int id)
+        public JsonResult GetPOLineExceptExistedPOLList(int id)
         {
-            var result = poService.AddNewPOLine(id);
+            var result = poService.GetNewPOLine(id);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 

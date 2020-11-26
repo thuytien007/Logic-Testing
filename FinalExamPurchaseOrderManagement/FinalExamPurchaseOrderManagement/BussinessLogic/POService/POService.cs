@@ -109,17 +109,22 @@ namespace FinalExamPurchaseOrderManagement.BussinessLogic.POService
                 var orderNum = poLine[i].OrderNo;
                 if(orderNum == 0)
                 {
-                    var newPOLine = new PurchaseOrderLine()
+                    if (partNum != 0)
                     {
-                        OrderNo = poHead.OrderNo,
-                        PartNo = poLine[i].PartNo,
-                        Amount = poLine[i].Amount,
-                        Price = poLine[i].Price,
-                        Memo = poLine[i].Memo
-                    };
+                        var newPOLine = new PurchaseOrderLine()
+                        {
+                            OrderNo = poHead.OrderNo,
+                            PartNo = poLine[i].PartNo,
+                            Amount = poLine[i].Amount,
+                            Price = poLine[i].Price,
+                            Memo = poLine[i].Memo
+                        };
 
-                    _db.PurchaseOrderLines.Add(newPOLine);
-                    _db.SaveChanges();
+                        _db.PurchaseOrderLines.Add(newPOLine);
+                        _db.SaveChanges();
+                    }
+                    else
+                        continue;                  
                 }
                 else
                 {
@@ -160,7 +165,7 @@ namespace FinalExamPurchaseOrderManagement.BussinessLogic.POService
             return "calcel po sucess";
         }
         //handle add button, add a new line in po line
-        public List<POLine> AddNewPOLine(int id)
+        public List<POLine> GetNewPOLine(int id)
         {
             List<POLine> result = new List<POLine>();
             try

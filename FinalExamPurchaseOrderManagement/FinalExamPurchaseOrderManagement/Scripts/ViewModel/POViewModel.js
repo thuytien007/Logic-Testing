@@ -2,11 +2,11 @@
 function POViewModel() {
     var self = this;
 
-    //function to format date
+    //function to format date included time
     self.formatDate = function (date) {
         var oldDate = new Date(parseInt(date.replace(/(^.*\()|([+-].*$)/g, '')));
         var newDate = ("0" + oldDate.getDate()).slice(-2) + "/" +
-            ("0" + (oldDate.getUTCMonth() + 1)).slice(-2) + "/" +
+            ("0" + (oldDate.getMonth() + 1)).slice(-2) + "/" +
             oldDate.getFullYear() + " " +
             ("0" + oldDate.getHours()).slice(-2) + ":" +
             ("0" + oldDate.getMinutes()).slice(-2) + ":" +
@@ -14,7 +14,7 @@ function POViewModel() {
         return newDate;
     }
    
-    //Init temp PO list to get data from controller
+    //Init temp PO list to get data from db
     var poSampleList = [];
 
     //get PO list for the main screen
