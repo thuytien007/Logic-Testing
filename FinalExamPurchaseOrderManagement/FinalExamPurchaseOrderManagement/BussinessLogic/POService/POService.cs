@@ -225,7 +225,7 @@ namespace FinalExamPurchaseOrderManagement.BussinessLogic.POService
           
                 client.UseDefaultCredentials = false;
                 //NetworkCredential lg = new NetworkCredential("tientien@gmail.com", "hahaha");
-                client.Credentials = new NetworkCredential("tientien@gmail.com", "hahaha");
+                client.Credentials = new NetworkCredential("camassasantiago2004n@gmail.com", "123456789$bv");
                 client.EnableSsl = true;
                 client.Port = 587;
                 MailMessage mgs = new MailMessage();
